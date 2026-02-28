@@ -475,15 +475,19 @@ import { useStateStore as useStateStoreFromContext } from "./contexts/state";
 // =============================================================================
 
 /**
- * A single part from the AI SDK's `message.parts` array. This is a minimal
- * structural type so that library helpers do not depend on the AI SDK.
- * Fields are optional because different part types carry different data:
- * - Text parts have `text`
- * - Data parts have `data`
+ * A single part from a message's parts array. This is a minimal
+ * structural type so that library helpers do not depend on any specific AI SDK.
+ *
+ * Supports both AI SDK format (text in `text` field) and
+ * TanStack AI format (text in `content` field).
  */
 export interface DataPart {
   type: string;
+  /** Text content (AI SDK format) */
   text?: string;
+  /** Text content (TanStack AI format) */
+  content?: string;
+  /** Data payload (for custom data parts) */
   data?: unknown;
 }
 
@@ -574,10 +578,11 @@ export function buildSpecFromParts(parts: DataPart[]): Spec | null {
 export function getTextFromParts(parts: DataPart[]): string {
   return parts
     .filter(
-      (p): p is DataPart & { text: string } =>
-        p.type === "text" && typeof p.text === "string",
+      (p) =>
+        p.type === "text" &&
+        (typeof p.text === "string" || typeof p.content === "string"),
     )
-    .map((p) => p.text.trim())
+    .map((p) => ((p.text ?? p.content) || "").trim())
     .filter(Boolean)
     .join("\n\n");
 }
@@ -615,7 +620,10 @@ export function getTextFromParts(parts: DataPart[]): string {
  * }
  * ```
  */
-export function useJsonRenderMessage(parts: DataPart[]) {
+export function useJsonRenderMessage(
+  parts: DataPart[],
+  externalSpec?: Spec | null,
+) {
   const prevPartsRef = useRef<DataPart[]>([]);
   const prevResultRef = useRef<{ spec: Spec | null; text: string }>({
     spec: null,
@@ -635,13 +643,15 @@ export function useJsonRenderMessage(parts: DataPart[]) {
   if (partsChanged || prevPartsRef.current.length === 0) {
     prevPartsRef.current = parts;
     prevResultRef.current = {
-      spec: buildSpecFromParts(parts),
+      spec: externalSpec ?? buildSpecFromParts(parts),
       text: getTextFromParts(parts),
     };
   }
 
-  const { spec, text } = prevResultRef.current;
-  const hasSpec = spec !== null && Object.keys(spec.elements || {}).length > 0;
+  // If externalSpec changes, update
+  const spec = externalSpec ?? prevResultRef.current.spec;
+  const text = prevResultRef.current.text;
+  const hasSpec = spec !== null && Object.keys(spec?.elements || {}).length > 0;
   return { spec, text, hasSpec };
 }
 
