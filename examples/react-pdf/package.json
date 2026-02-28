@@ -10,11 +10,11 @@
     "check-types": "tsc --noEmit"
   },
   "dependencies": {
-    "@ai-sdk/gateway": "^3.0.52",
     "@json-render/core": "workspace:*",
     "@json-render/react-pdf": "workspace:*",
     "@tailwindcss/postcss": "^4.1.18",
-    "ai": "6.0.94",
+    "@tanstack/ai": "^0.6.1",
+    "@tanstack/ai-anthropic": "^0.6.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.575.0",

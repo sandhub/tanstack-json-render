@@ -9,8 +9,8 @@
     "start": "next start --port 3001"
   },
   "dependencies": {
-    "@ai-sdk/gateway": "^3.0.50",
-    "ai": "^6.0.91",
+    "@tanstack/ai": "^0.6.1",
+    "@tanstack/ai-anthropic": "^0.6.0",
     "next": "^16.1.6",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
