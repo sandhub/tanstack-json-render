@@ -39,15 +39,15 @@ export const PAGE_TITLES: Record<string, string> = {
   "docs/changelog": "Changelog",
 
   // API references
-  "docs/api/core": "@json-render/core API",
-  "docs/api/react": "@json-render/react API",
-  "docs/api/vue": "@json-render/vue API",
-  "docs/api/react-pdf": "@json-render/react-pdf API",
-  "docs/api/react-native": "@json-render/react-native API",
-  "docs/api/codegen": "@json-render/codegen API",
-  "docs/api/image": "@json-render/image API",
-  "docs/api/remotion": "@json-render/remotion API",
-  "docs/api/shadcn": "@json-render/shadcn API",
+  "docs/api/core": "@tanstack-json-render/core API",
+  "docs/api/react": "@tanstack-json-render/react API",
+  "docs/api/vue": "@tanstack-json-render/vue API",
+  "docs/api/react-pdf": "@tanstack-json-render/react-pdf API",
+  "docs/api/react-native": "@tanstack-json-render/react-native API",
+  "docs/api/codegen": "@tanstack-json-render/codegen API",
+  "docs/api/image": "@tanstack-json-render/image API",
+  "docs/api/remotion": "@tanstack-json-render/remotion API",
+  "docs/api/shadcn": "@tanstack-json-render/shadcn API",
 };
 
 /**

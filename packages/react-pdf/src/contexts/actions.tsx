@@ -13,7 +13,7 @@ import {
   type ActionHandler,
   type ActionConfirm,
   type ResolvedAction,
-} from "@json-render/core";
+} from "@tanstack-json-render/core";
 import { useStateStore } from "./state";
 
 let idCounter = 0;

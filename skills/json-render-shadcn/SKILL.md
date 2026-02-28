@@ -1,9 +1,9 @@
 ---
 name: json-render-shadcn
-description: Pre-built shadcn/ui components for json-render. Use when working with @json-render/shadcn, adding standard UI components to a catalog, or building web UIs with Radix UI + Tailwind CSS components.
+description: Pre-built shadcn/ui components for json-render. Use when working with @tanstack-json-render/shadcn, adding standard UI components to a catalog, or building web UIs with Radix UI + Tailwind CSS components.
 ---
 
-# @json-render/shadcn
+# @tanstack-json-render/shadcn
 
 Pre-built shadcn/ui component definitions and implementations for json-render. Provides 36 components built on Radix UI + Tailwind CSS.
 
@@ -11,19 +11,19 @@ Pre-built shadcn/ui component definitions and implementations for json-render. P
 
 | Entry Point | Exports | Use For |
 |-------------|---------|---------|
-| `@json-render/shadcn/catalog` | `shadcnComponentDefinitions` | Catalog schemas (no React dependency, safe for server) |
-| `@json-render/shadcn` | `shadcnComponents` | React implementations |
+| `@tanstack-json-render/shadcn/catalog` | `shadcnComponentDefinitions` | Catalog schemas (no React dependency, safe for server) |
+| `@tanstack-json-render/shadcn` | `shadcnComponents` | React implementations |
 
 ## Usage Pattern
 
 Pick the components you need from the standard definitions. Do not spread all definitions -- explicitly select what your app uses:
 
 ```typescript
-import { defineCatalog } from "@json-render/core";
-import { schema } from "@json-render/react/schema";
-import { shadcnComponentDefinitions } from "@json-render/shadcn/catalog";
-import { defineRegistry } from "@json-render/react";
-import { shadcnComponents } from "@json-render/shadcn";
+import { defineCatalog } from "@tanstack-json-render/core";
+import { schema } from "@tanstack-json-render/react/schema";
+import { shadcnComponentDefinitions } from "@tanstack-json-render/shadcn/catalog";
+import { defineRegistry } from "@tanstack-json-render/react";
+import { shadcnComponents } from "@tanstack-json-render/shadcn";
 
 // Catalog: pick definitions
 const catalog = defineCatalog(schema, {
@@ -134,7 +134,7 @@ const { registry } = defineRegistry(catalog, {
 - **ToggleGroup** - Group of toggles with items, type, value
 - **ButtonGroup** - Button group with buttons array and selected
 
-## Built-in Actions (from `@json-render/react`)
+## Built-in Actions (from `@tanstack-json-render/react`)
 
 These are built into the React schema and handled by `ActionProvider` automatically. They appear in prompts without needing to be declared in the catalog.
 

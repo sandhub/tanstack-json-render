@@ -7,7 +7,7 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "json-render React PDF Example",
   description:
-    "Generate PDF documents from JSON specs with @json-render/react-pdf",
+    "Generate PDF documents from JSON specs with @tanstack-json-render/react-pdf",
 };
 
 export default function RootLayout({

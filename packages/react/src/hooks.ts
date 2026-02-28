@@ -7,7 +7,7 @@ import type {
   FlatElement,
   JsonPatch,
   SpecDataPart,
-} from "@json-render/core";
+} from "@tanstack-json-render/core";
 import {
   setByPath,
   getByPath,
@@ -17,7 +17,7 @@ import {
   applySpecPatch,
   nestedToFlat,
   SPEC_DATA_PART_TYPE,
-} from "@json-render/core";
+} from "@tanstack-json-render/core";
 
 /**
  * Token usage metadata from AI generation
@@ -443,7 +443,7 @@ export function flatToTree(elements: FlatElement[]): Spec {
  *
  * @example
  * ```tsx
- * import { useBoundProp } from "@json-render/react";
+ * import { useBoundProp } from "@tanstack-json-render/react";
  *
  * const Input: ComponentRenderer = ({ props, bindings }) => {
  *   const [value, setValue] = useBoundProp<string>(props.value, bindings?.value);
@@ -606,7 +606,7 @@ export function getTextFromParts(parts: DataPart[]): string {
  *
  * @example
  * ```tsx
- * import { useJsonRenderMessage } from "@json-render/react";
+ * import { useJsonRenderMessage } from "@tanstack-json-render/react";
  *
  * function MessageBubble({ message }) {
  *   const { spec, text, hasSpec } = useJsonRenderMessage(message.parts);

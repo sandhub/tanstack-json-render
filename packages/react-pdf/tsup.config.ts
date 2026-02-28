@@ -7,5 +7,10 @@ export default defineConfig({
   sourcemap: true,
   clean: true,
   noExternal: ["@internal/react-state"],
-  external: ["react", "@json-render/core", "@react-pdf/renderer", "zod"],
+  external: [
+    "react",
+    "@tanstack-json-render/core",
+    "@react-pdf/renderer",
+    "zod",
+  ],
 });

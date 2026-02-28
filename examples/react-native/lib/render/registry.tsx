@@ -1,6 +1,9 @@
 import React from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { defineRegistry, type Components } from "@json-render/react-native";
+import {
+  defineRegistry,
+  type Components,
+} from "@tanstack-json-render/react-native";
 import { catalog } from "./catalog";
 
 // =============================================================================

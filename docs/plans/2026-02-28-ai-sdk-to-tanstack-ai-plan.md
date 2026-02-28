@@ -90,7 +90,7 @@ Replace lines 992-1002 in `packages/core/src/types.ts`:
 /**
  * Minimal chunk shape compatible with TanStack AI's SSE StreamChunk.
  *
- * Defined here so that `@json-render/core` has no dependency on the
+ * Defined here so that `@tanstack-json-render/core` has no dependency on the
  * `@tanstack/ai` package. The discriminated union covers the text-related
  * chunk types the transform inspects; all other chunk types pass through.
  */
@@ -118,7 +118,7 @@ Add this function after the `pipeJsonRender` function (after line ~1305):
  * @example
  * ```ts
  * import { chat } from "@tanstack/ai";
- * import { streamToTextResponse } from "@json-render/core";
+ * import { streamToTextResponse } from "@tanstack-json-render/core";
  *
  * const stream = chat({ adapter, messages, systemPrompts: [system] });
  * return streamToTextResponse(stream);
@@ -170,7 +170,7 @@ Replace the existing `createJsonRenderTransform` function (lines 1039-1245) and 
  * @example
  * ```ts
  * import { chat, toServerSentEventsResponse } from "@tanstack/ai";
- * import { pipeJsonRender } from "@json-render/core";
+ * import { pipeJsonRender } from "@tanstack-json-render/core";
  *
  * const raw = chat({ adapter, messages, tools, systemPrompts: [instructions] });
  * return toServerSentEventsResponse(pipeJsonRender(raw));
@@ -767,7 +767,7 @@ Replace `examples/chat/app/api/generate/route.ts`:
 ```typescript
 import { createAgentStream } from "@/lib/agent";
 import { toServerSentEventsResponse } from "@tanstack/ai";
-import { pipeJsonRender } from "@json-render/core";
+import { pipeJsonRender } from "@tanstack-json-render/core";
 
 export const maxDuration = 60;
 
@@ -825,7 +825,7 @@ Replace `examples/dashboard/app/api/generate/route.ts`:
 ```typescript
 import { chat } from "@tanstack/ai";
 import { anthropicText } from "@tanstack/ai-anthropic";
-import { buildUserPrompt, streamToTextResponse } from "@json-render/core";
+import { buildUserPrompt, streamToTextResponse } from "@tanstack-json-render/core";
 import { dashboardCatalog } from "@/lib/render/catalog";
 
 export const maxDuration = 30;
@@ -861,7 +861,7 @@ Replace `examples/remotion/app/api/generate/route.ts`:
 ```typescript
 import { chat } from "@tanstack/ai";
 import { anthropicText } from "@tanstack/ai-anthropic";
-import { streamToTextResponse } from "@json-render/core";
+import { streamToTextResponse } from "@tanstack-json-render/core";
 import { getVideoPrompt } from "@/lib/catalog";
 
 export const maxDuration = 30;
@@ -902,7 +902,7 @@ For react-pdf and image routes, same pattern as dashboard.
 ```typescript
 import { chat } from "@tanstack/ai";
 import { anthropicText } from "@tanstack/ai-anthropic";
-import { buildUserPrompt, streamToTextResponse } from "@json-render/core";
+import { buildUserPrompt, streamToTextResponse } from "@tanstack-json-render/core";
 import { catalog, customRules } from "../../lib/render/catalog";
 
 const SYSTEM_PROMPT = catalog.prompt({ customRules });
@@ -947,9 +947,9 @@ This route has rate limiting and usage metadata. The usage metadata (token count
 ```typescript
 import { chat } from "@tanstack/ai";
 import { anthropicText } from "@tanstack/ai-anthropic";
-import type { StreamChunk } from "@json-render/core";
+import type { StreamChunk } from "@tanstack-json-render/core";
 import { headers } from "next/headers";
-import { buildUserPrompt } from "@json-render/core";
+import { buildUserPrompt } from "@tanstack-json-render/core";
 import { minuteRateLimit, dailyRateLimit } from "@/lib/rate-limit";
 import { playgroundCatalog } from "@/lib/render/catalog";
 
@@ -1261,8 +1261,8 @@ import {
   type Spec,
   type SpecDataPart,
   applySpecPatch,
-} from "@json-render/core";
-import { useJsonRenderMessage } from "@json-render/react";
+} from "@tanstack-json-render/core";
+import { useJsonRenderMessage } from "@tanstack-json-render/react";
 import { ExplorerRenderer } from "@/lib/render/renderer";
 ```
 
@@ -1631,7 +1631,7 @@ Find the AI SDK / AI Gateway section (around lines 31-44) and replace with:
 - Use `@tanstack/ai-openrouter` with `openrouterText()` adapter for multi-provider routing
 - Default model: `claude-haiku-4-5-20251001` via `anthropicText()`
 - Environment variables: `AI_GATEWAY_API_KEY` for Anthropic API key
-- For simple generate endpoints, use `streamToTextResponse()` from `@json-render/core`
+- For simple generate endpoints, use `streamToTextResponse()` from `@tanstack-json-render/core`
 - For chat endpoints with tools, use `chat()` + `toServerSentEventsResponse()`
 - Tool definitions use `toolDefinition({ name, description, inputSchema }).server(fn)`
 

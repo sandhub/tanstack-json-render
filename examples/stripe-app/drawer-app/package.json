@@ -6,8 +6,8 @@
   "license": "~~proprietary~~",
   "type": "module",
   "dependencies": {
-    "@json-render/core": "workspace:*",
-    "@json-render/react": "workspace:*",
+    "@tanstack-json-render/core": "workspace:*",
+    "@tanstack-json-render/react": "workspace:*",
     "@stripe/ui-extension-sdk": "^9.1.0",
     "stripe": "^13.11.0",
     "zod": "^4.3.6"

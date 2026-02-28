@@ -25,9 +25,9 @@ export default function Home() {
 
         <div className="flex items-center justify-center gap-2 border border-border rounded px-4 py-3 mt-12 mx-auto w-fit">
           <code className="text-sm bg-transparent">
-            npm install @json-render/core @json-render/react
+            npm install @tanstack-json-render/core @tanstack-json-render/react
           </code>
-          <CopyButton text="npm install @json-render/core @json-render/react" />
+          <CopyButton text="npm install @tanstack-json-render/core @tanstack-json-render/react" />
         </div>
 
         <div className="flex gap-3 justify-center mt-6">
@@ -100,7 +100,7 @@ export default function Home() {
               <p className="text-muted-foreground mb-6">
                 Components, actions, and validation functions.
               </p>
-              <Code lang="typescript">{`import { defineSchema, defineCatalog } from '@json-render/core';
+              <Code lang="typescript">{`import { defineSchema, defineCatalog } from '@tanstack-json-render/core';
 import { z } from 'zod';
 
 const schema = defineSchema({ /* ... */ });
@@ -290,9 +290,9 @@ export default function Page() {
           <h2 className="text-2xl font-semibold mb-4">Get started</h2>
           <div className="flex items-center justify-center gap-2 border border-border rounded px-4 py-3 mb-8 mx-auto w-fit">
             <code className="text-sm bg-transparent">
-              npm install @json-render/core @json-render/react
+              npm install @tanstack-json-render/core @tanstack-json-render/react
             </code>
-            <CopyButton text="npm install @json-render/core @json-render/react" />
+            <CopyButton text="npm install @tanstack-json-render/core @tanstack-json-render/react" />
           </div>
           <div>
             <Button asChild>

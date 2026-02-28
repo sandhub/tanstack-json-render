@@ -1,7 +1,7 @@
 import { pageMetadata } from "@/lib/page-metadata"
 export const metadata = pageMetadata("docs/api/core")
 
-# @json-render/core
+# @tanstack-json-render/core
 
 Core types, schemas, and utilities.
 
@@ -10,8 +10,8 @@ Core types, schemas, and utilities.
 Creates a type-safe catalog definition with schema validation.
 
 ```typescript
-import { defineCatalog } from '@json-render/core';
-import { schema } from '@json-render/react/schema';
+import { defineCatalog } from '@tanstack-json-render/core';
+import { schema } from '@tanstack-json-render/react/schema';
 
 function defineCatalog<T extends ZodType>(
   s: T,
@@ -111,15 +111,15 @@ const jsonSchema = catalog.jsonSchema();
 
 ## Schema System
 
-json-render uses a flexible schema system that defines both the AI output format (spec) and what catalogs must provide. Each renderer package provides its own schema (e.g., @json-render/react exports `schema`).
+json-render uses a flexible schema system that defines both the AI output format (spec) and what catalogs must provide. Each renderer package provides its own schema (e.g., @tanstack-json-render/react exports `schema`).
 
 ### schema
 
-The schema for flat UI element trees. This is exported from @json-render/react.
+The schema for flat UI element trees. This is exported from @tanstack-json-render/react.
 
 ```typescript
-import { defineCatalog } from '@json-render/core';
-import { schema } from '@json-render/react/schema';
+import { defineCatalog } from '@tanstack-json-render/core';
+import { schema } from '@tanstack-json-render/react/schema';
 
 // schema defines:
 // - Spec shape: { root: string, elements: Record<string, UIElement> }
@@ -166,7 +166,7 @@ Built-in actions are injected into prompts as `[built-in]` and are handled by th
 Create custom schemas for different output formats (e.g., page-based, block-based).
 
 ```typescript
-import { defineSchema } from '@json-render/core';
+import { defineSchema } from '@tanstack-json-render/core';
 
 const mySchema = defineSchema((s) => ({
   // What the AI outputs (spec)
@@ -228,7 +228,7 @@ import {
   DynamicStringSchema,   // string | { $state: string }
   DynamicNumberSchema,   // number | { $state: string }
   DynamicBooleanSchema,  // boolean | { $state: string }
-} from '@json-render/core';
+} from '@tanstack-json-render/core';
 
 // Dynamic values can be literals or state path references
 type DynamicValue<T> = T | { $state: string };
@@ -242,7 +242,7 @@ const schema = z.object({
 ### Visibility Schemas
 
 ```typescript
-import { VisibilityConditionSchema } from '@json-render/core';
+import { VisibilityConditionSchema } from '@tanstack-json-render/core';
 
 // Use in component props that need conditional rendering
 const schema = z.object({
@@ -258,7 +258,7 @@ import {
   ActionConfirmSchema,    // Confirmation dialog config
   ActionOnSuccessSchema,  // Success handler config
   ActionOnErrorSchema,    // Error handler config
-} from '@json-render/core';
+} from '@tanstack-json-render/core';
 ```
 
 ### Validation Schemas
@@ -267,7 +267,7 @@ import {
 import {
   ValidationCheckSchema,   // Single validation check
   ValidationConfigSchema,  // Full validation config with checks array
-} from '@json-render/core';
+} from '@tanstack-json-render/core';
 ```
 
 ## SpecStream
@@ -279,7 +279,7 @@ SpecStream is json-render's streaming format for progressively building specs fr
 Create a streaming compiler that incrementally builds a spec:
 
 ```typescript
-import { createSpecStreamCompiler } from '@json-render/core';
+import { createSpecStreamCompiler } from '@tanstack-json-render/core';
 
 const compiler = createSpecStreamCompiler<MySpec>();
 
@@ -298,7 +298,7 @@ compiler.reset();
 Compile an entire SpecStream string at once:
 
 ```typescript
-import { compileSpecStream } from '@json-render/core';
+import { compileSpecStream } from '@tanstack-json-render/core';
 
 const jsonl = `{"op":"add","path":"/root","value":{}}
 {"op":"add","path":"/root/type","value":"Card"}`;
@@ -312,7 +312,7 @@ const spec = compileSpecStream<MySpec>(jsonl);
 import {
   parseSpecStreamLine,
   applySpecStreamPatch,
-} from '@json-render/core';
+} from '@tanstack-json-render/core';
 
 // Parse a single line
 const patch = parseSpecStreamLine('{"op":"add","path":"/root","value":{}}');
@@ -327,7 +327,7 @@ applySpecStreamPatch(obj, patch);
 Apply a single SpecStream patch to a Spec object (mutates in place, returns the spec):
 
 ```typescript
-import { applySpecPatch } from '@json-render/core';
+import { applySpecPatch } from '@tanstack-json-render/core';
 
 let spec: Spec = { root: "", elements: {} };
 applySpecPatch(spec, { op: "add", path: "/root", value: "main" });
@@ -341,7 +341,7 @@ setSpec({ ...applySpecPatch(spec, patch) });
 Convert a nested element tree (with inline children) into the flat `Spec` format:
 
 ```typescript
-import { nestedToFlat } from '@json-render/core';
+import { nestedToFlat } from '@tanstack-json-render/core';
 
 const flat = nestedToFlat({
   type: "Card",
@@ -360,7 +360,7 @@ Low-level `TransformStream` that separates text from JSONL patches in a mixed AI
 The transform properly splits text blocks around spec data by emitting `text-end`/`text-start` pairs, ensuring the AI SDK creates separate text parts and preserving correct interleaving of prose and UI in `message.parts`.
 
 ```typescript
-import { createJsonRenderTransform } from '@json-render/core';
+import { createJsonRenderTransform } from '@tanstack-json-render/core';
 
 const transform = createJsonRenderTransform();
 // Use with ReadableStream.pipeThrough(transform) for custom pipelines
@@ -373,7 +373,7 @@ Most users should use `pipeJsonRender()` instead, which wraps this transform for
 Parse a mixed stream of text and JSONL patches (used for Chat + GenUI mode):
 
 ```typescript
-import { createMixedStreamParser } from '@json-render/core';
+import { createMixedStreamParser } from '@tanstack-json-render/core';
 
 const parser = createMixedStreamParser({
   onText: (text) => appendToMessage(text),
@@ -392,7 +392,7 @@ parser.flush();
 Async generator that intercepts a TanStack AI chat stream and classifies text content as either prose or json-render JSONL patches. Lines that parse as JSONL patches are emitted as `spec` chunks; everything else passes through as `content` chunks. Used in Chat mode API routes.
 
 ```typescript
-import { pipeJsonRender } from '@json-render/core';
+import { pipeJsonRender } from '@tanstack-json-render/core';
 import { chat, toServerSentEventsResponse } from '@tanstack/ai';
 import { anthropicText } from '@tanstack/ai-anthropic';
 
@@ -437,7 +437,7 @@ interface MixedStreamParser {
 ### Path Utilities
 
 ```typescript
-import { getByPath, setByPath } from '@json-render/core';
+import { getByPath, setByPath } from '@tanstack-json-render/core';
 
 // Get value by JSON Pointer path
 const value = getByPath(state, '/user/name');  // "Alice"
@@ -449,7 +449,7 @@ setByPath(state, '/user/email', 'alice@example.com');
 ### resolveDynamicValue
 
 ```typescript
-import { resolveDynamicValue } from '@json-render/core';
+import { resolveDynamicValue } from '@tanstack-json-render/core';
 
 // Resolve a dynamic value against state
 const name = resolveDynamicValue("Hello", state);        // "Hello"
@@ -459,7 +459,7 @@ const name2 = resolveDynamicValue({ $state: "/user/name" }, state);  // "Alice"
 ### findFormValue
 
 ```typescript
-import { findFormValue } from '@json-render/core';
+import { findFormValue } from '@tanstack-json-render/core';
 
 // Find form values regardless of path format
 // Checks: params.name, params["form.name"], state["form.name"], state.form.name
@@ -471,7 +471,7 @@ const value = findFormValue("name", params, state);
 Build structured user prompts for AI generation, with support for refinement and state context.
 
 ```typescript
-import { buildUserPrompt } from '@json-render/core';
+import { buildUserPrompt } from '@tanstack-json-render/core';
 
 function buildUserPrompt(options: UserPromptOptions): string
 

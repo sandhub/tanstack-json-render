@@ -4,13 +4,13 @@ import {
   renderToStream as pdfRenderToStream,
   render as pdfRender,
 } from "@react-pdf/renderer";
-import type { Spec, UIElement } from "@json-render/core";
+import type { Spec, UIElement } from "@tanstack-json-render/core";
 import {
   resolveElementProps,
   evaluateVisibility,
   getByPath,
   type PropResolutionContext,
-} from "@json-render/core";
+} from "@tanstack-json-render/core";
 import { standardComponents } from "./components/standard";
 
 // Re-export the standard components for use in custom registries

@@ -8,7 +8,7 @@ import {
   StateProvider,
   VisibilityProvider,
   ActionProvider,
-} from "@json-render/react";
+} from "@tanstack-json-render/react";
 
 import { registry, Fallback } from "./registry";
 

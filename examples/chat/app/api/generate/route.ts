@@ -1,6 +1,6 @@
 import { createAgentStream } from "@/lib/agent";
 import { toServerSentEventsResponse } from "@tanstack/ai";
-import { pipeJsonRender } from "@json-render/core";
+import { pipeJsonRender } from "@tanstack-json-render/core";
 
 export const maxDuration = 60;
 

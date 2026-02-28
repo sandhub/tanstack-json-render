@@ -1,5 +1,5 @@
 {
-  "name": "@json-render/xstate",
+  "name": "@tanstack-json-render/xstate",
   "version": "0.11.0",
   "license": "Apache-2.0",
   "description": "XState Store adapter for json-render StateStore",
@@ -41,7 +41,7 @@
     "check-types": "tsc --noEmit"
   },
   "dependencies": {
-    "@json-render/core": "workspace:*"
+    "@tanstack-json-render/core": "workspace:*"
   },
   "peerDependencies": {
     "@xstate/store": ">=3.0.0"

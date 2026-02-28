@@ -1,5 +1,5 @@
 import { createRoot, type Root } from "react-dom/client";
-import type { Spec } from "@json-render/core";
+import type { Spec } from "@tanstack-json-render/core";
 import App from "./App";
 
 let root: Root | null = null;

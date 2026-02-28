@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from "vitest";
 import React, { useState, useCallback, useMemo } from "react";
 import { render, act, fireEvent, screen } from "@testing-library/react";
-import type { Spec } from "@json-render/core";
+import type { Spec } from "@tanstack-json-render/core";
 import {
   JSONUIProvider,
   Renderer,

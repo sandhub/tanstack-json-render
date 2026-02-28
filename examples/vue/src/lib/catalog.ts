@@ -1,4 +1,4 @@
-import { schema } from "@json-render/vue/schema";
+import { schema } from "@tanstack-json-render/vue/schema";
 import { z } from "zod";
 
 export const catalog = schema.createCatalog({

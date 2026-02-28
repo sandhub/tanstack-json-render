@@ -1,4 +1,4 @@
-import type { Components } from "@json-render/react";
+import type { Components } from "@tanstack-json-render/react";
 import type { AppCatalog } from "./catalog";
 
 export const components: Components<AppCatalog> = {

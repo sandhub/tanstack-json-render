@@ -19,7 +19,7 @@ import {
 } from "./standard";
 
 /**
- * Standard components provided by @json-render/remotion
+ * Standard components provided by @tanstack-json-render/remotion
  */
 export const standardComponents: ComponentRegistry = {
   TitleCard,

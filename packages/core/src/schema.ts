@@ -559,7 +559,7 @@ function generatePrompt<TDef extends SchemaDefinition, TCatalog>(
     return catalog.schema.promptTemplate(context);
   }
 
-  // Default JSONL element-tree format (for @json-render/react and similar)
+  // Default JSONL element-tree format (for @tanstack-json-render/react and similar)
   const {
     system = "You are a UI generator that outputs JSON.",
     customRules = [],

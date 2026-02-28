@@ -155,7 +155,7 @@ The chat API route needs to pipe the `chat()` stream through the json-render tra
 // After
 import { chat, toServerSentEventsResponse } from "@tanstack/ai";
 import { anthropicText } from "@tanstack/ai-anthropic";
-import { createJsonRenderTransform } from "@json-render/core";
+import { createJsonRenderTransform } from "@tanstack-json-render/core";
 
 const stream = chat({ adapter: anthropicText(modelId), messages, tools, systemPrompts: [instructions] });
 // Pipe through json-render transform to extract spec patches
@@ -209,7 +209,7 @@ function createSpecAwareConnection(url: string) {
 }
 ```
 
-The `useJsonRenderMessage` hook in `@json-render/react` will need updating to read spec data from this new mechanism instead of looking for `SPEC_DATA_PART_TYPE` message parts.
+The `useJsonRenderMessage` hook in `@tanstack-json-render/react` will need updating to read spec data from this new mechanism instead of looking for `SPEC_DATA_PART_TYPE` message parts.
 
 ### Layer 4: E2E Tests
 

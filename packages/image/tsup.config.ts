@@ -7,7 +7,7 @@ export default defineConfig({
   sourcemap: true,
   clean: true,
   external: [
-    "@json-render/core",
+    "@tanstack-json-render/core",
     "satori",
     "@resvg/resvg-js",
     "zod",

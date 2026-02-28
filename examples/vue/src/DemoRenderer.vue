@@ -6,7 +6,7 @@ import {
   Renderer,
   defineRegistry,
   useStateStore,
-} from "@json-render/vue";
+} from "@tanstack-json-render/vue";
 import { catalog } from "./lib/catalog";
 import { components } from "./lib/registry";
 import { demoSpec } from "./lib/spec";

@@ -107,15 +107,18 @@ export const docsNavigation: NavSection[] = [
   {
     title: "API Reference",
     items: [
-      { title: "@json-render/core", href: "/docs/api/core" },
-      { title: "@json-render/react", href: "/docs/api/react" },
-      { title: "@json-render/react-pdf", href: "/docs/api/react-pdf" },
-      { title: "@json-render/shadcn", href: "/docs/api/shadcn" },
-      { title: "@json-render/react-native", href: "/docs/api/react-native" },
-      { title: "@json-render/image", href: "/docs/api/image" },
-      { title: "@json-render/remotion", href: "/docs/api/remotion" },
-      { title: "@json-render/vue", href: "/docs/api/vue" },
-      { title: "@json-render/codegen", href: "/docs/api/codegen" },
+      { title: "@tanstack-json-render/core", href: "/docs/api/core" },
+      { title: "@tanstack-json-render/react", href: "/docs/api/react" },
+      { title: "@tanstack-json-render/react-pdf", href: "/docs/api/react-pdf" },
+      { title: "@tanstack-json-render/shadcn", href: "/docs/api/shadcn" },
+      {
+        title: "@tanstack-json-render/react-native",
+        href: "/docs/api/react-native",
+      },
+      { title: "@tanstack-json-render/image", href: "/docs/api/image" },
+      { title: "@tanstack-json-render/remotion", href: "/docs/api/remotion" },
+      { title: "@tanstack-json-render/vue", href: "/docs/api/vue" },
+      { title: "@tanstack-json-render/codegen", href: "/docs/api/codegen" },
     ],
   },
 ];

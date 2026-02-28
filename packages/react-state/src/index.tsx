@@ -15,8 +15,8 @@ import {
   createStateStore,
   type StateModel,
   type StateStore,
-} from "@json-render/core";
-import { flattenToPointers } from "@json-render/core/store-utils";
+} from "@tanstack-json-render/core";
+import { flattenToPointers } from "@tanstack-json-render/core/store-utils";
 
 /**
  * State context value

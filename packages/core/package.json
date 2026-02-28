@@ -1,5 +1,5 @@
 {
-  "name": "@json-render/core",
+  "name": "@tanstack-json-render/core",
   "version": "0.11.0",
   "license": "Apache-2.0",
   "description": "JSON becomes real things. Define your catalog, register your components, let AI generate.",

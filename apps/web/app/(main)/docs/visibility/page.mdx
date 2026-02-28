@@ -303,10 +303,10 @@ Comparison values can be literals or state references for state-to-state compari
 
 ## Usage with React
 
-In `@json-render/react`, wrap your app with `VisibilityProvider` to enable conditional rendering. The `Renderer` handles visibility automatically — elements with unmet conditions are not rendered.
+In `@tanstack-json-render/react`, wrap your app with `VisibilityProvider` to enable conditional rendering. The `Renderer` handles visibility automatically — elements with unmet conditions are not rendered.
 
 ```tsx
-import { VisibilityProvider, StateProvider } from '@json-render/react';
+import { VisibilityProvider, StateProvider } from '@tanstack-json-render/react';
 
 function App() {
   return (
@@ -322,7 +322,7 @@ function App() {
 For advanced use cases, the `useIsVisible` hook lets you evaluate visibility conditions programmatically:
 
 ```tsx
-import { useIsVisible } from '@json-render/react';
+import { useIsVisible } from '@tanstack-json-render/react';
 
 function ConditionalContent({ condition, children }) {
   const isVisible = useIsVisible(condition);
@@ -332,7 +332,7 @@ function ConditionalContent({ condition, children }) {
 }
 ```
 
-See the [@json-render/react API reference](/docs/api/react) for full details.
+See the [@tanstack-json-render/react API reference](/docs/api/react) for full details.
 
 ## Next
 

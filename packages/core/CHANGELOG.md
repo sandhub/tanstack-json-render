@@ -1,4 +1,4 @@
-# @json-render/core
+# @tanstack-json-render/core
 
 ## 0.11.0
 
@@ -6,14 +6,14 @@
 
 - 3f1e71e: Image renderer: generate SVG and PNG from JSON specs.
 
-  ### New: `@json-render/image` Package
+  ### New: `@tanstack-json-render/image` Package
 
   Server-side image renderer powered by Satori. Turns the same `{ root, elements }` spec format into SVG or PNG output for OG images, social cards, and banners.
   - `renderToSvg(spec, options)` — render spec to SVG string
   - `renderToPng(spec, options)` — render spec to PNG buffer (requires `@resvg/resvg-js`)
   - 9 standard components: Frame, Box, Row, Column, Heading, Text, Image, Divider, Spacer
   - `standardComponentDefinitions` catalog for AI prompt generation
-  - Server-safe import path: `@json-render/image/server`
+  - Server-safe import path: `@tanstack-json-render/image/server`
   - Sub-path exports: `/render`, `/catalog`, `/server`
 
 ## 0.10.0
@@ -22,9 +22,9 @@
 
 - 9cef4e9: Dynamic forms, Vue renderer, XState Store adapter, and computed values.
 
-  ### New: `@json-render/vue` Package
+  ### New: `@tanstack-json-render/vue` Package
 
-  Vue 3 renderer for json-render. Full feature parity with `@json-render/react` including data binding, visibility conditions, actions, validation, repeat scopes, and streaming.
+  Vue 3 renderer for json-render. Full feature parity with `@tanstack-json-render/react` including data binding, visibility conditions, actions, validation, repeat scopes, and streaming.
   - `defineRegistry` — create type-safe component registries from catalogs
   - `Renderer` — render specs as Vue component trees
   - Providers: `StateProvider`, `ActionProvider`, `VisibilityProvider`, `ValidationProvider`
@@ -32,7 +32,7 @@
   - Streaming: `useUIStream`, `useChatUI`
   - External store support via `StateStore` interface
 
-  ### New: `@json-render/xstate` Package
+  ### New: `@tanstack-json-render/xstate` Package
 
   XState Store (atom) adapter for json-render's `StateStore` interface. Wire an `@xstate/store` atom as the state backend.
   - `xstateStoreStateStore({ atom })` — creates a `StateStore` from an `@xstate/store` atom
@@ -43,7 +43,7 @@
   Call registered functions from prop expressions:
   - `{ "$computed": "functionName", "args": { "key": <expression> } }` — calls a named function with resolved args
   - Functions registered via catalog and provided at runtime through `functions` prop on `JSONUIProvider` / `createRenderer`
-  - `ComputedFunction` type exported from `@json-render/core`
+  - `ComputedFunction` type exported from `@tanstack-json-render/core`
 
   ### New: `$template` Expressions
 
@@ -98,17 +98,17 @@
   ### New: External State Store
 
   The `StateStore` interface lets you plug in your own state management (Redux, Zustand, Jotai, XState, etc.) instead of the built-in internal store. Pass a `store` prop to `StateProvider`, `JSONUIProvider`, or `createRenderer` for controlled mode.
-  - Added `StateStore` interface and `createStateStore()` factory to `@json-render/core`
+  - Added `StateStore` interface and `createStateStore()` factory to `@tanstack-json-render/core`
   - `StateProvider`, `JSONUIProvider`, and `createRenderer` now accept an optional `store` prop for controlled mode
   - When `store` is provided, it becomes the single source of truth (`initialState`/`onStateChange` are ignored)
   - When `store` is omitted, everything works exactly as before (fully backward compatible)
   - Applied across all platform packages: react, react-native, react-pdf
-  - Store utilities (`createStoreAdapter`, `immutableSetByPath`, `flattenToPointers`) available via `@json-render/core/store-utils` for building custom adapters
+  - Store utilities (`createStoreAdapter`, `immutableSetByPath`, `flattenToPointers`) available via `@tanstack-json-render/core/store-utils` for building custom adapters
 
   ### New: Store Adapter Packages
-  - `@json-render/zustand` — Zustand adapter for `StateStore`
-  - `@json-render/redux` — Redux / Redux Toolkit adapter for `StateStore`
-  - `@json-render/jotai` — Jotai adapter for `StateStore`
+  - `@tanstack-json-render/zustand` — Zustand adapter for `StateStore`
+  - `@tanstack-json-render/redux` — Redux / Redux Toolkit adapter for `StateStore`
+  - `@tanstack-json-render/jotai` — Jotai adapter for `StateStore`
 
   ### Changed: `onStateChange` signature updated (breaking)
 
@@ -123,26 +123,26 @@
   ```
 
   ### Fixed
-  - Fix schema import to use server-safe `@json-render/react/schema` subpath, avoiding `createContext` crashes in Next.js App Router API routes
-  - Fix chaining actions in `@json-render/react`, `@json-render/react-native`, and `@json-render/react-pdf`
+  - Fix schema import to use server-safe `@tanstack-json-render/react/schema` subpath, avoiding `createContext` crashes in Next.js App Router API routes
+  - Fix chaining actions in `@tanstack-json-render/react`, `@tanstack-json-render/react-native`, and `@tanstack-json-render/react-pdf`
   - Fix safely resolving inner type for Zod arrays in core schema
 
 ## 0.8.0
 
 ### Minor Changes
 
-- 09376db: New `@json-render/react-pdf` package for generating PDF documents from JSON specs.
+- 09376db: New `@tanstack-json-render/react-pdf` package for generating PDF documents from JSON specs.
 
-  ### New: `@json-render/react-pdf`
+  ### New: `@tanstack-json-render/react-pdf`
 
-  PDF renderer for json-render, powered by `@react-pdf/renderer`. Define catalogs and registries the same way as `@json-render/react`, but output PDF documents instead of web UI.
+  PDF renderer for json-render, powered by `@react-pdf/renderer`. Define catalogs and registries the same way as `@tanstack-json-render/react`, but output PDF documents instead of web UI.
   - `renderToBuffer(spec)` — render a spec to an in-memory PDF buffer
   - `renderToStream(spec)` — render to a readable stream (pipe to HTTP response)
   - `renderToFile(spec, path)` — render directly to a file on disk
-  - `defineRegistry` / `createRenderer` — same API as `@json-render/react` for custom components
-  - `standardComponentDefinitions` — Zod-based catalog definitions (server-safe via `@json-render/react-pdf/catalog`)
+  - `defineRegistry` / `createRenderer` — same API as `@tanstack-json-render/react` for custom components
+  - `standardComponentDefinitions` — Zod-based catalog definitions (server-safe via `@tanstack-json-render/react-pdf/catalog`)
   - `standardComponents` — React PDF implementations for all standard components
-  - Server-safe import via `@json-render/react-pdf/server`
+  - Server-safe import via `@tanstack-json-render/react-pdf/server`
 
   Standard components:
   - **Document structure**: Document, Page
@@ -152,18 +152,18 @@
   - **Decorative**: Divider, Spacer
   - **Page-level**: PageNumber
 
-  Includes full context support: state management, visibility conditions, actions, validation, and repeat scopes — matching the capabilities of `@json-render/react`.
+  Includes full context support: state management, visibility conditions, actions, validation, and repeat scopes — matching the capabilities of `@tanstack-json-render/react`.
 
 ## 0.7.0
 
 ### Minor Changes
 
-- 2d70fab: New `@json-render/shadcn` package, event handles, built-in actions, and stream improvements.
+- 2d70fab: New `@tanstack-json-render/shadcn` package, event handles, built-in actions, and stream improvements.
 
-  ### New: `@json-render/shadcn` Package
+  ### New: `@tanstack-json-render/shadcn` Package
 
   Pre-built [shadcn/ui](https://ui.shadcn.com/) component library for json-render. 30+ components built on Radix UI + Tailwind CSS, ready to use with `defineCatalog` and `defineRegistry`.
-  - `shadcnComponentDefinitions` — Zod-based catalog definitions for all components (server-safe, no React dependency via `@json-render/shadcn/catalog`)
+  - `shadcnComponentDefinitions` — Zod-based catalog definitions for all components (server-safe, no React dependency via `@tanstack-json-render/shadcn/catalog`)
   - `shadcnComponents` — React implementations for all components
   - Layout: Card, Stack, Grid, Separator
   - Navigation: Tabs, Accordion, Collapsible, Pagination
@@ -181,7 +181,7 @@
 
   ### New: `BaseComponentProps`
 
-  Catalog-agnostic base type for component render functions. Use when building reusable component libraries (like `@json-render/shadcn`) that are not tied to a specific catalog.
+  Catalog-agnostic base type for component render functions. Use when building reusable component libraries (like `@tanstack-json-render/shadcn`) that are not tied to a specific catalog.
 
   ### New: Built-in Actions in Schema
 
@@ -284,7 +284,7 @@
 
 ### Minor Changes
 
-- 3d2d1ad: Add @json-render/react-native package, event system (emit replaces onAction), repeat/list rendering, user prompt builder, spec validation, and rename DataProvider to StateProvider.
+- 3d2d1ad: Add @tanstack-json-render/react-native package, event system (emit replaces onAction), repeat/list rendering, user prompt builder, spec validation, and rename DataProvider to StateProvider.
 
 ## 0.4.4
 

@@ -1,11 +1,11 @@
-# @json-render/react
+# @tanstack-json-render/react
 
 React renderer for json-render. Turn JSON specs into React components with data binding, visibility, and actions.
 
 ## Installation
 
 ```bash
-npm install @json-render/react @json-render/core zod
+npm install @tanstack-json-render/react @tanstack-json-render/core zod
 ```
 
 ## Quick Start
@@ -13,8 +13,8 @@ npm install @json-render/react @json-render/core zod
 ### 1. Create a Catalog
 
 ```typescript
-import { defineCatalog } from "@json-render/core";
-import { schema } from "@json-render/react/schema";
+import { defineCatalog } from "@tanstack-json-render/core";
+import { schema } from "@tanstack-json-render/react/schema";
 import { z } from "zod";
 
 export const catalog = defineCatalog(schema, {
@@ -54,7 +54,7 @@ export const catalog = defineCatalog(schema, {
 `defineRegistry` conditionally requires the `actions` field only when the catalog declares actions. Catalogs with `actions: {}` can omit it entirely.
 
 ```tsx
-import { defineRegistry, useBoundProp } from "@json-render/react";
+import { defineRegistry, useBoundProp } from "@tanstack-json-render/react";
 import { catalog } from "./catalog";
 
 export const { registry } = defineRegistry(catalog, {
@@ -91,7 +91,7 @@ export const { registry } = defineRegistry(catalog, {
 ### 3. Render Specs
 
 ```tsx
-import { Renderer, StateProvider, ActionProvider } from "@json-render/react";
+import { Renderer, StateProvider, ActionProvider } from "@tanstack-json-render/react";
 import { registry } from "./registry";
 
 function App({ spec }) {
@@ -176,7 +176,7 @@ set("/user/age", 25);
 For full control over state, pass a `StateStore` to bypass the internal state and wire json-render to any state management library (Redux, Zustand, XState, etc.):
 
 ```tsx
-import { createStateStore, type StateStore } from "@json-render/react";
+import { createStateStore, type StateStore } from "@tanstack-json-render/react";
 
 // Option 1: Use the built-in store outside of React
 const store = createStateStore({ count: 0 });
@@ -291,10 +291,10 @@ true   // always visible
 false  // never visible
 ```
 
-TypeScript helpers from `@json-render/core`:
+TypeScript helpers from `@tanstack-json-render/core`:
 
 ```typescript
-import { visibility } from "@json-render/core";
+import { visibility } from "@tanstack-json-render/core";
 
 visibility.when("/path")       // { $state: "/path" }
 visibility.unless("/path")     // { $state: "/path", not: true }
@@ -350,7 +350,7 @@ Register functions via the `functions` prop on `JSONUIProvider` or `createRender
 >
 ```
 
-See [@json-render/core](../core/README.md) for full expression syntax.
+See [@tanstack-json-render/core](../core/README.md) for full expression syntax.
 
 ## State Watchers
 
@@ -458,10 +458,10 @@ Use `bindings?.value`, `bindings?.checked`, etc. with `useBoundProp()` for two-w
 
 ### `BaseComponentProps`
 
-For building reusable component libraries that are not tied to a specific catalog (e.g. `@json-render/shadcn`), use the catalog-agnostic `BaseComponentProps` type:
+For building reusable component libraries that are not tied to a specific catalog (e.g. `@tanstack-json-render/shadcn`), use the catalog-agnostic `BaseComponentProps` type:
 
 ```typescript
-import type { BaseComponentProps } from "@json-render/react";
+import type { BaseComponentProps } from "@tanstack-json-render/react";
 
 const Card = ({ props, children }: BaseComponentProps<{ title?: string }>) => (
   <div>{props.title}{children}</div>
@@ -478,9 +478,9 @@ const systemPrompt = catalog.prompt();
 ## Full Example
 
 ```tsx
-import { defineCatalog } from "@json-render/core";
-import { schema } from "@json-render/react/schema";
-import { defineRegistry, Renderer } from "@json-render/react";
+import { defineCatalog } from "@tanstack-json-render/core";
+import { schema } from "@tanstack-json-render/react/schema";
+import { defineRegistry, Renderer } from "@tanstack-json-render/react";
 import { z } from "zod";
 
 const catalog = defineCatalog(schema, {

@@ -9,7 +9,7 @@ export {
   type StandardComponentProps,
 } from "./catalog";
 
-export type { Spec } from "@json-render/core";
+export type { Spec } from "@tanstack-json-render/core";
 
 export type {
   SetState,

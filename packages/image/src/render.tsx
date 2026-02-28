@@ -1,12 +1,12 @@
 import React from "react";
 import satori, { type SatoriOptions } from "satori";
-import type { Spec, UIElement } from "@json-render/core";
+import type { Spec, UIElement } from "@tanstack-json-render/core";
 import {
   resolveElementProps,
   evaluateVisibility,
   getByPath,
   type PropResolutionContext,
-} from "@json-render/core";
+} from "@tanstack-json-render/core";
 import { standardComponents } from "./components/standard";
 import type { ComponentRegistry } from "./types";
 

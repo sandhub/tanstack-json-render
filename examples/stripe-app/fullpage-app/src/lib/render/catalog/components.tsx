@@ -4,7 +4,7 @@
  * Maps json-render catalog components to Stripe UI Extension SDK components.
  */
 import type { FunctionComponent } from "react";
-import type { ComponentRenderProps } from "@json-render/react";
+import type { ComponentRenderProps } from "@tanstack-json-render/react";
 import {
   Box,
   Badge as UIBadge,

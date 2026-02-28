@@ -46,8 +46,12 @@ export {
 export { schema, type VueSchema, type VueSpec } from "./schema";
 
 // Core types (re-exported for convenience)
-export type { Spec, StateStore, ComputedFunction } from "@json-render/core";
-export { createStateStore } from "@json-render/core";
+export type {
+  Spec,
+  StateStore,
+  ComputedFunction,
+} from "@tanstack-json-render/core";
+export { createStateStore } from "@tanstack-json-render/core";
 
 // Catalog-aware types for Vue
 export type {

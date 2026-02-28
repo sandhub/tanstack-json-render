@@ -1,8 +1,8 @@
 "use client";
 
-import { defineRegistry } from "@json-render/react";
-import type { ComputedFunction } from "@json-render/core";
-import { shadcnComponents } from "@json-render/shadcn";
+import { defineRegistry } from "@tanstack-json-render/react";
+import type { ComputedFunction } from "@tanstack-json-render/core";
+import { shadcnComponents } from "@tanstack-json-render/shadcn";
 import { catalog } from "./catalog";
 
 let confettiListener: (() => void) | null = null;

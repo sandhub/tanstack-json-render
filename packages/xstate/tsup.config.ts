@@ -7,8 +7,8 @@ export default defineConfig({
   sourcemap: true,
   clean: true,
   external: [
-    "@json-render/core",
-    "@json-render/core/store-utils",
+    "@tanstack-json-render/core",
+    "@tanstack-json-render/core/store-utils",
     "@xstate/store",
   ],
 });

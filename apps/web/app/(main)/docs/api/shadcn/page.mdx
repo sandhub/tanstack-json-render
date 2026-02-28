@@ -1,14 +1,14 @@
 import { pageMetadata } from "@/lib/page-metadata"
 export const metadata = pageMetadata("docs/api/shadcn")
 
-# @json-render/shadcn
+# @tanstack-json-render/shadcn
 
 Pre-built [shadcn/ui](https://ui.shadcn.com/) components for json-render. 36 components built on Radix UI + Tailwind CSS, ready to use with `defineCatalog` and `defineRegistry`.
 
 ## Installation
 
 ```bash
-npm install @json-render/shadcn @json-render/core @json-render/react zod
+npm install @tanstack-json-render/shadcn @tanstack-json-render/core @tanstack-json-render/react zod
 ```
 
 Your app must have Tailwind CSS configured.
@@ -25,12 +25,12 @@ Your app must have Tailwind CSS configured.
 </thead>
 <tbody>
 <tr>
-<td><code>@json-render/shadcn</code></td>
+<td><code>@tanstack-json-render/shadcn</code></td>
 <td><code>shadcnComponents</code></td>
 <td>React implementations</td>
 </tr>
 <tr>
-<td><code>@json-render/shadcn/catalog</code></td>
+<td><code>@tanstack-json-render/shadcn/catalog</code></td>
 <td><code>shadcnComponentDefinitions</code></td>
 <td>Catalog schemas (no React dependency, safe for server)</td>
 </tr>
@@ -42,11 +42,11 @@ Your app must have Tailwind CSS configured.
 Pick the components you need from the standard definitions:
 
 ```typescript
-import { defineCatalog } from "@json-render/core";
-import { schema } from "@json-render/react/schema";
-import { shadcnComponentDefinitions } from "@json-render/shadcn/catalog";
-import { defineRegistry } from "@json-render/react";
-import { shadcnComponents } from "@json-render/shadcn";
+import { defineCatalog } from "@tanstack-json-render/core";
+import { schema } from "@tanstack-json-render/react/schema";
+import { shadcnComponentDefinitions } from "@tanstack-json-render/shadcn/catalog";
+import { defineRegistry } from "@tanstack-json-render/react";
+import { shadcnComponents } from "@tanstack-json-render/shadcn";
 
 // Catalog: pick definitions
 const catalog = defineCatalog(schema, {

@@ -1,6 +1,6 @@
-import { renderToBuffer } from "@json-render/react-pdf/render";
+import { renderToBuffer } from "@tanstack-json-render/react-pdf/render";
 import { examples } from "@/lib/examples";
-import type { Spec } from "@json-render/core";
+import type { Spec } from "@tanstack-json-render/core";
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);

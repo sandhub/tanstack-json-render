@@ -1,22 +1,22 @@
 ---
 name: json-render-react-native
-description: React Native renderer for json-render that turns JSON specs into native mobile UIs. Use when working with @json-render/react-native, building React Native UIs from JSON, creating mobile component catalogs, or rendering AI-generated specs on mobile.
+description: React Native renderer for json-render that turns JSON specs into native mobile UIs. Use when working with @tanstack-json-render/react-native, building React Native UIs from JSON, creating mobile component catalogs, or rendering AI-generated specs on mobile.
 ---
 
-# @json-render/react-native
+# @tanstack-json-render/react-native
 
 React Native renderer that converts JSON specs into native mobile component trees with standard components, data binding, visibility, actions, and dynamic props.
 
 ## Quick Start
 
 ```typescript
-import { defineCatalog } from "@json-render/core";
-import { schema } from "@json-render/react-native/schema";
+import { defineCatalog } from "@tanstack-json-render/core";
+import { schema } from "@tanstack-json-render/react-native/schema";
 import {
   standardComponentDefinitions,
   standardActionDefinitions,
-} from "@json-render/react-native/catalog";
-import { defineRegistry, Renderer, type Components } from "@json-render/react-native";
+} from "@tanstack-json-render/react-native/catalog";
+import { defineRegistry, Renderer, type Components } from "@tanstack-json-render/react-native";
 import { z } from "zod";
 
 // Create catalog with standard + custom components
@@ -153,7 +153,7 @@ The `setState` action is handled automatically by `ActionProvider` and updates t
 Pass a `StateStore` to `StateProvider` (or `JSONUIProvider` / `createRenderer`) to use external state management:
 
 ```tsx
-import { createStateStore, type StateStore } from "@json-render/react-native";
+import { createStateStore, type StateStore } from "@tanstack-json-render/react-native";
 
 const store = createStateStore({ count: 0 });
 

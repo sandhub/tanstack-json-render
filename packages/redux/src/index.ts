@@ -1,8 +1,8 @@
-import type { StateModel, StateStore } from "@json-render/core";
-import { createStoreAdapter } from "@json-render/core/store-utils";
+import type { StateModel, StateStore } from "@tanstack-json-render/core";
+import { createStoreAdapter } from "@tanstack-json-render/core/store-utils";
 import type { Store, Action, UnknownAction } from "redux";
 
-export type { StateStore } from "@json-render/core";
+export type { StateStore } from "@tanstack-json-render/core";
 
 /**
  * Options for {@link reduxStateStore}.
@@ -39,7 +39,7 @@ export interface ReduxStateStoreOptions<
  * @example
  * ```ts
  * import { configureStore, createSlice } from "@reduxjs/toolkit";
- * import { reduxStateStore } from "@json-render/redux";
+ * import { reduxStateStore } from "@tanstack-json-render/redux";
  *
  * const uiSlice = createSlice({
  *   name: "ui",

@@ -50,8 +50,8 @@ Functions are registered in the catalog and provided at runtime.
 **Catalog definition (for AI prompt generation):**
 
 ```typescript
-import { defineCatalog } from '@json-render/core';
-import { schema } from '@json-render/react/schema';
+import { defineCatalog } from '@tanstack-json-render/core';
+import { schema } from '@tanstack-json-render/react/schema';
 
 const catalog = defineCatalog(schema, {
   components: { /* ... */ },
@@ -69,7 +69,7 @@ const catalog = defineCatalog(schema, {
 **Runtime implementation:**
 
 ```tsx
-import { JSONUIProvider } from '@json-render/react';
+import { JSONUIProvider } from '@tanstack-json-render/react';
 
 const functions = {
   fullName: (args) => `${args.first ?? ''} ${args.last ?? ''}`.trim(),

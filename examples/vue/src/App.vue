@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { StateProvider } from "@json-render/vue";
+import { StateProvider } from "@tanstack-json-render/vue";
 import { demoSpec } from "./lib/spec";
 import DemoRenderer from "./DemoRenderer.vue";
 

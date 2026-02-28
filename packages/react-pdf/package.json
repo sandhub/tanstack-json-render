@@ -1,8 +1,8 @@
 {
-  "name": "@json-render/react-pdf",
+  "name": "@tanstack-json-render/react-pdf",
   "version": "0.11.0",
   "license": "Apache-2.0",
-  "description": "React PDF renderer for @json-render/core. JSON becomes PDF documents.",
+  "description": "React PDF renderer for @tanstack-json-render/core. JSON becomes PDF documents.",
   "keywords": [
     "json",
     "pdf",
@@ -60,7 +60,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@json-render/core": "workspace:*",
+    "@tanstack-json-render/core": "workspace:*",
     "@react-pdf/renderer": "^4.3.2"
   },
   "devDependencies": {

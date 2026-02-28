@@ -14,7 +14,7 @@ export type {
 } from "./catalog-types";
 
 // Core types (re-exported for convenience)
-export type { Spec } from "@json-render/core";
+export type { Spec } from "@tanstack-json-render/core";
 
 // =============================================================================
 // Components - Pre-built Remotion components for rendering timelines

@@ -1,11 +1,11 @@
-# @json-render/image
+# @tanstack-json-render/image
 
-Image renderer for `@json-render/core`. Generate SVG and PNG images from JSON specs using [Satori](https://github.com/vercel/satori).
+Image renderer for `@tanstack-json-render/core`. Generate SVG and PNG images from JSON specs using [Satori](https://github.com/vercel/satori).
 
 ## Install
 
 ```bash
-npm install @json-render/core @json-render/image
+npm install @tanstack-json-render/core @tanstack-json-render/image
 ```
 
 For PNG output, also install the optional peer dependency:
@@ -19,8 +19,8 @@ npm install @resvg/resvg-js
 ### Render a spec to SVG
 
 ```typescript
-import { renderToSvg } from "@json-render/image/render";
-import type { Spec } from "@json-render/core";
+import { renderToSvg } from "@tanstack-json-render/image/render";
+import type { Spec } from "@tanstack-json-render/core";
 
 const spec: Spec = {
   root: "frame",
@@ -60,7 +60,7 @@ const svg = await renderToSvg(spec, {
 ### Render to PNG
 
 ```typescript
-import { renderToPng } from "@json-render/image/render";
+import { renderToPng } from "@tanstack-json-render/image/render";
 
 const png = await renderToPng(spec, {
   fonts: [
@@ -80,9 +80,9 @@ await writeFile("output.png", png);
 ### With a custom catalog
 
 ```typescript
-import { defineCatalog } from "@json-render/core";
-import { schema, renderToSvg } from "@json-render/image";
-import { standardComponentDefinitions } from "@json-render/image/catalog";
+import { defineCatalog } from "@tanstack-json-render/core";
+import { schema, renderToSvg } from "@tanstack-json-render/image";
+import { standardComponentDefinitions } from "@tanstack-json-render/image/catalog";
 import { z } from "zod";
 
 const catalog = defineCatalog(schema, {
@@ -134,7 +134,7 @@ const catalog = defineCatalog(schema, {
 ## Server-Side APIs
 
 ```typescript
-import { renderToSvg, renderToPng } from "@json-render/image/render";
+import { renderToSvg, renderToPng } from "@tanstack-json-render/image/render";
 
 // Render to an SVG string
 const svg = await renderToSvg(spec, { fonts });
@@ -159,7 +159,7 @@ const png = await renderToPng(spec, { fonts });
 Import schema and catalog definitions without pulling in React or Satori:
 
 ```typescript
-import { schema, standardComponentDefinitions } from "@json-render/image/server";
+import { schema, standardComponentDefinitions } from "@tanstack-json-render/image/server";
 ```
 
 ## License

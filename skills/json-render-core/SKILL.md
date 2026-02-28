@@ -1,9 +1,9 @@
 ---
 name: json-render-core
-description: Core package for defining schemas, catalogs, and AI prompt generation for json-render. Use when working with @json-render/core, defining schemas, creating catalogs, or building JSON specs for UI/video generation.
+description: Core package for defining schemas, catalogs, and AI prompt generation for json-render. Use when working with @tanstack-json-render/core, defining schemas, creating catalogs, or building JSON specs for UI/video generation.
 ---
 
-# @json-render/core
+# @tanstack-json-render/core
 
 Core package for schema definition, catalog creation, and spec streaming.
 
@@ -17,7 +17,7 @@ Core package for schema definition, catalog creation, and spec streaming.
 ## Defining a Schema
 
 ```typescript
-import { defineSchema } from "@json-render/core";
+import { defineSchema } from "@tanstack-json-render/core";
 
 export const schema = defineSchema((s) => ({
   spec: s.object({
@@ -37,7 +37,7 @@ export const schema = defineSchema((s) => ({
 ## Creating a Catalog
 
 ```typescript
-import { defineCatalog } from "@json-render/core";
+import { defineCatalog } from "@tanstack-json-render/core";
 import { schema } from "./schema";
 import { z } from "zod";
 
@@ -66,7 +66,7 @@ const systemPrompt = catalog.prompt({ customRules: ["Rule 1", "Rule 2"] });
 For streaming AI responses (JSONL patches):
 
 ```typescript
-import { createSpecStreamCompiler } from "@json-render/core";
+import { createSpecStreamCompiler } from "@tanstack-json-render/core";
 
 const compiler = createSpecStreamCompiler<MySpec>();
 
@@ -111,7 +111,7 @@ Components do not use a `statePath` prop for two-way binding. Instead, use `{ "$
 ```
 
 ```typescript
-import { resolvePropValue, resolveElementProps } from "@json-render/core";
+import { resolvePropValue, resolveElementProps } from "@tanstack-json-render/core";
 
 const resolved = resolveElementProps(element.props, { stateModel: myState });
 ```
@@ -140,7 +140,7 @@ Built-in validation functions: `required`, `email`, `url`, `numeric`, `minLength
 Cross-field validation uses `$state` expressions in args:
 
 ```typescript
-import { check } from "@json-render/core";
+import { check } from "@tanstack-json-render/core";
 
 check.required("Field is required");
 check.matches("/form/password", "Passwords must match");
@@ -154,7 +154,7 @@ check.requiredIf("/form/enableNotifications", "Required when enabled");
 Build structured user prompts with optional spec refinement and state context:
 
 ```typescript
-import { buildUserPrompt } from "@json-render/core";
+import { buildUserPrompt } from "@tanstack-json-render/core";
 
 // Fresh generation
 buildUserPrompt({ prompt: "create a todo app" });
@@ -171,7 +171,7 @@ buildUserPrompt({ prompt: "show data", state: { todos: [] } });
 Validate spec structure and auto-fix common issues:
 
 ```typescript
-import { validateSpec, autoFixSpec } from "@json-render/core";
+import { validateSpec, autoFixSpec } from "@tanstack-json-render/core";
 
 const { valid, issues } = validateSpec(spec);
 const fixed = autoFixSpec(spec);
@@ -182,7 +182,7 @@ const fixed = autoFixSpec(spec);
 Control element visibility with state-based conditions. `VisibilityContext` is `{ stateModel: StateModel }`.
 
 ```typescript
-import { visibility } from "@json-render/core";
+import { visibility } from "@tanstack-json-render/core";
 
 // Syntax
 { "$state": "/path" }                    // truthiness
@@ -219,7 +219,7 @@ These appear in prompts as `[built-in]` and don't require handlers in `defineReg
 The `StateStore` interface allows external state management libraries (Redux, Zustand, XState, etc.) to be plugged into json-render renderers. The `createStateStore` factory creates a simple in-memory implementation:
 
 ```typescript
-import { createStateStore, type StateStore } from "@json-render/core";
+import { createStateStore, type StateStore } from "@tanstack-json-render/core";
 
 const store = createStateStore({ count: 0 });
 

@@ -10,8 +10,8 @@
     "check-types": "tsc --noEmit"
   },
   "dependencies": {
-    "@json-render/core": "workspace:*",
-    "@json-render/react-pdf": "workspace:*",
+    "@tanstack-json-render/core": "workspace:*",
+    "@tanstack-json-render/react-pdf": "workspace:*",
     "@tailwindcss/postcss": "^4.1.18",
     "@tanstack/ai": "^0.6.1",
     "@tanstack/ai-anthropic": "^0.6.0",

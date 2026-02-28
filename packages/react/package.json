@@ -1,8 +1,8 @@
 {
-  "name": "@json-render/react",
+  "name": "@tanstack-json-render/react",
   "version": "0.11.0",
   "license": "Apache-2.0",
-  "description": "React renderer for @json-render/core. JSON becomes React components.",
+  "description": "React renderer for @tanstack-json-render/core. JSON becomes React components.",
   "keywords": [
     "json",
     "ui",
@@ -50,7 +50,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@json-render/core": "workspace:*"
+    "@tanstack-json-render/core": "workspace:*"
   },
   "devDependencies": {
     "@internal/react-state": "workspace:*",

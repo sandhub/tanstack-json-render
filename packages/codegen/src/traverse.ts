@@ -1,4 +1,4 @@
-import type { Spec, UIElement } from "@json-render/core";
+import type { Spec, UIElement } from "@tanstack-json-render/core";
 
 /**
  * Visitor function for spec traversal

@@ -1,17 +1,17 @@
 ---
 name: json-render-image
-description: Image renderer for json-render that turns JSON specs into SVG and PNG images via Satori. Use when working with @json-render/image, generating OG images from JSON, creating social cards, or rendering AI-generated image specs.
+description: Image renderer for json-render that turns JSON specs into SVG and PNG images via Satori. Use when working with @tanstack-json-render/image, generating OG images from JSON, creating social cards, or rendering AI-generated image specs.
 ---
 
-# @json-render/image
+# @tanstack-json-render/image
 
 Image renderer that converts JSON specs into SVG and PNG images using Satori.
 
 ## Quick Start
 
 ```typescript
-import { renderToPng } from "@json-render/image/render";
-import type { Spec } from "@json-render/core";
+import { renderToPng } from "@tanstack-json-render/image/render";
+import type { Spec } from "@tanstack-json-render/core";
 
 const spec: Spec = {
   root: "frame",
@@ -37,8 +37,8 @@ const png = await renderToPng(spec, {
 ## Using Standard Components
 
 ```typescript
-import { defineCatalog } from "@json-render/core";
-import { schema, standardComponentDefinitions } from "@json-render/image";
+import { defineCatalog } from "@tanstack-json-render/core";
+import { schema, standardComponentDefinitions } from "@tanstack-json-render/image";
 
 export const imageCatalog = defineCatalog(schema, {
   components: standardComponentDefinitions,
@@ -90,7 +90,7 @@ const catalog = defineCatalog(schema, {
 
 | Export | Description |
 |--------|-------------|
-| `@json-render/image` | Full package: schema, components, render functions |
-| `@json-render/image/server` | Schema and catalog definitions only (no React/Satori) |
-| `@json-render/image/catalog` | Standard component definitions and types |
-| `@json-render/image/render` | Render functions only |
+| `@tanstack-json-render/image` | Full package: schema, components, render functions |
+| `@tanstack-json-render/image/server` | Schema and catalog definitions only (no React/Satori) |
+| `@tanstack-json-render/image/catalog` | Standard component definitions and types |
+| `@tanstack-json-render/image/render` | Render functions only |

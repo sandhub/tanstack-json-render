@@ -6,7 +6,7 @@ import type {
   InferComponentProps,
   InferActionParams,
   StateModel,
-} from "@json-render/core";
+} from "@tanstack-json-render/core";
 
 export type { StateModel };
 
@@ -47,7 +47,7 @@ export interface EventHandle {
 
 /**
  * Catalog-agnostic base type for component render function arguments.
- * Use this when building reusable component libraries (e.g. `@json-render/shadcn`)
+ * Use this when building reusable component libraries (e.g. `@tanstack-json-render/shadcn`)
  * that are not tied to a specific catalog.
  *
  * @example

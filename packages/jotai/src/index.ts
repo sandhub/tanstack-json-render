@@ -1,9 +1,9 @@
-import type { StateModel, StateStore } from "@json-render/core";
-import { createStoreAdapter } from "@json-render/core/store-utils";
+import type { StateModel, StateStore } from "@tanstack-json-render/core";
+import { createStoreAdapter } from "@tanstack-json-render/core/store-utils";
 import type { WritableAtom } from "jotai";
 import { createStore as createJotaiStore } from "jotai/vanilla";
 
-export type { StateStore } from "@json-render/core";
+export type { StateStore } from "@tanstack-json-render/core";
 
 type JotaiStore = ReturnType<typeof createJotaiStore>;
 
@@ -26,7 +26,7 @@ export interface JotaiStateStoreOptions {
  * @example
  * ```ts
  * import { atom } from "jotai";
- * import { jotaiStateStore } from "@json-render/jotai";
+ * import { jotaiStateStore } from "@tanstack-json-render/jotai";
  *
  * const uiAtom = atom<Record<string, unknown>>({ count: 0 });
  *

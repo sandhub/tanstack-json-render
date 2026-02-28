@@ -11,8 +11,8 @@ Create a catalog that defines what components AI can use:
 
 ```typescript
 // lib/catalog.ts
-import { defineCatalog } from '@json-render/core';
-import { schema } from '@json-render/react/schema';
+import { defineCatalog } from '@tanstack-json-render/core';
+import { schema } from '@tanstack-json-render/react/schema';
 import { z } from 'zod';
 
 export const catalog = defineCatalog(schema, {
@@ -58,7 +58,7 @@ Use `defineRegistry` to map catalog types to React components. Each component re
 
 ```tsx
 // lib/registry.tsx
-import { defineRegistry } from '@json-render/react';
+import { defineRegistry } from '@tanstack-json-render/react';
 import { catalog } from './catalog';
 
 export const { registry } = defineRegistry(catalog, {
@@ -95,7 +95,7 @@ Set up a streaming API route for AI generation:
 // app/api/generate/route.ts
 import { chat } from "@tanstack/ai";
 import { anthropicText } from "@tanstack/ai-anthropic";
-import { streamToTextResponse } from "@json-render/core";
+import { streamToTextResponse } from "@tanstack-json-render/core";
 import { catalog } from '@/lib/catalog';
 
 export async function POST(req: Request) {
@@ -123,7 +123,7 @@ Use providers and the `Renderer` with your registry to display AI-generated UI:
 // app/page.tsx
 'use client';
 
-import { Renderer, StateProvider, ActionProvider, VisibilityProvider, ValidationProvider, useUIStream } from '@json-render/react';
+import { Renderer, StateProvider, ActionProvider, VisibilityProvider, ValidationProvider, useUIStream } from '@tanstack-json-render/react';
 import { registry } from '@/lib/registry';
 
 export default function Page() {
@@ -169,13 +169,13 @@ export default function Page() {
 
 ## Quick Start with shadcn/ui
 
-If you want to skip defining components from scratch, use `@json-render/shadcn` for 36 pre-built components:
+If you want to skip defining components from scratch, use `@tanstack-json-render/shadcn` for 36 pre-built components:
 
 ```typescript
 // lib/catalog.ts
-import { defineCatalog } from '@json-render/core';
-import { schema } from '@json-render/react/schema';
-import { shadcnComponentDefinitions } from '@json-render/shadcn/catalog';
+import { defineCatalog } from '@tanstack-json-render/core';
+import { schema } from '@tanstack-json-render/react/schema';
+import { shadcnComponentDefinitions } from '@tanstack-json-render/shadcn/catalog';
 
 export const catalog = defineCatalog(schema, {
   components: {
@@ -191,8 +191,8 @@ export const catalog = defineCatalog(schema, {
 
 ```tsx
 // lib/registry.tsx
-import { defineRegistry } from '@json-render/react';
-import { shadcnComponents } from '@json-render/shadcn';
+import { defineRegistry } from '@tanstack-json-render/react';
+import { shadcnComponents } from '@tanstack-json-render/shadcn';
 import { catalog } from './catalog';
 
 export const { registry } = defineRegistry(catalog, {
@@ -206,7 +206,7 @@ export const { registry } = defineRegistry(catalog, {
 });
 ```
 
-See the [@json-render/shadcn API reference](/docs/api/shadcn) for the full component list.
+See the [@tanstack-json-render/shadcn API reference](/docs/api/shadcn) for the full component list.
 
 ## Next steps
 

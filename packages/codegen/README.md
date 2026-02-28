@@ -1,4 +1,4 @@
-# @json-render/codegen
+# @tanstack-json-render/codegen
 
 Utilities for generating code from json-render UI trees.
 
@@ -7,9 +7,9 @@ This package provides framework-agnostic utilities for building code generators.
 ## Installation
 
 ```bash
-npm install @json-render/codegen
+npm install @tanstack-json-render/codegen
 # or
-pnpm add @json-render/codegen
+pnpm add @tanstack-json-render/codegen
 ```
 
 ## Utilities
@@ -17,7 +17,7 @@ pnpm add @json-render/codegen
 ### Tree Traversal
 
 ```typescript
-import { traverseSpec, collectUsedComponents, collectStatePaths, collectActions } from '@json-render/codegen';
+import { traverseSpec, collectUsedComponents, collectStatePaths, collectActions } from '@tanstack-json-render/codegen';
 
 // Walk the spec depth-first
 traverseSpec(spec, (element, key, depth, parent) => {
@@ -40,7 +40,7 @@ const actions = collectActions(spec);
 ### Serialization
 
 ```typescript
-import { serializePropValue, serializeProps, escapeString } from '@json-render/codegen';
+import { serializePropValue, serializeProps, escapeString } from '@tanstack-json-render/codegen';
 
 // Serialize a single value
 serializePropValue("hello");
@@ -60,7 +60,7 @@ serializeProps({ title: "Dashboard", columns: 3, disabled: true });
 ### Types
 
 ```typescript
-import type { GeneratedFile, CodeGenerator } from '@json-render/codegen';
+import type { GeneratedFile, CodeGenerator } from '@tanstack-json-render/codegen';
 
 // Implement your own code generator
 const myGenerator: CodeGenerator = {
@@ -84,8 +84,8 @@ import {
   traverseSpec,
   serializeProps,
   type GeneratedFile 
-} from '@json-render/codegen';
-import type { Spec } from '@json-render/core';
+} from '@tanstack-json-render/codegen';
+import type { Spec } from '@tanstack-json-render/core';
 
 export function generateNextJSProject(spec: Spec): GeneratedFile[] {
   const files: GeneratedFile[] = [];

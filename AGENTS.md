@@ -36,7 +36,7 @@ This ensures we don't install outdated versions that may have incompatible types
 - Use `@tanstack/ai-openrouter` with `openRouterText()` adapter for multi-provider routing
 - Default model: `claude-haiku-4-5-20251001` via `anthropicText()`
 - Environment variables: `ANTHROPIC_API_KEY` for Anthropic API key
-- For simple generate endpoints, use `streamToTextResponse()` from `@json-render/core`
+- For simple generate endpoints, use `streamToTextResponse()` from `@tanstack-json-render/core`
 - For chat endpoints with tools, use `chat()` + `toServerSentEventsResponse()`
 - Tool definitions use `toolDefinition({ name, description, inputSchema }).server(fn)`
 
@@ -90,7 +90,7 @@ This monorepo uses [Changesets](https://github.com/changesets/changesets) for ve
 
 ### Fixed version group
 
-All public `@json-render/*` packages are in a **fixed** group (see `.changeset/config.json`). A changeset that bumps any one of them bumps all of them to the same version. You only need to list the packages that actually changed in the changeset front matter — the fixed group handles the rest.
+All public `@tanstack-json-render/*` packages are in a **fixed** group (see `.changeset/config.json`). A changeset that bumps any one of them bumps all of them to the same version. You only need to list the packages that actually changed in the changeset front matter — the fixed group handles the rest.
 
 ### Preparing a release
 
@@ -99,7 +99,7 @@ When asked to prepare a release (e.g. "prepare v0.12.0"):
 1. **Create a changeset file** at `.changeset/v0-<N>-release.md` following the existing pattern:
    - YAML front matter listing changed packages with bump type (`minor` for feature releases, `patch` for bug-fix-only releases)
    - A one-line summary, then `### New:` / `### Improved:` / `### Fixed:` sections describing each change
-   - Always list `@json-render/core` plus any packages with actual code changes
+   - Always list `@tanstack-json-render/core` plus any packages with actual code changes
 2. **Do NOT bump versions** in `package.json` files — CI runs `pnpm ci:version` (which calls `changeset version`) to do that automatically
 3. **Do NOT manually write `CHANGELOG.md`** entries — `changeset version` generates them from the changeset file
 4. **Add new packages to the fixed group** in `.changeset/config.json` if they should be versioned together with the rest

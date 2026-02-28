@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
 import { defineComponent, h, ref, type Component } from "vue";
 import { mount } from "@vue/test-utils";
-import { SPEC_DATA_PART_TYPE } from "@json-render/core";
+import { SPEC_DATA_PART_TYPE } from "@tanstack-json-render/core";
 import { StateProvider, useStateStore } from "./composables/state";
 import {
   flatToTree,

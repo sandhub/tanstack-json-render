@@ -2,8 +2,8 @@
 
 import { useState, useEffect, useCallback, type ReactNode } from "react";
 import ConfettiExplosion from "react-confetti-explosion";
-import { JSONUIProvider, Renderer } from "@json-render/react";
-import type { Spec } from "@json-render/core";
+import { JSONUIProvider, Renderer } from "@tanstack-json-render/react";
+import type { Spec } from "@tanstack-json-render/core";
 import {
   registry,
   actionHandlers,

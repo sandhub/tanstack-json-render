@@ -12,7 +12,7 @@ This guide covers breaking changes introduced in v0.6.0 and how to update your c
 **Before:**
 
 ```tsx
-import { DataProvider } from "@json-render/react";
+import { DataProvider } from "@tanstack-json-render/react";
 
 <DataProvider data={myData} getValue={getter} setValue={setter}>
   {children}
@@ -22,7 +22,7 @@ import { DataProvider } from "@json-render/react";
 **After:**
 
 ```tsx
-import { StateProvider } from "@json-render/react";
+import { StateProvider } from "@tanstack-json-render/react";
 
 <StateProvider initialState={myData} onStateChange={(path, value) => console.log(path, value)}>
   {children}
@@ -285,7 +285,7 @@ The `repeat` field now uses `statePath` instead of `path`.
 **Before:**
 
 ```typescript
-import { createCatalog, generateSystemPrompt } from "@json-render/core";
+import { createCatalog, generateSystemPrompt } from "@tanstack-json-render/core";
 
 const catalog = createCatalog({
   name: "my-app",
@@ -299,8 +299,8 @@ const prompt = generateSystemPrompt(catalog);
 **After:**
 
 ```typescript
-import { defineCatalog } from "@json-render/core";
-import { schema } from "@json-render/react/schema";
+import { defineCatalog } from "@tanstack-json-render/core";
+import { schema } from "@tanstack-json-render/react/schema";
 
 const catalog = defineCatalog(schema, {
   components: { /* ... */ },
@@ -377,7 +377,7 @@ The `auth` prop has been removed from `VisibilityProvider`. Auth state should be
 **Before:**
 
 ```typescript
-import { traverseTree } from "@json-render/codegen";
+import { traverseTree } from "@tanstack-json-render/codegen";
 
 traverseTree(tree, (element) => {
   // ...
@@ -387,7 +387,7 @@ traverseTree(tree, (element) => {
 **After:**
 
 ```typescript
-import { traverseSpec } from "@json-render/codegen";
+import { traverseSpec } from "@tanstack-json-render/codegen";
 
 traverseSpec(spec, (element, key) => {
   // ...
@@ -420,7 +420,7 @@ Action params in specs now use `statePath` instead of `path`.
 
 ## Removed Exports
 
-The following exports have been removed from `@json-render/core`:
+The following exports have been removed from `@tanstack-json-render/core`:
 
 <table>
   <thead>

@@ -1,5 +1,5 @@
 {
-  "name": "@json-render/jotai",
+  "name": "@tanstack-json-render/jotai",
   "version": "0.11.0",
   "license": "Apache-2.0",
   "description": "Jotai adapter for json-render StateStore",
@@ -40,7 +40,7 @@
     "check-types": "tsc --noEmit"
   },
   "dependencies": {
-    "@json-render/core": "workspace:*"
+    "@tanstack-json-render/core": "workspace:*"
   },
   "peerDependencies": {
     "jotai": ">=2.0.0"

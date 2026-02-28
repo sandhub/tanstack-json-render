@@ -1,7 +1,7 @@
 import { pageMetadata } from "@/lib/page-metadata"
 export const metadata = pageMetadata("docs/api/remotion")
 
-# @json-render/remotion
+# @tanstack-json-render/remotion
 
 Remotion video renderer. Turn JSON timeline specs into video compositions.
 
@@ -10,8 +10,8 @@ Remotion video renderer. Turn JSON timeline specs into video compositions.
 The timeline schema for video specs. Use with `defineCatalog` from core.
 
 ```typescript
-import { defineCatalog } from '@json-render/core';
-import { schema, standardComponentDefinitions } from '@json-render/remotion';
+import { defineCatalog } from '@tanstack-json-render/core';
+import { schema, standardComponentDefinitions } from '@tanstack-json-render/remotion';
 
 const catalog = defineCatalog(schema, {
   components: standardComponentDefinitions,
@@ -26,7 +26,7 @@ The main composition component that renders timeline specs. Use with Remotion's 
 
 ```tsx
 import { Player } from '@remotion/player';
-import { Renderer } from '@json-render/remotion';
+import { Renderer } from '@tanstack-json-render/remotion';
 
 function VideoPlayer({ spec }) {
   return (
@@ -48,7 +48,7 @@ function VideoPlayer({ spec }) {
 Pass custom components to the Renderer:
 
 ```tsx
-import { Renderer, standardComponents } from '@json-render/remotion';
+import { Renderer, standardComponents } from '@tanstack-json-render/remotion';
 
 const customComponents = {
   ...standardComponents,
@@ -78,7 +78,7 @@ import {
   TypingText,     // Terminal typing animation
   LogoBug,        // Corner logo watermark
   VideoClip,      // Video playback
-} from '@json-render/remotion';
+} from '@tanstack-json-render/remotion';
 ```
 
 ### TitleCard Props
@@ -116,7 +116,7 @@ import {
   standardComponentDefinitions,   // All standard component definitions
   standardTransitionDefinitions,  // fade, slideLeft, slideRight, etc.
   standardEffectDefinitions,      // kenBurns, pulseGlow, colorShift
-} from '@json-render/remotion';
+} from '@tanstack-json-render/remotion';
 
 // Use in your catalog
 const catalog = defineCatalog(schema, {
@@ -136,7 +136,7 @@ const catalog = defineCatalog(schema, {
 Calculate transition styles for a clip based on current frame:
 
 ```typescript
-import { useTransition } from '@json-render/remotion';
+import { useTransition } from '@tanstack-json-render/remotion';
 import { useCurrentFrame } from 'remotion';
 
 function MyComponent({ clip }) {
@@ -159,7 +159,7 @@ function MyComponent({ clip }) {
 Automatically apply transitions to clip content:
 
 ```tsx
-import { ClipWrapper } from '@json-render/remotion';
+import { ClipWrapper } from '@tanstack-json-render/remotion';
 
 function MyClip({ clip }) {
   return (

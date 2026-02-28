@@ -1,5 +1,5 @@
 import type { ComponentType, ReactNode } from "react";
-import type { UIElement } from "@json-render/core";
+import type { UIElement } from "@tanstack-json-render/core";
 
 export interface ComponentRenderProps<P = Record<string, unknown>> {
   element: UIElement<string, P>;

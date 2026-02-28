@@ -3,7 +3,7 @@ import type {
   Catalog,
   InferCatalogComponents,
   InferComponentProps,
-} from "@json-render/core";
+} from "@tanstack-json-render/core";
 
 // =============================================================================
 // Remotion-specific Types

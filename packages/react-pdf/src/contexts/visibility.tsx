@@ -8,7 +8,7 @@ import {
   evaluateVisibility,
   type VisibilityCondition,
   type VisibilityContext as CoreVisibilityContext,
-} from "@json-render/core";
+} from "@tanstack-json-render/core";
 import { useStateStore } from "./state";
 
 export interface VisibilityContextValue {

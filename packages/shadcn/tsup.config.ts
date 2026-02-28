@@ -9,8 +9,8 @@ export default defineConfig({
   external: [
     "react",
     "react-dom",
-    "@json-render/core",
-    "@json-render/react",
+    "@tanstack-json-render/core",
+    "@tanstack-json-render/react",
     "zod",
   ],
 });

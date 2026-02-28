@@ -1,6 +1,6 @@
 import { h } from "vue";
-import type { Components } from "@json-render/vue";
-import { useBoundProp } from "@json-render/vue";
+import type { Components } from "@tanstack-json-render/vue";
+import { useBoundProp } from "@tanstack-json-render/vue";
 import type { AppCatalog } from "./catalog";
 
 export const components: Components<AppCatalog> = {

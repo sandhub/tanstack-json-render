@@ -22,8 +22,8 @@ That is what json-render does. You define a **catalog** of components and action
 A catalog declares what AI can use: components with typed props, actions with typed params.
 
 ```typescript
-import { defineCatalog } from '@json-render/core';
-import { schema } from '@json-render/react/schema';
+import { defineCatalog } from '@tanstack-json-render/core';
+import { schema } from '@tanstack-json-render/react/schema';
 import { z } from 'zod';
 
 export const catalog = defineCatalog(schema, {
@@ -72,7 +72,7 @@ Given a prompt like "show me a revenue dashboard", AI outputs a JSON spec — a 
 Map catalog types to real components with a registry, then render the spec:
 
 ```tsx
-import { Renderer, StateProvider, VisibilityProvider } from '@json-render/react';
+import { Renderer, StateProvider, VisibilityProvider } from '@tanstack-json-render/react';
 
 <StateProvider initialState={{}}>
   <VisibilityProvider>

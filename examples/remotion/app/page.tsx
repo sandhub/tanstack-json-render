@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, useCallback, useRef, useEffect } from "react";
-import { createSpecStreamCompiler } from "@json-render/core";
+import { createSpecStreamCompiler } from "@tanstack-json-render/core";
 import { Player, PlayerRef } from "@remotion/player";
-import { Renderer, type TimelineSpec } from "@json-render/remotion";
+import { Renderer, type TimelineSpec } from "@tanstack-json-render/remotion";
 import { createHighlighter, type Highlighter } from "shiki";
 
 /**
@@ -252,7 +252,7 @@ export default function Home() {
       {/* Hero */}
       <section className="max-w-5xl mx-auto px-6 pt-24 pb-16 text-center">
         <div className="text-xs font-mono text-muted-foreground mb-4">
-          @json-render/remotion
+          @tanstack-json-render/remotion
         </div>
         <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold tracking-tighter mb-6">
           AI &rarr; json-render &rarr; Video

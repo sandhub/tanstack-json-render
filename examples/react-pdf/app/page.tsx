@@ -2,8 +2,8 @@
 
 import { useState, useCallback, useRef, useEffect } from "react";
 import { examples } from "@/lib/examples";
-import { createSpecStreamCompiler } from "@json-render/core";
-import type { Spec } from "@json-render/core";
+import { createSpecStreamCompiler } from "@tanstack-json-render/core";
+import type { Spec } from "@tanstack-json-render/core";
 import { cn } from "@/lib/utils";
 
 import { ScrollArea } from "@/components/ui/scroll-area";

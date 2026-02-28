@@ -11,8 +11,8 @@
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.3",
-    "@json-render/core": "workspace:*",
-    "@json-render/react-native": "workspace:*",
+    "@tanstack-json-render/core": "workspace:*",
+    "@tanstack-json-render/react-native": "workspace:*",
     "@tanstack/ai": "^0.6.1",
     "@tanstack/ai-anthropic": "^0.6.0",
     "expo": "~54.0.33",

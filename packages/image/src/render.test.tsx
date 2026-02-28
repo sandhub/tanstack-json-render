@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import type { Spec } from "@json-render/core";
+import type { Spec } from "@tanstack-json-render/core";
 import { renderToSvg, renderToPng } from "./render";
 
 const minimalSpec: Spec = {

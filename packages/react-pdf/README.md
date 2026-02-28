@@ -1,11 +1,11 @@
-# @json-render/react-pdf
+# @tanstack-json-render/react-pdf
 
-React PDF renderer for `@json-render/core`. Generate PDF documents from JSON specs using `@react-pdf/renderer`.
+React PDF renderer for `@tanstack-json-render/core`. Generate PDF documents from JSON specs using `@react-pdf/renderer`.
 
 ## Install
 
 ```bash
-npm install @json-render/core @json-render/react-pdf
+npm install @tanstack-json-render/core @tanstack-json-render/react-pdf
 ```
 
 ## Quick Start
@@ -13,8 +13,8 @@ npm install @json-render/core @json-render/react-pdf
 ### Render a spec to a PDF buffer
 
 ```typescript
-import { renderToBuffer } from "@json-render/react-pdf";
-import type { Spec } from "@json-render/core";
+import { renderToBuffer } from "@tanstack-json-render/react-pdf";
+import type { Spec } from "@tanstack-json-render/core";
 
 const spec: Spec = {
   root: "doc",
@@ -53,9 +53,9 @@ const buffer = await renderToBuffer(spec);
 ### With a custom catalog
 
 ```typescript
-import { defineCatalog } from "@json-render/core";
-import { schema, defineRegistry, renderToBuffer } from "@json-render/react-pdf";
-import { standardComponentDefinitions } from "@json-render/react-pdf/catalog";
+import { defineCatalog } from "@tanstack-json-render/core";
+import { schema, defineRegistry, renderToBuffer } from "@tanstack-json-render/react-pdf";
+import { standardComponentDefinitions } from "@tanstack-json-render/react-pdf/catalog";
 import { z } from "zod";
 
 const catalog = defineCatalog(schema, {
@@ -135,7 +135,7 @@ const buffer = await renderToBuffer(spec, { registry });
 ## Server-Side APIs
 
 ```typescript
-import { renderToBuffer, renderToStream, renderToFile } from "@json-render/react-pdf";
+import { renderToBuffer, renderToStream, renderToFile } from "@tanstack-json-render/react-pdf";
 
 // Render to an in-memory Buffer
 const buffer = await renderToBuffer(spec);
@@ -159,7 +159,7 @@ All render functions accept an optional second argument with:
 For full control over state, pass a `StateStore` to `StateProvider`, `JSONUIProvider`, or `createRenderer`. When `store` is provided, `initialState` and `onStateChange` are ignored and the store is the single source of truth:
 
 ```tsx
-import { createStateStore, type StateStore } from "@json-render/react-pdf";
+import { createStateStore, type StateStore } from "@tanstack-json-render/react-pdf";
 
 const store = createStateStore({ invoice: { total: 100 } });
 
@@ -172,7 +172,7 @@ store.set("/invoice/total", 200);
 Import schema and catalog definitions without pulling in React:
 
 ```typescript
-import { schema, standardComponentDefinitions } from "@json-render/react-pdf/server";
+import { schema, standardComponentDefinitions } from "@tanstack-json-render/react-pdf/server";
 ```
 
 ## License

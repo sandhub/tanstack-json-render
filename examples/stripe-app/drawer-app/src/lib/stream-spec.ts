@@ -1,4 +1,4 @@
-import type { Spec } from "@json-render/react";
+import type { Spec } from "@tanstack-json-render/react";
 
 interface JsonPatch {
   op: string;

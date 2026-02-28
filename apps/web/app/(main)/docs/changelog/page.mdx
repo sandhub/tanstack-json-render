@@ -9,18 +9,18 @@ Notable changes and updates to json-render.
 
 February 2026
 
-### New: `@json-render/vue`
+### New: `@tanstack-json-render/vue`
 
-Vue 3 renderer for json-render with full feature parity with `@json-render/react`. Data binding, visibility conditions, actions, validation, repeat scopes, streaming, and external store support.
+Vue 3 renderer for json-render with full feature parity with `@tanstack-json-render/react`. Data binding, visibility conditions, actions, validation, repeat scopes, streaming, and external store support.
 
 ```bash
-npm install @json-render/core @json-render/vue
+npm install @tanstack-json-render/core @tanstack-json-render/vue
 ```
 
 ```typescript
 import { h } from "vue";
-import { defineRegistry, Renderer } from "@json-render/vue";
-import { schema } from "@json-render/vue/schema";
+import { defineRegistry, Renderer } from "@tanstack-json-render/vue";
+import { schema } from "@tanstack-json-render/vue/schema";
 
 const { registry } = defineRegistry(catalog, {
   components: {
@@ -36,17 +36,17 @@ Providers: `StateProvider`, `ActionProvider`, `VisibilityProvider`, `ValidationP
 
 See the [Vue API reference](/docs/api/vue) for details.
 
-### New: `@json-render/xstate`
+### New: `@tanstack-json-render/xstate`
 
 [XState Store](https://stately.ai/docs/xstate-store) (atom) adapter for json-render's `StateStore` interface. Wire an `@xstate/store` atom as the state backend for any renderer.
 
 ```bash
-npm install @json-render/xstate @xstate/store
+npm install @tanstack-json-render/xstate @xstate/store
 ```
 
 ```typescript
 import { createAtom } from "@xstate/store";
-import { xstateStoreStateStore } from "@json-render/xstate";
+import { xstateStoreStateStore } from "@tanstack-json-render/xstate";
 
 const atom = createAtom({ count: 0 });
 const store = xstateStoreStateStore({ atom });
@@ -124,7 +124,7 @@ February 2026
 
 ### Fixed: Install failure due to private dependency
 
-`@json-render/react`, `@json-render/react-pdf`, and `@json-render/react-native` v0.9.0 failed to install because `@internal/react-state` (a private workspace package) was published as a dependency. The internal package is now bundled into each renderer at build time, so it no longer needs to be resolved from npm.
+`@tanstack-json-render/react`, `@tanstack-json-render/react-pdf`, and `@tanstack-json-render/react-native` v0.9.0 failed to install because `@internal/react-state` (a private workspace package) was published as a dependency. The internal package is now bundled into each renderer at build time, so it no longer needs to be resolved from npm.
 
 ---
 
@@ -136,14 +136,14 @@ February 2026
 
 The `StateStore` interface lets you plug in your own state management (Redux, Zustand, Jotai, XState, etc.) instead of the built-in internal store. Pass a `store` prop to `StateProvider`, `JSONUIProvider`, or `createRenderer` for controlled mode.
 
-- Added `StateStore` interface and `createStateStore()` factory to `@json-render/core`
+- Added `StateStore` interface and `createStateStore()` factory to `@tanstack-json-render/core`
 - `StateProvider`, `JSONUIProvider`, and `createRenderer` now accept an optional `store` prop
 - When `store` is provided, it becomes the single source of truth (`initialState`/`onStateChange` are ignored)
 - When `store` is omitted, everything works exactly as before (fully backward compatible)
 - Applied across all platform packages: react, react-native, react-pdf
-- Store utilities (`createStoreAdapter`, `immutableSetByPath`, `flattenToPointers`) available via `@json-render/core/store-utils` for building custom adapters
+- Store utilities (`createStoreAdapter`, `immutableSetByPath`, `flattenToPointers`) available via `@tanstack-json-render/core/store-utils` for building custom adapters
 
-New adapter packages: `@json-render/redux`, `@json-render/zustand`, `@json-render/jotai`.
+New adapter packages: `@tanstack-json-render/redux`, `@tanstack-json-render/zustand`, `@tanstack-json-render/jotai`.
 
 See the [Data Binding](/docs/data-binding#external-store-controlled-mode) guide for usage.
 
@@ -163,18 +163,18 @@ The callback is only called when a `set()` or `update()` call actually changes t
 
 ### Fixed: Server-safe schema import
 
-`@json-render/react` barrel-imports React contexts that call `createContext`, which crashes in Next.js App Router API routes (RSC runtime strips `createContext`). All docs, examples, and skills now import `schema` from `@json-render/react/schema` instead of `@json-render/react`.
+`@tanstack-json-render/react` barrel-imports React contexts that call `createContext`, which crashes in Next.js App Router API routes (RSC runtime strips `createContext`). All docs, examples, and skills now import `schema` from `@tanstack-json-render/react/schema` instead of `@tanstack-json-render/react`.
 
 For combined imports, split into separate `schema` (subpath) and client API (main entry) lines:
 
 ```ts
-import { schema } from "@json-render/react/schema";
-import { defineRegistry, Renderer } from "@json-render/react";
+import { schema } from "@tanstack-json-render/react/schema";
+import { defineRegistry, Renderer } from "@tanstack-json-render/react";
 ```
 
 ### Fixed: Chaining actions
 
-Fixed an issue where chaining multiple actions on the same event (e.g. `setState` followed by a custom action) did not execute all actions. Affected `@json-render/react`, `@json-render/react-native`, and `@json-render/react-pdf`.
+Fixed an issue where chaining multiple actions on the same event (e.g. `setState` followed by a custom action) did not execute all actions. Affected `@tanstack-json-render/react`, `@tanstack-json-render/react-native`, and `@tanstack-json-render/react-pdf`.
 
 ### Fixed: Zod array inner type resolution
 
@@ -186,17 +186,17 @@ Fixed safely resolving the inner type for Zod arrays in schema introspection, pr
 
 February 2026
 
-### New: `@json-render/react-pdf`
+### New: `@tanstack-json-render/react-pdf`
 
-PDF renderer for json-render, powered by [`@react-pdf/renderer`](https://react-pdf.org/). Define catalogs and registries the same way as `@json-render/react`, but output PDF documents instead of web UI.
+PDF renderer for json-render, powered by [`@react-pdf/renderer`](https://react-pdf.org/). Define catalogs and registries the same way as `@tanstack-json-render/react`, but output PDF documents instead of web UI.
 
 ```bash
-npm install @json-render/core @json-render/react-pdf
+npm install @tanstack-json-render/core @tanstack-json-render/react-pdf
 ```
 
 ```typescript
-import { renderToBuffer } from "@json-render/react-pdf";
-import type { Spec } from "@json-render/core";
+import { renderToBuffer } from "@tanstack-json-render/react-pdf";
+import type { Spec } from "@tanstack-json-render/core";
 
 const spec: Spec = {
   root: "doc",
@@ -240,7 +240,7 @@ Server-side rendering APIs:
 
 15 standard components covering document structure (Document, Page), layout (View, Row, Column), content (Heading, Text, Image, Link), data (Table, List), decorative (Divider, Spacer), and page-level (PageNumber).
 
-Supports custom catalogs with `defineRegistry`, server-safe imports via `@json-render/react-pdf/server`, and full context support (state, visibility, actions, validation, repeat scopes).
+Supports custom catalogs with `defineRegistry`, server-safe imports via `@tanstack-json-render/react-pdf/server`, and full context support (state, visibility, actions, validation, repeat scopes).
 
 ---
 
@@ -248,20 +248,20 @@ Supports custom catalogs with `defineRegistry`, server-safe imports via `@json-r
 
 February 2026
 
-### New: `@json-render/shadcn`
+### New: `@tanstack-json-render/shadcn`
 
 Pre-built [shadcn/ui](https://ui.shadcn.com/) component library for json-render. 36 components built on Radix UI + Tailwind CSS, ready to use with `defineCatalog` and `defineRegistry`.
 
 ```bash
-npm install @json-render/shadcn
+npm install @tanstack-json-render/shadcn
 ```
 
 ```typescript
-import { defineCatalog } from "@json-render/core";
-import { schema } from "@json-render/react/schema";
-import { shadcnComponentDefinitions } from "@json-render/shadcn/catalog";
-import { defineRegistry } from "@json-render/react";
-import { shadcnComponents } from "@json-render/shadcn";
+import { defineCatalog } from "@tanstack-json-render/core";
+import { schema } from "@tanstack-json-render/react/schema";
+import { shadcnComponentDefinitions } from "@tanstack-json-render/shadcn/catalog";
+import { defineRegistry } from "@tanstack-json-render/react";
+import { shadcnComponents } from "@tanstack-json-render/shadcn";
 
 const catalog = defineCatalog(schema, {
   components: {
@@ -307,10 +307,10 @@ Link: ({ props, on }) => {
 
 ### New: `BaseComponentProps`
 
-Catalog-agnostic base type for component render functions. Use when building reusable component libraries (like `@json-render/shadcn`) that are not tied to a specific catalog.
+Catalog-agnostic base type for component render functions. Use when building reusable component libraries (like `@tanstack-json-render/shadcn`) that are not tied to a specific catalog.
 
 ```typescript
-import type { BaseComponentProps } from "@json-render/react";
+import type { BaseComponentProps } from "@tanstack-json-render/react";
 
 const Card = ({ props, children }: BaseComponentProps<{ title?: string }>) => (
   <div>{props.title}{children}</div>
@@ -354,7 +354,7 @@ const chatPrompt = catalog.prompt({ mode: "chat" });
 On the server, `pipeJsonRender()` separates text from JSONL patches in a mixed stream:
 
 ```typescript
-import { pipeJsonRender } from "@json-render/core";
+import { pipeJsonRender } from "@tanstack-json-render/core";
 import { chat, toServerSentEventsResponse } from "@tanstack/ai";
 import { anthropicText } from "@tanstack/ai-anthropic";
 
@@ -365,7 +365,7 @@ return toServerSentEventsResponse(pipeJsonRender(raw));
 On the client, `useJsonRenderMessage` extracts the spec and text from message parts:
 
 ```tsx
-import { useJsonRenderMessage } from "@json-render/react";
+import { useJsonRenderMessage } from "@tanstack-json-render/react";
 
 function ChatMessage({ message }) {
   const { spec, text, hasSpec } = useJsonRenderMessage(message.parts);
@@ -399,7 +399,7 @@ Props can now use `$bindState` and `$bindItem` expressions for two-way data bind
 ```
 
 ```tsx
-import { useBoundProp } from "@json-render/react";
+import { useBoundProp } from "@tanstack-json-render/react";
 
 Input: ({ props, bindings }) => {
   const [value, setValue] = useBoundProp<string>(props.value, bindings?.value);
@@ -476,18 +476,18 @@ See the [Migration Guide](/docs/migration) for detailed upgrade instructions.
 
 February 2026
 
-### New: @json-render/react-native
+### New: @tanstack-json-render/react-native
 
 Full React Native renderer with 25+ standard components, data binding, visibility, actions, and dynamic props. Build AI-generated native mobile UIs with the same catalog-driven approach as web.
 
 ```tsx
-import { defineCatalog } from "@json-render/core";
-import { schema } from "@json-render/react-native/schema";
+import { defineCatalog } from "@tanstack-json-render/core";
+import { schema } from "@tanstack-json-render/react-native/schema";
 import {
   standardComponentDefinitions,
   standardActionDefinitions,
-} from "@json-render/react-native/catalog";
-import { defineRegistry, Renderer } from "@json-render/react-native";
+} from "@tanstack-json-render/react-native/catalog";
+import { defineRegistry, Renderer } from "@tanstack-json-render/react-native";
 
 const catalog = defineCatalog(schema, {
   components: { ...standardComponentDefinitions },
@@ -543,7 +543,7 @@ Elements can now iterate over state arrays using the `repeat` field. Child eleme
 Build structured user prompts with optional spec refinement and state context:
 
 ```typescript
-import { buildUserPrompt } from "@json-render/core";
+import { buildUserPrompt } from "@tanstack-json-render/core";
 
 // Fresh generation
 buildUserPrompt({ prompt: "create a todo app" });
@@ -560,7 +560,7 @@ buildUserPrompt({ prompt: "show data", state: { todos: [] } });
 Validate spec structure and auto-fix common issues:
 
 ```typescript
-import { validateSpec, autoFixSpec } from "@json-render/core";
+import { validateSpec, autoFixSpec } from "@tanstack-json-render/core";
 
 const { valid, issues } = validateSpec(spec);
 const fixed = autoFixSpec(spec);
@@ -600,7 +600,7 @@ February 2026
 Create custom output formats with `defineSchema`. Each renderer now defines its own schema, enabling completely different spec formats for different use cases.
 
 ```typescript
-import { defineSchema } from "@json-render/core";
+import { defineSchema } from "@tanstack-json-render/core";
 
 const mySchema = defineSchema((s) => ({
   spec: s.object({
@@ -643,8 +643,8 @@ const catalog = defineCatalog(schema, {
 Catalogs now generate AI system prompts automatically with `catalog.prompt()`. The prompt includes all component definitions, props schemas, and action descriptions - ensuring the AI only generates valid specs.
 
 ```typescript
-import { defineCatalog } from "@json-render/core";
-import { schema } from "@json-render/react/schema";
+import { defineCatalog } from "@tanstack-json-render/core";
+import { schema } from "@tanstack-json-render/react/schema";
 
 const catalog = defineCatalog(schema, {
   components: { /* ... */ },
@@ -662,13 +662,13 @@ const result = await streamText({
 });
 ```
 
-### New: @json-render/remotion
+### New: @tanstack-json-render/remotion
 
 Generate AI-powered videos with Remotion. Define video catalogs, stream timeline specs, and render with the Remotion Player.
 
 ```tsx
 import { Player } from "@remotion/player";
-import { Renderer, schema, standardComponentDefinitions } from "@json-render/remotion";
+import { Renderer, schema, standardComponentDefinitions } from "@tanstack-json-render/remotion";
 
 const catalog = defineCatalog(schema, {
   components: standardComponentDefinitions,
@@ -692,7 +692,7 @@ Includes 10 standard video components (TitleCard, TypingText, SplitScreen, etc.)
 SpecStream is json-render's streaming format for progressively building specs from JSONL patches. The new compiler API makes it easy to process streaming AI responses.
 
 ```typescript
-import { createSpecStreamCompiler } from "@json-render/core";
+import { createSpecStreamCompiler } from "@tanstack-json-render/core";
 
 const compiler = createSpecStreamCompiler<MySpec>();
 
@@ -721,7 +721,7 @@ The dashboard example is now a full-featured accounting dashboard with:
 ### Breaking Changes
 
 - `UITree` type renamed to `Spec`
-- Schema is now imported from renderer packages (`@json-render/react`) not core
+- Schema is now imported from renderer packages (`@tanstack-json-render/react`) not core
 - `defineCatalog` now requires a schema as first argument
 
 ---
@@ -732,11 +732,11 @@ January 2026
 
 Internal release with codegen foundations.
 
-- Added `@json-render/codegen` package (spec traversal and JSX serialization)
+- Added `@tanstack-json-render/codegen` package (spec traversal and JSX serialization)
 - Configurable AI model via environment variables
 - Documentation improvements and bug fixes
 
-*Note: Only @json-render/core was published to npm for this release.*
+*Note: Only @tanstack-json-render/core was published to npm for this release.*
 
 ---
 

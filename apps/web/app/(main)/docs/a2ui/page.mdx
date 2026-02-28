@@ -3,7 +3,7 @@ export const metadata = pageMetadata("docs/a2ui")
 
 # A2UI Integration
 
-Use `@json-render/core` to support [A2UI](https://a2ui.org) natively.
+Use `@tanstack-json-render/core` to support [A2UI](https://a2ui.org) natively.
 
 <div className="rounded-lg border border-amber-500/50 bg-amber-500/10 p-4 mb-8">
   <p className="text-sm text-amber-700 dark:text-amber-300">
@@ -13,7 +13,7 @@ Use `@json-render/core` to support [A2UI](https://a2ui.org) natively.
 
 ## Native A2UI Support
 
-`@json-render/core` is schema-agnostic. Define a catalog that matches A2UI's format and build a renderer that understands it - no conversion layer needed.
+`@tanstack-json-render/core` is schema-agnostic. Define a catalog that matches A2UI's format and build a renderer that understands it - no conversion layer needed.
 
 ## Example A2UI Message
 
@@ -66,8 +66,8 @@ A2UI uses an adjacency list model - a flat list of components with ID references
 ## Define the A2UI Catalog
 
 ```typescript
-import { defineCatalog } from '@json-render/core';
-import { schema } from '@json-render/react/schema';
+import { defineCatalog } from '@tanstack-json-render/core';
+import { schema } from '@tanstack-json-render/react/schema';
 import { z } from 'zod';
 
 // A2UI BoundValue schema

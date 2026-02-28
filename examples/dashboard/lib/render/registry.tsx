@@ -1,8 +1,8 @@
 "use client";
 
 import { toast } from "sonner";
-import { findFormValue } from "@json-render/core";
-import { useBoundProp, defineRegistry } from "@json-render/react";
+import { findFormValue } from "@tanstack-json-render/core";
+import { useBoundProp, defineRegistry } from "@tanstack-json-render/react";
 import {
   Bar,
   BarChart as RechartsBarChart,

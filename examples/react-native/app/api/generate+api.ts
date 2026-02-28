@@ -1,6 +1,9 @@
 import { chat } from "@tanstack/ai";
 import { anthropicText } from "@tanstack/ai-anthropic";
-import { buildUserPrompt, streamToTextResponse } from "@json-render/core";
+import {
+  buildUserPrompt,
+  streamToTextResponse,
+} from "@tanstack-json-render/core";
 import { catalog, customRules } from "../../lib/render/catalog";
 
 const SYSTEM_PROMPT = catalog.prompt({ customRules });

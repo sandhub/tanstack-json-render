@@ -1,5 +1,5 @@
 import { createApp, type App } from "vue";
-import type { Spec } from "@json-render/core";
+import type { Spec } from "@tanstack-json-render/core";
 import VueApp from "./App.vue";
 
 let app: App | null = null;

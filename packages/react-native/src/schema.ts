@@ -1,7 +1,7 @@
-import { defineSchema } from "@json-render/core";
+import { defineSchema } from "@tanstack-json-render/core";
 
 /**
- * The schema for @json-render/react-native
+ * The schema for @tanstack-json-render/react-native
  *
  * Defines:
  * - Spec: A flat tree of elements with keys, types, props, and children references

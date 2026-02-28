@@ -18,7 +18,7 @@ While json-render is designed for dynamic rendering, you can export generated UI
 
 Code export is split into two parts:
 
-### 1. @json-render/codegen (utilities)
+### 1. @tanstack-json-render/codegen (utilities)
 
 Framework-agnostic utilities for building code generators:
 
@@ -29,7 +29,7 @@ import {
   collectStatePaths,      // Get all data binding paths
   collectActions,        // Get all action names
   serializeProps,        // Convert props to JSX string
-} from '@json-render/codegen';
+} from '@tanstack-json-render/codegen';
 ```
 
 ### 2. Your Project (generator)
@@ -38,7 +38,7 @@ Custom code generator specific to your project and framework:
 
 ```typescript
 // lib/codegen/generator.ts
-import { collectUsedComponents, serializeProps } from '@json-render/codegen';
+import { collectUsedComponents, serializeProps } from '@tanstack-json-render/codegen';
 
 export function generateNextJSProject(spec: Spec): GeneratedFile[] {
   const components = collectUsedComponents(spec);
@@ -91,7 +91,7 @@ export function Metric({ label, statePath, data }: MetricProps) {
 ### traverseSpec
 
 ```typescript
-import { traverseSpec } from '@json-render/codegen';
+import { traverseSpec } from '@tanstack-json-render/codegen';
 
 traverseSpec(spec, (element, key, depth, parent) => {
   console.log(' '.repeat(depth * 2) + `${key}: ${element.type}`);
@@ -101,7 +101,7 @@ traverseSpec(spec, (element, key, depth, parent) => {
 ### collectUsedComponents
 
 ```typescript
-import { collectUsedComponents } from '@json-render/codegen';
+import { collectUsedComponents } from '@tanstack-json-render/codegen';
 
 const components = collectUsedComponents(spec);
 // Set { 'Card', 'Metric', 'Chart', 'Table' }
@@ -118,7 +118,7 @@ for (const component of components) {
 ### serializeProps
 
 ```typescript
-import { serializeProps } from '@json-render/codegen';
+import { serializeProps } from '@tanstack-json-render/codegen';
 
 const propsStr = serializeProps({
   title: 'Dashboard',

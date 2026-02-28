@@ -21,7 +21,7 @@ In generate mode, the AI outputs only JSONL patches. The entire response is a UI
 // app/api/generate/route.ts
 import { chat } from "@tanstack/ai";
 import { anthropicText } from "@tanstack/ai-anthropic";
-import { streamToTextResponse } from "@json-render/core";
+import { streamToTextResponse } from "@tanstack-json-render/core";
 import { catalog } from "@/lib/catalog";
 
 export async function POST(req: Request) {
@@ -52,7 +52,7 @@ Use `useUIStream` on the client to compile the JSONL stream into a spec:
 ```tsx
 "use client";
 
-import { useUIStream, Renderer } from "@json-render/react";
+import { useUIStream, Renderer } from "@tanstack-json-render/react";
 
 function GenerativeUI() {
   const { spec, isStreaming, error, send } = useUIStream({
@@ -88,7 +88,7 @@ Use `pipeJsonRender` to separate text from JSONL patches in the stream. Patches 
 // app/api/chat/route.ts
 import { chat } from "@tanstack/ai";
 import { anthropicText } from "@tanstack/ai-anthropic";
-import { pipeJsonRender } from "@json-render/core";
+import { pipeJsonRender } from "@tanstack-json-render/core";
 import {
   createUIMessageStream,
   createUIMessageStreamResponse,
@@ -123,7 +123,7 @@ Use `useChat` from TanStack AI React and `useJsonRenderMessage` from json-render
 "use client";
 
 import { useChat, fetchServerSentEvents } from "@tanstack/ai-react";
-import { useJsonRenderMessage, Renderer } from "@json-render/react";
+import { useJsonRenderMessage, Renderer } from "@tanstack-json-render/react";
 
 function Chat() {
   const { messages, input, handleInputChange, handleSubmit } = useChat({

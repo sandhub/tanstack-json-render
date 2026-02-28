@@ -1,6 +1,6 @@
 import { chat } from "@tanstack/ai";
 import { anthropicText } from "@tanstack/ai-anthropic";
-import { streamToTextResponse } from "@json-render/core";
+import { streamToTextResponse } from "@tanstack-json-render/core";
 import { getVideoPrompt } from "@/lib/catalog";
 
 export const maxDuration = 30;

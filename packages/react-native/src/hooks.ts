@@ -4,7 +4,7 @@ import type {
   UIElement,
   FlatElement,
   JsonPatch,
-} from "@json-render/core";
+} from "@tanstack-json-render/core";
 import {
   setByPath,
   getByPath,
@@ -12,7 +12,7 @@ import {
   validateSpec,
   autoFixSpec,
   formatSpecIssues,
-} from "@json-render/core";
+} from "@tanstack-json-render/core";
 import { useStateStore } from "./contexts/state";
 
 // =============================================================================

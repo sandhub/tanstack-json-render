@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import type { Spec } from "@json-render/core";
+import type { Spec } from "@tanstack-json-render/core";
 import {
   StateProvider,
   ActionProvider,
@@ -8,7 +8,7 @@ import {
   Renderer,
   defineRegistry,
   useStateStore,
-} from "@json-render/react";
+} from "@tanstack-json-render/react";
 import { catalog } from "./catalog";
 import { components } from "./registry";
 import { actionStubs, makeHandlers } from "../shared/handlers";

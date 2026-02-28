@@ -1,23 +1,23 @@
-# @json-render/shadcn
+# @tanstack-json-render/shadcn
 
 Pre-built [shadcn/ui](https://ui.shadcn.com/) components for json-render. Drop-in catalog definitions and React implementations for 36 components built on Radix UI + Tailwind CSS.
 
 ## Installation
 
 ```bash
-npm install @json-render/shadcn @json-render/core @json-render/react zod
+npm install @tanstack-json-render/shadcn @tanstack-json-render/core @tanstack-json-render/react zod
 ```
 
 ## Quick Start
 
 ### 1. Create a Catalog
 
-Import standard definitions from `@json-render/shadcn/catalog` and pass them to `defineCatalog`:
+Import standard definitions from `@tanstack-json-render/shadcn/catalog` and pass them to `defineCatalog`:
 
 ```typescript
-import { defineCatalog } from "@json-render/core";
-import { schema } from "@json-render/react/schema";
-import { shadcnComponentDefinitions } from "@json-render/shadcn/catalog";
+import { defineCatalog } from "@tanstack-json-render/core";
+import { schema } from "@tanstack-json-render/react/schema";
+import { shadcnComponentDefinitions } from "@tanstack-json-render/shadcn/catalog";
 
 const catalog = defineCatalog(schema, {
   components: {
@@ -36,11 +36,11 @@ const catalog = defineCatalog(schema, {
 
 ### 2. Create a Registry
 
-Import standard implementations from `@json-render/shadcn` and pass them to `defineRegistry`:
+Import standard implementations from `@tanstack-json-render/shadcn` and pass them to `defineRegistry`:
 
 ```typescript
-import { defineRegistry } from "@json-render/react";
-import { shadcnComponents } from "@json-render/shadcn";
+import { defineRegistry } from "@tanstack-json-render/react";
+import { shadcnComponents } from "@tanstack-json-render/shadcn";
 
 const { registry } = defineRegistry(catalog, {
   components: {
@@ -56,7 +56,7 @@ const { registry } = defineRegistry(catalog, {
 ### 3. Render
 
 ```tsx
-import { Renderer } from "@json-render/react";
+import { Renderer } from "@tanstack-json-render/react";
 
 function App({ spec }) {
   return <Renderer spec={spec} registry={registry} />;
@@ -180,7 +180,7 @@ const { registry } = defineRegistry(catalog, {
 
 ## Built-in Actions
 
-State actions (`setState`, `pushState`, `removeState`, `validateForm`) are built into the `@json-render/react` schema and handled automatically by `ActionProvider`. They are included in prompts without needing to be declared in your catalog.
+State actions (`setState`, `pushState`, `removeState`, `validateForm`) are built into the `@tanstack-json-render/react` schema and handled automatically by `ActionProvider`. They are included in prompts without needing to be declared in your catalog.
 
 | Action | Description |
 |--------|-------------|
@@ -203,7 +203,7 @@ All form components support the `validateOn` prop to control when validation run
 
 | Entry Point | Exports |
 |-------------|---------|
-| `@json-render/shadcn` | `shadcnComponents` |
-| `@json-render/shadcn/catalog` | `shadcnComponentDefinitions` |
+| `@tanstack-json-render/shadcn` | `shadcnComponents` |
+| `@tanstack-json-render/shadcn/catalog` | `shadcnComponentDefinitions` |
 
 The `/catalog` entry point contains only Zod schemas (no React dependency), so it can be used in server-side code for prompt generation.

@@ -1,11 +1,11 @@
-# @json-render/react-native
+# @tanstack-json-render/react-native
 
 React Native renderer for json-render. Turn JSON specs into native mobile UIs with standard components, data binding, visibility, actions, and dynamic props.
 
 ## Installation
 
 ```bash
-npm install @json-render/react-native @json-render/core zod
+npm install @tanstack-json-render/react-native @tanstack-json-render/core zod
 ```
 
 ## Quick Start
@@ -13,12 +13,12 @@ npm install @json-render/react-native @json-render/core zod
 ### 1. Create a Catalog
 
 ```typescript
-import { defineCatalog } from "@json-render/core";
-import { schema } from "@json-render/react-native/schema";
+import { defineCatalog } from "@tanstack-json-render/core";
+import { schema } from "@tanstack-json-render/react-native/schema";
 import {
   standardComponentDefinitions,
   standardActionDefinitions,
-} from "@json-render/react-native/catalog";
+} from "@tanstack-json-render/react-native/catalog";
 import { z } from "zod";
 
 export const catalog = defineCatalog(schema, {
@@ -42,7 +42,7 @@ export const catalog = defineCatalog(schema, {
 ### 2. Define Custom Component Implementations
 
 ```tsx
-import { defineRegistry, type Components } from "@json-render/react-native";
+import { defineRegistry, type Components } from "@tanstack-json-render/react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { catalog } from "./catalog";
 
@@ -70,7 +70,7 @@ import {
   VisibilityProvider,
   ActionProvider,
   ValidationProvider,
-} from "@json-render/react-native";
+} from "@tanstack-json-render/react-native";
 import { registry } from "./registry";
 
 function App({ spec }) {
@@ -143,7 +143,7 @@ function App({ spec }) {
 
 ## Visibility Conditions
 
-Elements can use `visible` to show/hide based on state. Same syntax as [@json-render/react](../react/README.md#visibility-conditions): `{ "$state": "/path" }`, `{ "$state": "/path", "eq": value }`, `{ "$state": "/path", "not": true }`, or `[ cond1, cond2 ]` for AND.
+Elements can use `visible` to show/hide based on state. Same syntax as [@tanstack-json-render/react](../react/README.md#visibility-conditions): `{ "$state": "/path" }`, `{ "$state": "/path", "eq": value }`, `{ "$state": "/path", "not": true }`, or `[ cond1, cond2 ]` for AND.
 
 ## Pressable Component
 
@@ -193,7 +193,7 @@ Any prop value can be a dynamic expression resolved at render time:
 }
 ```
 
-See [@json-render/core](../core/README.md) for full expression syntax.
+See [@tanstack-json-render/core](../core/README.md) for full expression syntax.
 
 ## Tab Navigation Pattern
 
@@ -219,7 +219,7 @@ const systemPrompt = catalog.prompt({
 For full control over state, pass a `StateStore` to bypass the internal state and wire json-render to any state management library (Redux, Zustand, XState, etc.):
 
 ```tsx
-import { createStateStore, type StateStore } from "@json-render/react-native";
+import { createStateStore, type StateStore } from "@tanstack-json-render/react-native";
 
 // Use the built-in store outside of React
 const store = createStateStore({ count: 0 });

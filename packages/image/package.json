@@ -1,8 +1,8 @@
 {
-  "name": "@json-render/image",
+  "name": "@tanstack-json-render/image",
   "version": "0.11.0",
   "license": "Apache-2.0",
-  "description": "Image renderer for @json-render/core. JSON becomes SVG and PNG images via Satori.",
+  "description": "Image renderer for @tanstack-json-render/core. JSON becomes SVG and PNG images via Satori.",
   "keywords": [
     "json",
     "image",
@@ -62,7 +62,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@json-render/core": "workspace:*",
+    "@tanstack-json-render/core": "workspace:*",
     "satori": "^0.19.2"
   },
   "devDependencies": {

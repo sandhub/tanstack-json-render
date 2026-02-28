@@ -3,7 +3,7 @@ import type {
   InferCatalogComponents,
   InferComponentProps,
   StateModel,
-} from "@json-render/core";
+} from "@tanstack-json-render/core";
 
 export type { StateModel };
 

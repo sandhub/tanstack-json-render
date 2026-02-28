@@ -7,5 +7,5 @@ export default defineConfig({
   sourcemap: true,
   clean: true,
   noExternal: ["@internal/react-state"],
-  external: ["react", "react-dom", "@json-render/core"],
+  external: ["react", "react-dom", "@tanstack-json-render/core"],
 });

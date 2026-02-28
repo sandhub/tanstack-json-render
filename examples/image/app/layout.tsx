@@ -6,7 +6,8 @@ const geist = Geist({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "json-render Image Example",
-  description: "Generate images from JSON specs with @json-render/image",
+  description:
+    "Generate images from JSON specs with @tanstack-json-render/image",
 };
 
 export default function RootLayout({

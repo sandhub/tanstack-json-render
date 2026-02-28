@@ -5,7 +5,7 @@ import {
   collectStatePaths,
   collectActions,
 } from "./traverse";
-import type { Spec } from "@json-render/core";
+import type { Spec } from "@tanstack-json-render/core";
 
 describe("traverseSpec", () => {
   it("visits all elements depth-first", () => {

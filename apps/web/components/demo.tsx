@@ -7,9 +7,12 @@ import React, {
   useRef,
   useMemo,
 } from "react";
-import { useUIStream } from "@json-render/react";
-import type { Spec } from "@json-render/core";
-import { collectUsedComponents, serializeProps } from "@json-render/codegen";
+import { useUIStream } from "@tanstack-json-render/react";
+import type { Spec } from "@tanstack-json-render/core";
+import {
+  collectUsedComponents,
+  serializeProps,
+} from "@tanstack-json-render/codegen";
 import { toast } from "sonner";
 import { CodeBlock } from "./code-block";
 import { CopyButton } from "./copy-button";

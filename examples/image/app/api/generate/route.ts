@@ -4,7 +4,7 @@ import {
   buildUserPrompt,
   streamToTextResponse,
   type Spec,
-} from "@json-render/core";
+} from "@tanstack-json-render/core";
 import { imageCatalog } from "@/lib/catalog";
 
 export const maxDuration = 60;

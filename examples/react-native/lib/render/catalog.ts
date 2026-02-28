@@ -1,16 +1,16 @@
 import { z } from "zod";
-import { defineCatalog } from "@json-render/core";
-import { schema } from "@json-render/react-native/schema";
+import { defineCatalog } from "@tanstack-json-render/core";
+import { schema } from "@tanstack-json-render/react-native/schema";
 import {
   standardComponentDefinitions,
   standardActionDefinitions,
-} from "@json-render/react-native/catalog";
+} from "@tanstack-json-render/react-native/catalog";
 
 /**
  * App-specific custom rules for the AI.
  *
  * Generic React Native rules (layout, tabs, navigation, element integrity)
- * are baked into the @json-render/react-native schema as defaultRules.
+ * are baked into the @tanstack-json-render/react-native schema as defaultRules.
  * Core concepts (initial state, $state, Repeat, pushState/removeState)
  * are covered by the core system prompt.
  *
@@ -32,7 +32,7 @@ export const customRules = [
 /**
  * React Native catalog
  *
- * Uses all standard components and actions from @json-render/react-native,
+ * Uses all standard components and actions from @tanstack-json-render/react-native,
  * plus an Icon component powered by Ionicons (@expo/vector-icons).
  */
 export const catalog = defineCatalog(schema, {

@@ -1,8 +1,8 @@
-import type { StateModel, StateStore } from "@json-render/core";
-import { createStoreAdapter } from "@json-render/core/store-utils";
+import type { StateModel, StateStore } from "@tanstack-json-render/core";
+import { createStoreAdapter } from "@tanstack-json-render/core/store-utils";
 import type { StoreApi } from "zustand";
 
-export type { StateStore } from "@json-render/core";
+export type { StateStore } from "@tanstack-json-render/core";
 
 /**
  * Options for {@link zustandStateStore}.
@@ -31,7 +31,7 @@ export interface ZustandStateStoreOptions<S extends StateModel = StateModel> {
  * @example
  * ```ts
  * import { createStore } from "zustand/vanilla";
- * import { zustandStateStore } from "@json-render/zustand";
+ * import { zustandStateStore } from "@tanstack-json-render/zustand";
  *
  * const bearStore = createStore(() => ({ count: 0, name: "Bear" }));
  *

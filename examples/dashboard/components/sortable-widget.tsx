@@ -2,7 +2,7 @@
 
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import type { Spec } from "@json-render/react";
+import type { Spec } from "@tanstack-json-render/react";
 import { Widget } from "./widget";
 
 export interface SavedWidget {

@@ -150,8 +150,8 @@ export type AGUIEvent = z.infer<typeof AGUIEvent>;
 Create a catalog for UI components that agents can render:
 
 ```typescript
-import { defineCatalog } from '@json-render/core';
-import { schema } from '@json-render/react/schema';
+import { defineCatalog } from '@tanstack-json-render/core';
+import { schema } from '@tanstack-json-render/react/schema';
 import { z } from 'zod';
 
 export const aguiCatalog = defineCatalog(schema, {

@@ -1,10 +1,10 @@
-import { defineCatalog } from "@json-render/core";
+import { defineCatalog } from "@tanstack-json-render/core";
 import {
   schema,
   standardComponentDefinitions,
   standardTransitionDefinitions,
   standardEffectDefinitions,
-} from "@json-render/remotion/server";
+} from "@tanstack-json-render/remotion/server";
 
 /**
  * Custom rules for the AI to follow when generating videos
@@ -19,7 +19,7 @@ const customRules = [
 /**
  * Remotion video catalog
  *
- * Uses standard definitions from @json-render/remotion,
+ * Uses standard definitions from @tanstack-json-render/remotion,
  * with the ability to add custom components.
  *
  * @example Adding a custom component:

@@ -6,8 +6,8 @@ import {
   type Spec,
   type SpecDataPart,
   applySpecPatch,
-} from "@json-render/core";
-import { useJsonRenderMessage } from "@json-render/react";
+} from "@tanstack-json-render/core";
+import { useJsonRenderMessage } from "@tanstack-json-render/react";
 import { ExplorerRenderer } from "@/lib/render/renderer";
 import { ThemeToggle } from "@/components/theme-toggle";
 import {

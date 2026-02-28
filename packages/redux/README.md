@@ -1,21 +1,21 @@
-# @json-render/redux
+# @tanstack-json-render/redux
 
 Redux adapter for json-render's `StateStore` interface. Wire a Redux store (or Redux Toolkit slice) as the state backend for json-render.
 
 ## Installation
 
 ```bash
-npm install @json-render/redux @json-render/core @json-render/react redux
+npm install @tanstack-json-render/redux @tanstack-json-render/core @tanstack-json-render/react redux
 # or with Redux Toolkit (recommended):
-npm install @json-render/redux @json-render/core @json-render/react @reduxjs/toolkit
+npm install @tanstack-json-render/redux @tanstack-json-render/core @tanstack-json-render/react @reduxjs/toolkit
 ```
 
 ## Usage
 
 ```ts
 import { configureStore, createSlice } from "@reduxjs/toolkit";
-import { reduxStateStore } from "@json-render/redux";
-import { StateProvider } from "@json-render/react";
+import { reduxStateStore } from "@tanstack-json-render/redux";
+import { StateProvider } from "@tanstack-json-render/react";
 
 // 1. Define a slice for json-render state
 const uiSlice = createSlice({

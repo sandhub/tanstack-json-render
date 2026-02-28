@@ -1,4 +1,4 @@
-import { defineSchema, type PromptContext } from "@json-render/core";
+import { defineSchema, type PromptContext } from "@tanstack-json-render/core";
 
 /**
  * Prompt template for Remotion timeline generation
@@ -128,7 +128,7 @@ function remotionPromptTemplate(context: PromptContext): string {
 }
 
 /**
- * The schema for @json-render/remotion
+ * The schema for @tanstack-json-render/remotion
  *
  * This schema is fundamentally different from the React element tree schema.
  * It's timeline-based, designed for video composition:

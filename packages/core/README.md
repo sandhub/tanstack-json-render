@@ -1,11 +1,11 @@
-# @json-render/core
+# @tanstack-json-render/core
 
 Core library for json-render. Define schemas, create catalogs, generate AI prompts, and stream specs.
 
 ## Installation
 
 ```bash
-npm install @json-render/core zod
+npm install @tanstack-json-render/core zod
 ```
 
 ## Key Concepts
@@ -20,7 +20,7 @@ npm install @json-render/core zod
 ### Define a Schema
 
 ```typescript
-import { defineSchema } from "@json-render/core";
+import { defineSchema } from "@tanstack-json-render/core";
 
 export const schema = defineSchema((s) => ({
   spec: s.object({
@@ -47,7 +47,7 @@ export const schema = defineSchema((s) => ({
 ### Create a Catalog
 
 ```typescript
-import { defineCatalog } from "@json-render/core";
+import { defineCatalog } from "@tanstack-json-render/core";
 import { schema } from "./schema";
 import { z } from "zod";
 
@@ -96,7 +96,7 @@ const systemPrompt = catalog.prompt({
 The SpecStream format uses JSONL patches to progressively build specs:
 
 ```typescript
-import { createSpecStreamCompiler } from "@json-render/core";
+import { createSpecStreamCompiler } from "@tanstack-json-render/core";
 
 // Create a compiler for your spec type
 const compiler = createSpecStreamCompiler<MySpec>();
@@ -133,7 +133,7 @@ import {
   parseSpecStreamLine,
   applySpecStreamPatch,
   compileSpecStream,
-} from "@json-render/core";
+} from "@tanstack-json-render/core";
 
 // Parse a single line
 const patch = parseSpecStreamLine('{"op":"add","path":"/root","value":{}}');
@@ -248,7 +248,7 @@ The transform splits text blocks around spec data by emitting `text-end`/`text-s
 The `StateStore` interface allows renderers to use external state management instead of the built-in internal store:
 
 ```typescript
-import { createStateStore, type StateStore } from "@json-render/core";
+import { createStateStore, type StateStore } from "@tanstack-json-render/core";
 
 // Simple in-memory store
 const store = createStateStore({ count: 0 });
@@ -263,11 +263,11 @@ const unsubscribe = store.subscribe(() => {
 });
 ```
 
-Pass the store to `StateProvider` in any renderer package (`@json-render/react`, `@json-render/react-native`, `@json-render/react-pdf`) for controlled mode.
+Pass the store to `StateProvider` in any renderer package (`@tanstack-json-render/react`, `@tanstack-json-render/react-native`, `@tanstack-json-render/react-pdf`) for controlled mode.
 
 ### Store Utilities (for adapter authors)
 
-Available via `@json-render/core/store-utils`:
+Available via `@tanstack-json-render/core/store-utils`:
 
 | Export | Purpose |
 |--------|---------|
@@ -277,13 +277,13 @@ Available via `@json-render/core/store-utils`:
 | `StoreAdapterConfig` | Config type for `createStoreAdapter` |
 
 ```typescript
-import { createStoreAdapter, immutableSetByPath, flattenToPointers } from "@json-render/core/store-utils";
+import { createStoreAdapter, immutableSetByPath, flattenToPointers } from "@tanstack-json-render/core/store-utils";
 ```
 
 `createStoreAdapter` handles `get`, `set` (with no-op detection), batched `update`, `getSnapshot`, `getServerSnapshot`, and `subscribe` -- adapter authors only need to supply the snapshot source, write API, and subscribe mechanism:
 
 ```typescript
-import { createStoreAdapter } from "@json-render/core/store-utils";
+import { createStoreAdapter } from "@tanstack-json-render/core/store-utils";
 
 const store = createStoreAdapter({
   getSnapshot: () => myLib.getState(),
@@ -292,7 +292,7 @@ const store = createStoreAdapter({
 });
 ```
 
-The official adapter packages (`@json-render/redux`, `@json-render/zustand`, `@json-render/jotai`) are all built on top of `createStoreAdapter`.
+The official adapter packages (`@tanstack-json-render/redux`, `@tanstack-json-render/zustand`, `@tanstack-json-render/jotai`) are all built on top of `createStoreAdapter`.
 
 ### Types
 
@@ -420,7 +420,7 @@ Call a registered function with resolved arguments:
 Functions are registered in the catalog and provided at runtime via the `functions` prop on the renderer.
 
 ```typescript
-import type { ComputedFunction } from "@json-render/core";
+import type { ComputedFunction } from "@tanstack-json-render/core";
 
 const functions: Record<string, ComputedFunction> = {
   fullName: (args) => `${args.first} ${args.last}`,
@@ -430,7 +430,7 @@ const functions: Record<string, ComputedFunction> = {
 ### API
 
 ```typescript
-import { resolvePropValue, resolveElementProps } from "@json-render/core";
+import { resolvePropValue, resolveElementProps } from "@tanstack-json-render/core";
 
 // Resolve a single value
 const color = resolvePropValue(
@@ -465,7 +465,7 @@ true / false                                   // always / never
 ### TypeScript Helpers
 
 ```typescript
-import { visibility } from "@json-render/core";
+import { visibility } from "@tanstack-json-render/core";
 
 visibility.always              // true
 visibility.never               // false
@@ -486,7 +486,7 @@ visibility.or(cond1, cond2)    // { $or: [cond1, cond2] }
 Build structured user prompts for AI generation, with support for refinement and state context:
 
 ```typescript
-import { buildUserPrompt } from "@json-render/core";
+import { buildUserPrompt } from "@tanstack-json-render/core";
 
 // Fresh generation
 const prompt = buildUserPrompt({ prompt: "create a todo app" });
@@ -509,7 +509,7 @@ const contextPrompt = buildUserPrompt({
 Validate spec structure and auto-fix common issues:
 
 ```typescript
-import { validateSpec, autoFixSpec, formatSpecIssues } from "@json-render/core";
+import { validateSpec, autoFixSpec, formatSpecIssues } from "@tanstack-json-render/core";
 
 // Validate a spec
 const { valid, issues } = validateSpec(spec);
@@ -569,7 +569,7 @@ Watchers only fire on value changes, not on initial render. Multiple action bind
 ### TypeScript Helpers
 
 ```typescript
-import { check } from "@json-render/core";
+import { check } from "@tanstack-json-render/core";
 
 check.required("Field is required");
 check.email("Invalid email");

@@ -1,14 +1,14 @@
 import { pageMetadata } from "@/lib/page-metadata"
 export const metadata = pageMetadata("docs/api/react-pdf")
 
-# @json-render/react-pdf
+# @tanstack-json-render/react-pdf
 
 PDF document renderer. Turn JSON specs into PDFs using `@react-pdf/renderer`.
 
 ## Install
 
 ```bash
-npm install @json-render/core @json-render/react-pdf
+npm install @tanstack-json-render/core @tanstack-json-render/react-pdf
 ```
 
 See the [React PDF example](https://github.com/vercel-labs/json-render/tree/main/examples/react-pdf) for a full working example.
@@ -18,8 +18,8 @@ See the [React PDF example](https://github.com/vercel-labs/json-render/tree/main
 The PDF element schema for document specs. Use with `defineCatalog` from core.
 
 ```typescript
-import { defineCatalog } from '@json-render/core';
-import { schema, standardComponentDefinitions } from '@json-render/react-pdf';
+import { defineCatalog } from '@tanstack-json-render/core';
+import { schema, standardComponentDefinitions } from '@tanstack-json-render/react-pdf';
 
 const catalog = defineCatalog(schema, {
   components: standardComponentDefinitions,
@@ -31,7 +31,7 @@ const catalog = defineCatalog(schema, {
 Server-side functions for producing PDF output. All accept a spec and optional `RenderOptions`.
 
 ```typescript
-import { renderToBuffer, renderToStream, renderToFile } from '@json-render/react-pdf';
+import { renderToBuffer, renderToStream, renderToFile } from '@tanstack-json-render/react-pdf';
 
 const buffer = await renderToBuffer(spec);
 
@@ -79,7 +79,7 @@ interface RenderOptions {
 Create a type-safe component registry from a catalog. Components receive `{ props, children, emit, bindings, loading }`.
 
 ```tsx
-import { defineRegistry } from '@json-render/react-pdf';
+import { defineRegistry } from '@tanstack-json-render/react-pdf';
 import { View, Text } from '@react-pdf/renderer';
 
 const { registry } = defineRegistry(catalog, {
@@ -100,7 +100,7 @@ const buffer = await renderToBuffer(spec, { registry });
 Create a standalone renderer component wired to state, actions, and validation.
 
 ```typescript
-import { createRenderer } from '@json-render/react-pdf';
+import { createRenderer } from '@tanstack-json-render/react-pdf';
 
 const PDFRenderer = createRenderer(catalog, components);
 ```
@@ -352,7 +352,7 @@ Renders current page number and total pages. Format uses `{pageNumber}` and `{to
 Pass a `StateStore` to `StateProvider`, `JSONUIProvider`, or `createRenderer` for full control over state:
 
 ```tsx
-import { createStateStore, type StateStore } from "@json-render/react-pdf";
+import { createStateStore, type StateStore } from "@tanstack-json-render/react-pdf";
 
 const store = createStateStore({ invoice: { total: 100 } });
 store.set("/invoice/total", 200);
@@ -365,7 +365,7 @@ When `store` is provided, `initialState` / `state` and `onStateChange` are ignor
 Import schema and catalog definitions without pulling in React or `@react-pdf/renderer`:
 
 ```typescript
-import { schema, standardComponentDefinitions } from '@json-render/react-pdf/server';
+import { schema, standardComponentDefinitions } from '@tanstack-json-render/react-pdf/server';
 ```
 
 ## Sub-path Exports
@@ -379,19 +379,19 @@ import { schema, standardComponentDefinitions } from '@json-render/react-pdf/ser
   </thead>
   <tbody>
     <tr>
-      <td><code>@json-render/react-pdf</code></td>
+      <td><code>@tanstack-json-render/react-pdf</code></td>
       <td>Full package: schema, renderer, components, render functions</td>
     </tr>
     <tr>
-      <td><code>@json-render/react-pdf/server</code></td>
+      <td><code>@tanstack-json-render/react-pdf/server</code></td>
       <td>Schema and catalog definitions only (no React)</td>
     </tr>
     <tr>
-      <td><code>@json-render/react-pdf/catalog</code></td>
+      <td><code>@tanstack-json-render/react-pdf/catalog</code></td>
       <td>Standard component definitions and types</td>
     </tr>
     <tr>
-      <td><code>@json-render/react-pdf/render</code></td>
+      <td><code>@tanstack-json-render/react-pdf/render</code></td>
       <td>Server-side render functions only</td>
     </tr>
   </tbody>

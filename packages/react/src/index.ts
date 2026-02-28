@@ -55,8 +55,8 @@ export {
 } from "./schema";
 
 // Core types (re-exported for convenience)
-export type { Spec, StateStore } from "@json-render/core";
-export { createStateStore } from "@json-render/core";
+export type { Spec, StateStore } from "@tanstack-json-render/core";
+export { createStateStore } from "@tanstack-json-render/core";
 
 // Catalog-aware types for React
 export type {

@@ -9,5 +9,5 @@ find the full documentation for it [in the repository](https://github.com/change
 To add a changeset, run `pnpm changeset` in the root of the repository. This will prompt you to select
 which packages have changed and what type of version bump (major, minor, or patch) should be applied.
 
-All `@json-render/*` packages are versioned together -- a changeset for any one of them will bump all
+All `@tanstack-json-render/*` packages are versioned together -- a changeset for any one of them will bump all
 packages to the same version.

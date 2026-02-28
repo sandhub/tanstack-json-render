@@ -6,5 +6,11 @@ export default defineConfig({
   dts: true,
   sourcemap: true,
   clean: true,
-  external: ["react", "react-dom", "remotion", "@json-render/core", "zod"],
+  external: [
+    "react",
+    "react-dom",
+    "remotion",
+    "@tanstack-json-render/core",
+    "zod",
+  ],
 });

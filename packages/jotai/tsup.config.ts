@@ -6,5 +6,9 @@ export default defineConfig({
   dts: true,
   sourcemap: true,
   clean: true,
-  external: ["@json-render/core", "@json-render/core/store-utils", "jotai"],
+  external: [
+    "@tanstack-json-render/core",
+    "@tanstack-json-render/core/store-utils",
+    "jotai",
+  ],
 });

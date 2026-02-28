@@ -1,11 +1,11 @@
-# @json-render/vue
+# @tanstack-json-render/vue
 
 Vue 3 renderer for json-render. Turn JSON specs into Vue components with data binding, visibility, and actions.
 
 ## Installation
 
 ```bash
-npm install @json-render/vue @json-render/core zod
+npm install @tanstack-json-render/vue @tanstack-json-render/core zod
 ```
 
 Peer dependencies: `vue ^3.5.0` and `zod ^4.0.0`.
@@ -15,8 +15,8 @@ Peer dependencies: `vue ^3.5.0` and `zod ^4.0.0`.
 ### 1. Create a Catalog
 
 ```typescript
-import { defineCatalog } from "@json-render/core";
-import { schema } from "@json-render/vue/schema";
+import { defineCatalog } from "@tanstack-json-render/core";
+import { schema } from "@tanstack-json-render/vue/schema";
 import { z } from "zod";
 
 export const catalog = defineCatalog(schema, {
@@ -59,7 +59,7 @@ Components are written using Vue's `h()` render function. `children` is a `VNode
 
 ```typescript
 import { h } from "vue";
-import { defineRegistry } from "@json-render/vue";
+import { defineRegistry } from "@tanstack-json-render/vue";
 import { catalog } from "./catalog";
 
 export const { registry } = defineRegistry(catalog, {
@@ -97,7 +97,7 @@ export const { registry } = defineRegistry(catalog, {
 
 ```vue
 <script setup lang="ts">
-import { StateProvider, ActionProvider, Renderer } from "@json-render/vue";
+import { StateProvider, ActionProvider, Renderer } from "@tanstack-json-render/vue";
 import { registry } from "./registry";
 
 const spec = { /* ... */ };
@@ -190,7 +190,7 @@ console.log(state.value);
 Pass a `StateStore` to bypass the internal state and wire json-render to any state management library (Pinia, VueUse, etc.):
 
 ```typescript
-import { createStateStore, type StateStore } from "@json-render/vue";
+import { createStateStore, type StateStore } from "@tanstack-json-render/vue";
 
 // Option 1: Use the built-in store outside of Vue
 const store = createStateStore({ count: 0 });
@@ -307,10 +307,10 @@ true   // always visible
 false  // never visible
 ```
 
-TypeScript helpers from `@json-render/core`:
+TypeScript helpers from `@tanstack-json-render/core`:
 
 ```typescript
-import { visibility } from "@json-render/core";
+import { visibility } from "@tanstack-json-render/core";
 
 visibility.when("/path")       // { $state: "/path" }
 visibility.unless("/path")     // { $state: "/path", not: true }
@@ -341,7 +341,7 @@ Any prop value can use data-driven expressions that resolve at render time. The 
 
 For two-way binding, use `{ "$bindState": "/path" }` on the natural value prop. Inside repeat scopes, use `{ "$bindItem": "field" }` instead. Components receive resolved `bindings` with the state path for each bound prop.
 
-See [@json-render/core](../core/README.md) for full expression syntax.
+See [@tanstack-json-render/core](../core/README.md) for full expression syntax.
 
 ## Built-in Actions
 
@@ -404,7 +404,7 @@ Link: ({ props, on }) => {
 For building reusable component libraries that are not tied to a specific catalog, use the catalog-agnostic `BaseComponentProps` type:
 
 ```typescript
-import type { BaseComponentProps } from "@json-render/vue";
+import type { BaseComponentProps } from "@tanstack-json-render/vue";
 
 const Card = ({ props, children }: BaseComponentProps<{ title?: string }>) =>
   h("div", null, [props.title, children]);
@@ -421,9 +421,9 @@ const systemPrompt = catalog.prompt();
 
 ```typescript
 import { h } from "vue";
-import { defineCatalog } from "@json-render/core";
-import { schema } from "@json-render/vue/schema";
-import { defineRegistry, Renderer, StateProvider } from "@json-render/vue";
+import { defineCatalog } from "@tanstack-json-render/core";
+import { schema } from "@tanstack-json-render/vue/schema";
+import { defineRegistry, Renderer, StateProvider } from "@tanstack-json-render/vue";
 import { z } from "zod";
 
 const catalog = defineCatalog(schema, {
@@ -486,7 +486,7 @@ const spec = {
 | `StateModel` | State model type |
 | `StateStore` | Interface for plugging in external state management |
 
-## Differences from `@json-render/react`
+## Differences from `@tanstack-json-render/react`
 
 | API | React | Vue | Note |
 |-----|-------|-----|------|

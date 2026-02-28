@@ -11,9 +11,9 @@
     "check-types": "tsc --noEmit"
   },
   "dependencies": {
-    "@json-render/core": "workspace:*",
-    "@json-render/react": "workspace:*",
-    "@json-render/shadcn": "workspace:*",
+    "@tanstack-json-render/core": "workspace:*",
+    "@tanstack-json-render/react": "workspace:*",
+    "@tanstack-json-render/shadcn": "workspace:*",
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.5.0",
     "@streamdown/code": "^1.0.2",

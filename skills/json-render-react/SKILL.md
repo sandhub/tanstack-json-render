@@ -1,16 +1,16 @@
 ---
 name: json-render-react
-description: React renderer for json-render that turns JSON specs into React components. Use when working with @json-render/react, building React UIs from JSON, creating component catalogs, or rendering AI-generated specs.
+description: React renderer for json-render that turns JSON specs into React components. Use when working with @tanstack-json-render/react, building React UIs from JSON, creating component catalogs, or rendering AI-generated specs.
 ---
 
-# @json-render/react
+# @tanstack-json-render/react
 
 React renderer that converts JSON specs into React component trees.
 
 ## Quick Start
 
 ```typescript
-import { defineRegistry, Renderer } from "@json-render/react";
+import { defineRegistry, Renderer } from "@tanstack-json-render/react";
 import { catalog } from "./catalog";
 
 const { registry } = defineRegistry(catalog, {
@@ -27,9 +27,9 @@ function App({ spec }) {
 ## Creating a Catalog
 
 ```typescript
-import { defineCatalog } from "@json-render/core";
-import { schema } from "@json-render/react/schema";
-import { defineRegistry } from "@json-render/react";
+import { defineCatalog } from "@tanstack-json-render/core";
+import { schema } from "@tanstack-json-render/react/schema";
+import { defineRegistry } from "@tanstack-json-render/react";
 import { z } from "zod";
 
 // Create catalog with props schemas
@@ -99,7 +99,7 @@ Use `visible` on elements to show/hide based on state. New syntax: `{ "$state": 
 Pass a `StateStore` to `StateProvider` (or `JSONUIProvider` / `createRenderer`) to use external state management (Redux, Zustand, XState, etc.):
 
 ```tsx
-import { createStateStore, type StateStore } from "@json-render/react";
+import { createStateStore, type StateStore } from "@tanstack-json-render/react";
 
 const store = createStateStore({ count: 0 });
 
@@ -209,7 +209,7 @@ Note: `statePath` in action params (e.g. `setState.statePath`) targets the mutat
 For form components that need two-way binding, use `useBoundProp` with the `bindings` map the renderer provides when a prop uses `{ "$bindState": "/path" }` or `{ "$bindItem": "field" }`:
 
 ```tsx
-import { useBoundProp } from "@json-render/react";
+import { useBoundProp } from "@tanstack-json-render/react";
 
 Input: ({ element, bindings }) => {
   const [value, setValue] = useBoundProp<string>(
@@ -229,10 +229,10 @@ Input: ({ element, bindings }) => {
 
 ## BaseComponentProps
 
-For building reusable component libraries not tied to a specific catalog (e.g. `@json-render/shadcn`):
+For building reusable component libraries not tied to a specific catalog (e.g. `@tanstack-json-render/shadcn`):
 
 ```typescript
-import type { BaseComponentProps } from "@json-render/react";
+import type { BaseComponentProps } from "@tanstack-json-render/react";
 
 const Card = ({ props, children }: BaseComponentProps<{ title?: string }>) => (
   <div>{props.title}{children}</div>

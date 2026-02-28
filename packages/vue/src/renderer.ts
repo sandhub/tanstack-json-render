@@ -20,7 +20,7 @@ import type {
   ComputedFunction,
   SchemaDefinition,
   StateStore,
-} from "@json-render/core";
+} from "@tanstack-json-render/core";
 import {
   resolveElementProps,
   resolveBindings,
@@ -28,7 +28,7 @@ import {
   evaluateVisibility,
   getByPath,
   type PropResolutionContext,
-} from "@json-render/core";
+} from "@tanstack-json-render/core";
 import type {
   Components,
   Actions,

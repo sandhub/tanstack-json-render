@@ -1,6 +1,6 @@
-import { renderToPng } from "@json-render/image/render";
+import { renderToPng } from "@tanstack-json-render/image/render";
 import { examples } from "@/lib/examples";
-import type { Spec } from "@json-render/core";
+import type { Spec } from "@tanstack-json-render/core";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 

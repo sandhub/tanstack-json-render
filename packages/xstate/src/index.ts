@@ -1,8 +1,8 @@
-import type { StateModel, StateStore } from "@json-render/core";
-import { createStoreAdapter } from "@json-render/core/store-utils";
+import type { StateModel, StateStore } from "@tanstack-json-render/core";
+import { createStoreAdapter } from "@tanstack-json-render/core/store-utils";
 import type { Atom } from "@xstate/store";
 
-export type { StateStore } from "@json-render/core";
+export type { StateStore } from "@tanstack-json-render/core";
 
 /**
  * Options for {@link xstateStoreStateStore}.
@@ -18,7 +18,7 @@ export interface XstateStoreStateStoreOptions {
  * @example
  * ```ts
  * import { createAtom } from "@xstate/store";
- * import { xstateStoreStateStore } from "@json-render/xstate";
+ * import { xstateStoreStateStore } from "@tanstack-json-render/xstate";
  *
  * const uiAtom = createAtom<Record<string, unknown>>({ count: 0 });
  *

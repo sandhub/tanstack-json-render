@@ -9,11 +9,11 @@ import {
   createSpecStreamCompiler,
   type Spec,
   type StateStore,
-} from "@json-render/core";
-import { schema } from "@json-render/react/schema";
-import { reduxStateStore } from "@json-render/redux";
-import { zustandStateStore } from "@json-render/zustand";
-import { jotaiStateStore } from "@json-render/jotai";
+} from "@tanstack-json-render/core";
+import { schema } from "@tanstack-json-render/react/schema";
+import { reduxStateStore } from "@tanstack-json-render/redux";
+import { zustandStateStore } from "@tanstack-json-render/zustand";
+import { jotaiStateStore } from "@tanstack-json-render/jotai";
 import { configureStore, createSlice } from "@reduxjs/toolkit";
 import { createStore as createZustandStore } from "zustand/vanilla";
 import { atom } from "jotai";

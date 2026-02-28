@@ -11,8 +11,8 @@
     "lint": "eslint --max-warnings 0"
   },
   "dependencies": {
-    "@json-render/core": "workspace:*",
-    "@json-render/image": "workspace:*",
+    "@tanstack-json-render/core": "workspace:*",
+    "@tanstack-json-render/image": "workspace:*",
     "@resvg/resvg-js": "^2.6.2",
     "satori": "^0.19.2",
     "@tailwindcss/postcss": "^4.1.18",

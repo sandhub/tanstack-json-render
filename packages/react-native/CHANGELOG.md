@@ -1,25 +1,25 @@
-# @json-render/react-native
+# @tanstack-json-render/react-native
 
 ## 0.11.0
 
 ### Patch Changes
 
 - Updated dependencies [3f1e71e]
-  - @json-render/core@0.11.0
+  - @tanstack-json-render/core@0.11.0
 
 ## 0.10.0
 
 ### Patch Changes
 
 - Updated dependencies [9cef4e9]
-  - @json-render/core@0.10.0
+  - @tanstack-json-render/core@0.10.0
 
 ## 0.9.1
 
 ### Patch Changes
 
 - b103676: Fix install failure caused by `@internal/react-state` (a private workspace package) being listed as a published dependency. The internal package is now bundled into each renderer's output at build time, so consumers no longer need to resolve it from npm.
-  - @json-render/core@0.9.1
+  - @tanstack-json-render/core@0.9.1
 
 ## 0.9.0
 
@@ -30,17 +30,17 @@
   ### New: External State Store
 
   The `StateStore` interface lets you plug in your own state management (Redux, Zustand, Jotai, XState, etc.) instead of the built-in internal store. Pass a `store` prop to `StateProvider`, `JSONUIProvider`, or `createRenderer` for controlled mode.
-  - Added `StateStore` interface and `createStateStore()` factory to `@json-render/core`
+  - Added `StateStore` interface and `createStateStore()` factory to `@tanstack-json-render/core`
   - `StateProvider`, `JSONUIProvider`, and `createRenderer` now accept an optional `store` prop for controlled mode
   - When `store` is provided, it becomes the single source of truth (`initialState`/`onStateChange` are ignored)
   - When `store` is omitted, everything works exactly as before (fully backward compatible)
   - Applied across all platform packages: react, react-native, react-pdf
-  - Store utilities (`createStoreAdapter`, `immutableSetByPath`, `flattenToPointers`) available via `@json-render/core/store-utils` for building custom adapters
+  - Store utilities (`createStoreAdapter`, `immutableSetByPath`, `flattenToPointers`) available via `@tanstack-json-render/core/store-utils` for building custom adapters
 
   ### New: Store Adapter Packages
-  - `@json-render/zustand` — Zustand adapter for `StateStore`
-  - `@json-render/redux` — Redux / Redux Toolkit adapter for `StateStore`
-  - `@json-render/jotai` — Jotai adapter for `StateStore`
+  - `@tanstack-json-render/zustand` — Zustand adapter for `StateStore`
+  - `@tanstack-json-render/redux` — Redux / Redux Toolkit adapter for `StateStore`
+  - `@tanstack-json-render/jotai` — Jotai adapter for `StateStore`
 
   ### Changed: `onStateChange` signature updated (breaking)
 
@@ -55,14 +55,14 @@
   ```
 
   ### Fixed
-  - Fix schema import to use server-safe `@json-render/react/schema` subpath, avoiding `createContext` crashes in Next.js App Router API routes
-  - Fix chaining actions in `@json-render/react`, `@json-render/react-native`, and `@json-render/react-pdf`
+  - Fix schema import to use server-safe `@tanstack-json-render/react/schema` subpath, avoiding `createContext` crashes in Next.js App Router API routes
+  - Fix chaining actions in `@tanstack-json-render/react`, `@tanstack-json-render/react-native`, and `@tanstack-json-render/react-pdf`
   - Fix safely resolving inner type for Zod arrays in core schema
 
 ### Patch Changes
 
 - Updated dependencies [1d755c1]
-  - @json-render/core@0.9.0
+  - @tanstack-json-render/core@0.9.0
   - @internal/react-state@0.8.1
 
 ## 0.8.0
@@ -70,27 +70,27 @@
 ### Patch Changes
 
 - Updated dependencies [09376db]
-  - @json-render/core@0.8.0
+  - @tanstack-json-render/core@0.8.0
 
 ## 0.7.0
 
 ### Patch Changes
 
 - Updated dependencies [2d70fab]
-  - @json-render/core@0.7.0
+  - @tanstack-json-render/core@0.7.0
 
 ## 0.6.1
 
 ### Patch Changes
 
-- @json-render/core@0.6.1
+- @tanstack-json-render/core@0.6.1
 
 ## 0.6.1
 
 ### Patch Changes
 
 - Updated dependencies [ea97aff]
-  - @json-render/core@0.6.1
+  - @tanstack-json-render/core@0.6.1
 
 ## 0.6.0
 
@@ -160,7 +160,7 @@
 ### Patch Changes
 
 - Updated dependencies [06b8745]
-  - @json-render/core@0.6.0
+  - @tanstack-json-render/core@0.6.0
 
 ## 0.5.2
 
@@ -168,22 +168,22 @@
 
 - 429e456: Fix LLM hallucinations by dynamically generating prompt examples from the user's catalog instead of hardcoding component names. Adds optional `example` field to `ComponentDefinition` with Zod schema introspection fallback. Mentions RFC 6902 in output format section.
 - Updated dependencies [429e456]
-  - @json-render/core@0.5.2
+  - @tanstack-json-render/core@0.5.2
 
 ## 0.5.1
 
 ### Patch Changes
 
 - d9a4efd: Prevent rendering errors from crashing the application. Added error boundaries to all renderers so a single bad component silently disappears instead of causing a white-screen-of-death. Fixed Select and Radio components to handle non-string option values from AI output.
-  - @json-render/core@0.5.1
+  - @tanstack-json-render/core@0.5.1
 
 ## 0.5.0
 
 ### Minor Changes
 
-- 3d2d1ad: Add @json-render/react-native package, event system (emit replaces onAction), repeat/list rendering, user prompt builder, spec validation, and rename DataProvider to StateProvider.
+- 3d2d1ad: Add @tanstack-json-render/react-native package, event system (emit replaces onAction), repeat/list rendering, user prompt builder, spec validation, and rename DataProvider to StateProvider.
 
 ### Patch Changes
 
 - Updated dependencies [3d2d1ad]
-  - @json-render/core@0.5.0
+  - @tanstack-json-render/core@0.5.0

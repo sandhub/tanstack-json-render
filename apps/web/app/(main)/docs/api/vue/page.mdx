@@ -1,7 +1,7 @@
 import { pageMetadata } from "@/lib/page-metadata"
 export const metadata = pageMetadata("docs/api/vue")
 
-# @json-render/vue
+# @tanstack-json-render/vue
 
 Vue 3 components, providers, and composables.
 
@@ -47,7 +47,7 @@ Vue 3 components, providers, and composables.
 Pass a `StateStore` to bypass the internal state and wire json-render to any state management library:
 
 ```typescript
-import { createStateStore, type StateStore } from "@json-render/vue";
+import { createStateStore, type StateStore } from "@tanstack-json-render/vue";
 
 const store = createStateStore({ count: 0 });
 ```
@@ -101,7 +101,7 @@ When the catalog declares actions, the `actions` field is required. When the cat
 
 ```typescript
 import { h } from "vue";
-import { defineRegistry } from "@json-render/vue";
+import { defineRegistry } from "@tanstack-json-render/vue";
 
 const { registry } = defineRegistry(catalog, {
   components: {
@@ -174,7 +174,7 @@ Link: ({ props, on }) => {
 Catalog-agnostic base type for building reusable component libraries that are not tied to a specific catalog:
 
 ```typescript
-import type { BaseComponentProps } from "@json-render/vue";
+import type { BaseComponentProps } from "@tanstack-json-render/vue";
 
 const Card = ({ props, children }: BaseComponentProps<{ title?: string }>) =>
   h("div", null, [props.title, children]);
@@ -249,7 +249,7 @@ const {
 
 `ValidationConfig` is `{ checks?: ValidationCheck[], validateOn?: 'change' | 'blur' | 'submit' }`.
 
-## Differences from `@json-render/react`
+## Differences from `@tanstack-json-render/react`
 
 <table>
   <thead>

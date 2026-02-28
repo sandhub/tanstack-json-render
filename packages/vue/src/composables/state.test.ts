@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from "vitest";
 import { defineComponent, h, type Component } from "vue";
 import { mount } from "@vue/test-utils";
-import { createStateStore } from "@json-render/core";
+import { createStateStore } from "@tanstack-json-render/core";
 import { StateProvider, useStateStore } from "./state";
 
 /** Mount a StateProvider with a child that captures the injected context. */

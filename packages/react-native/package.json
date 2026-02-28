@@ -1,8 +1,8 @@
 {
-  "name": "@json-render/react-native",
+  "name": "@tanstack-json-render/react-native",
   "version": "0.11.0",
   "license": "Apache-2.0",
-  "description": "React Native renderer for @json-render/core. JSON becomes React Native components.",
+  "description": "React Native renderer for @tanstack-json-render/core. JSON becomes React Native components.",
   "keywords": [
     "json",
     "ui",
@@ -56,7 +56,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@json-render/core": "workspace:*"
+    "@tanstack-json-render/core": "workspace:*"
   },
   "devDependencies": {
     "@internal/react-state": "workspace:*",

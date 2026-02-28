@@ -1,11 +1,11 @@
-# @json-render/remotion
+# @tanstack-json-render/remotion
 
 Remotion video renderer for json-render. Turn JSON timeline specs into video compositions.
 
 ## Installation
 
 ```bash
-npm install @json-render/remotion @json-render/core remotion @remotion/player zod
+npm install @tanstack-json-render/remotion @tanstack-json-render/core remotion @remotion/player zod
 ```
 
 ## Quick Start
@@ -13,13 +13,13 @@ npm install @json-render/remotion @json-render/core remotion @remotion/player zo
 ### 1. Create a Catalog
 
 ```typescript
-import { defineCatalog } from "@json-render/core";
+import { defineCatalog } from "@tanstack-json-render/core";
 import {
   schema,
   standardComponentDefinitions,
   standardTransitionDefinitions,
   standardEffectDefinitions,
-} from "@json-render/remotion";
+} from "@tanstack-json-render/remotion";
 
 // Use standard definitions or add your own
 export const videoCatalog = defineCatalog(schema, {
@@ -36,7 +36,7 @@ export const videoCatalog = defineCatalog(schema, {
 
 ```tsx
 import { Player } from "@remotion/player";
-import { Renderer } from "@json-render/remotion";
+import { Renderer } from "@tanstack-json-render/remotion";
 
 function VideoPlayer({ spec }) {
   return (
@@ -168,8 +168,8 @@ The package includes pre-built video components:
 Add custom components to the Renderer:
 
 ```tsx
-import { Renderer, standardComponents, ClipWrapper } from "@json-render/remotion";
-import type { Clip } from "@json-render/remotion";
+import { Renderer, standardComponents, ClipWrapper } from "@tanstack-json-render/remotion";
+import type { Clip } from "@tanstack-json-render/remotion";
 
 // Define a custom component
 function CustomOverlay({ clip }: { clip: Clip }) {
@@ -203,7 +203,7 @@ const customComponents = {
 Calculate transition styles for a clip:
 
 ```tsx
-import { useTransition } from "@json-render/remotion";
+import { useTransition } from "@tanstack-json-render/remotion";
 import { useCurrentFrame } from "remotion";
 
 function MyComponent({ clip }: { clip: Clip }) {
@@ -223,7 +223,7 @@ function MyComponent({ clip }: { clip: Clip }) {
 Apply transitions automatically:
 
 ```tsx
-import { ClipWrapper } from "@json-render/remotion";
+import { ClipWrapper } from "@tanstack-json-render/remotion";
 
 function MyComponent({ clip }: { clip: Clip }) {
   return (
@@ -271,7 +271,7 @@ import {
   // Utilities
   ClipWrapper,
   useTransition,
-} from "@json-render/remotion";
+} from "@tanstack-json-render/remotion";
 ```
 
 ### Types
@@ -284,7 +284,7 @@ import type {
   TransitionStyles,
   ClipComponent,
   ComponentRegistry,
-} from "@json-render/remotion";
+} from "@tanstack-json-render/remotion";
 ```
 
 ### Schema and Catalog Definitions
@@ -295,12 +295,12 @@ import {
   standardComponentDefinitions,
   standardTransitionDefinitions,
   standardEffectDefinitions,
-} from "@json-render/remotion";
+} from "@tanstack-json-render/remotion";
 ```
 
 ## Why Different from React?
 
-| Feature | @json-render/react | @json-render/remotion |
+| Feature | @tanstack-json-render/react | @tanstack-json-render/remotion |
 |---------|-------------------|----------------------|
 | Spec Format | Element tree (nested components) | Timeline (tracks + clips) |
 | Components | UI components (Button, Card) | Video components (scenes, overlays) |

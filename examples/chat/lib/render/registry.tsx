@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useRef, type ReactNode } from "react";
-import { useBoundProp, defineRegistry } from "@json-render/react";
-import { shadcnComponents } from "@json-render/shadcn";
+import { useBoundProp, defineRegistry } from "@tanstack-json-render/react";
+import { shadcnComponents } from "@tanstack-json-render/shadcn";
 import {
   Bar,
   BarChart as RechartsBarChart,
@@ -201,7 +201,7 @@ function AnimatedGroup({
 
 export const { registry, handlers } = defineRegistry(explorerCatalog, {
   components: {
-    // From @json-render/shadcn (used as-is)
+    // From @tanstack-json-render/shadcn (used as-is)
     Stack: shadcnComponents.Stack,
     Card: shadcnComponents.Card,
     Grid: shadcnComponents.Grid,

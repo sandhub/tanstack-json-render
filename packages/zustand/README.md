@@ -1,11 +1,11 @@
-# @json-render/zustand
+# @tanstack-json-render/zustand
 
 Zustand adapter for json-render's `StateStore` interface. Wire a Zustand vanilla store as the state backend for json-render.
 
 ## Installation
 
 ```bash
-npm install @json-render/zustand @json-render/core @json-render/react zustand
+npm install @tanstack-json-render/zustand @tanstack-json-render/core @tanstack-json-render/react zustand
 ```
 
 > **Note:** This adapter requires Zustand v5+. Zustand v4 is not supported due to
@@ -15,8 +15,8 @@ npm install @json-render/zustand @json-render/core @json-render/react zustand
 
 ```ts
 import { createStore } from "zustand/vanilla";
-import { zustandStateStore } from "@json-render/zustand";
-import { StateProvider } from "@json-render/react";
+import { zustandStateStore } from "@tanstack-json-render/zustand";
+import { StateProvider } from "@tanstack-json-render/react";
 
 // 1. Create a Zustand vanilla store
 const bearStore = createStore(() => ({

@@ -1,4 +1,4 @@
-import type { Spec } from "@json-render/core";
+import type { Spec } from "@tanstack-json-render/core";
 
 /**
  * Represents a generated file

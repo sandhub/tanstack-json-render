@@ -1,6 +1,6 @@
-import { defineCatalog } from "@json-render/core";
-import { schema } from "@json-render/react/schema";
-import { shadcnComponentDefinitions } from "@json-render/shadcn/catalog";
+import { defineCatalog } from "@tanstack-json-render/core";
+import { schema } from "@tanstack-json-render/react/schema";
+import { shadcnComponentDefinitions } from "@tanstack-json-render/shadcn/catalog";
 import { z } from "zod";
 
 // =============================================================================
@@ -46,7 +46,7 @@ const mesh3DProps = {
  */
 export const explorerCatalog = defineCatalog(schema, {
   components: {
-    // From @json-render/shadcn (used as-is)
+    // From @tanstack-json-render/shadcn (used as-is)
     Stack: shadcnComponentDefinitions.Stack,
     Card: shadcnComponentDefinitions.Card,
     Grid: shadcnComponentDefinitions.Grid,

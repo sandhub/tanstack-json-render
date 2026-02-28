@@ -2,7 +2,7 @@
 export { schema, type ImageSchema, type ImageSpec } from "./schema";
 
 // Core types (re-exported for convenience)
-export type { Spec } from "@json-render/core";
+export type { Spec } from "@tanstack-json-render/core";
 
 // Catalog-aware types
 export type {

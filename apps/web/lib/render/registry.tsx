@@ -6,7 +6,7 @@ import {
   useBoundProp,
   useStateBinding,
   useFieldValidation,
-} from "@json-render/react";
+} from "@tanstack-json-render/react";
 import { toast } from "sonner";
 
 import { playgroundCatalog } from "./catalog";

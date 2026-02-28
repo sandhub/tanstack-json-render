@@ -1,7 +1,7 @@
 import { chat } from "@tanstack/ai";
 import { anthropicText } from "@tanstack/ai-anthropic";
 import { headers } from "next/headers";
-import { buildUserPrompt } from "@json-render/core";
+import { buildUserPrompt } from "@tanstack-json-render/core";
 import { minuteRateLimit, dailyRateLimit } from "@/lib/rate-limit";
 import { playgroundCatalog } from "@/lib/render/catalog";
 

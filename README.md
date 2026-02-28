@@ -6,17 +6,17 @@ Generate dynamic, personalized UIs from prompts without sacrificing reliability.
 
 ```bash
 # for React
-npm install @json-render/core @json-render/react
+npm install @tanstack-json-render/core @tanstack-json-render/react
 # for React with pre-built shadcn/ui components
-npm install @json-render/shadcn
+npm install @tanstack-json-render/shadcn
 # or for React Native
-npm install @json-render/core @json-render/react-native
+npm install @tanstack-json-render/core @tanstack-json-render/react-native
 # or for video
-npm install @json-render/core @json-render/remotion
+npm install @tanstack-json-render/core @tanstack-json-render/remotion
 # or for PDF documents
-npm install @json-render/core @json-render/react-pdf
+npm install @tanstack-json-render/core @tanstack-json-render/react-pdf
 # or for Vue
-npm install @json-render/core @json-render/vue
+npm install @tanstack-json-render/core @tanstack-json-render/vue
 ```
 
 ## Why json-render?
@@ -34,8 +34,8 @@ json-render is a **Generative UI** framework: AI generates interfaces from natur
 ### 1. Define Your Catalog
 
 ```typescript
-import { defineCatalog } from "@json-render/core";
-import { schema } from "@json-render/react/schema";
+import { defineCatalog } from "@tanstack-json-render/core";
+import { schema } from "@tanstack-json-render/react/schema";
 import { z } from "zod";
 
 const catalog = defineCatalog(schema, {
@@ -70,7 +70,7 @@ const catalog = defineCatalog(schema, {
 ### 2. Define Your Components
 
 ```tsx
-import { defineRegistry, Renderer } from "@json-render/react";
+import { defineRegistry, Renderer } from "@tanstack-json-render/react";
 
 const { registry } = defineRegistry(catalog, {
   components: {
@@ -111,26 +111,26 @@ function Dashboard({ spec }) {
 
 | Package | Description |
 |---------|-------------|
-| `@json-render/core` | Schemas, catalogs, AI prompts, dynamic props, SpecStream utilities |
-| `@json-render/react` | React renderer, contexts, hooks |
-| `@json-render/vue` | Vue 3 renderer, composables, providers |
-| `@json-render/shadcn` | 36 pre-built shadcn/ui components (Radix UI + Tailwind CSS) |
-| `@json-render/react-native` | React Native renderer with standard mobile components |
-| `@json-render/remotion` | Remotion video renderer, timeline schema |
-| `@json-render/react-pdf` | React PDF renderer for generating PDF documents from specs |
-| `@json-render/image` | Image renderer for SVG/PNG output (OG images, social cards) via Satori |
-| `@json-render/redux` | Redux / Redux Toolkit adapter for `StateStore` |
-| `@json-render/zustand` | Zustand adapter for `StateStore` |
-| `@json-render/jotai` | Jotai adapter for `StateStore` |
-| `@json-render/xstate` | XState Store (atom) adapter for `StateStore` |
+| `@tanstack-json-render/core` | Schemas, catalogs, AI prompts, dynamic props, SpecStream utilities |
+| `@tanstack-json-render/react` | React renderer, contexts, hooks |
+| `@tanstack-json-render/vue` | Vue 3 renderer, composables, providers |
+| `@tanstack-json-render/shadcn` | 36 pre-built shadcn/ui components (Radix UI + Tailwind CSS) |
+| `@tanstack-json-render/react-native` | React Native renderer with standard mobile components |
+| `@tanstack-json-render/remotion` | Remotion video renderer, timeline schema |
+| `@tanstack-json-render/react-pdf` | React PDF renderer for generating PDF documents from specs |
+| `@tanstack-json-render/image` | Image renderer for SVG/PNG output (OG images, social cards) via Satori |
+| `@tanstack-json-render/redux` | Redux / Redux Toolkit adapter for `StateStore` |
+| `@tanstack-json-render/zustand` | Zustand adapter for `StateStore` |
+| `@tanstack-json-render/jotai` | Jotai adapter for `StateStore` |
+| `@tanstack-json-render/xstate` | XState Store (atom) adapter for `StateStore` |
 
 ## Renderers
 
 ### React (UI)
 
 ```tsx
-import { defineRegistry, Renderer } from "@json-render/react";
-import { schema } from "@json-render/react/schema";
+import { defineRegistry, Renderer } from "@tanstack-json-render/react";
+import { schema } from "@tanstack-json-render/react/schema";
 
 // Flat spec format (root key + elements map)
 const spec = {
@@ -158,8 +158,8 @@ const { registry } = defineRegistry(catalog, { components });
 
 ```typescript
 import { h } from "vue";
-import { defineRegistry, Renderer } from "@json-render/vue";
-import { schema } from "@json-render/vue/schema";
+import { defineRegistry, Renderer } from "@tanstack-json-render/vue";
+import { schema } from "@tanstack-json-render/vue/schema";
 
 const { registry } = defineRegistry(catalog, {
   components: {
@@ -177,11 +177,11 @@ const { registry } = defineRegistry(catalog, {
 ### shadcn/ui (Web)
 
 ```tsx
-import { defineCatalog } from "@json-render/core";
-import { schema } from "@json-render/react/schema";
-import { defineRegistry, Renderer } from "@json-render/react";
-import { shadcnComponentDefinitions } from "@json-render/shadcn/catalog";
-import { shadcnComponents } from "@json-render/shadcn";
+import { defineCatalog } from "@tanstack-json-render/core";
+import { schema } from "@tanstack-json-render/react/schema";
+import { defineRegistry, Renderer } from "@tanstack-json-render/react";
+import { shadcnComponentDefinitions } from "@tanstack-json-render/shadcn/catalog";
+import { shadcnComponents } from "@tanstack-json-render/shadcn";
 
 // Pick components from the 36 standard definitions
 const catalog = defineCatalog(schema, {
@@ -210,13 +210,13 @@ const { registry } = defineRegistry(catalog, {
 ### React Native (Mobile)
 
 ```tsx
-import { defineCatalog } from "@json-render/core";
-import { schema } from "@json-render/react-native/schema";
+import { defineCatalog } from "@tanstack-json-render/core";
+import { schema } from "@tanstack-json-render/react-native/schema";
 import {
   standardComponentDefinitions,
   standardActionDefinitions,
-} from "@json-render/react-native/catalog";
-import { defineRegistry, Renderer } from "@json-render/react-native";
+} from "@tanstack-json-render/react-native/catalog";
+import { defineRegistry, Renderer } from "@tanstack-json-render/react-native";
 
 // 25+ standard components included
 const catalog = defineCatalog(schema, {
@@ -232,7 +232,7 @@ const { registry } = defineRegistry(catalog, { components: {} });
 
 ```tsx
 import { Player } from "@remotion/player";
-import { Renderer, schema, standardComponentDefinitions } from "@json-render/remotion";
+import { Renderer, schema, standardComponentDefinitions } from "@tanstack-json-render/remotion";
 
 // Timeline spec format
 const spec = {
@@ -257,7 +257,7 @@ const spec = {
 ### React PDF (Documents)
 
 ```typescript
-import { renderToBuffer } from "@json-render/react-pdf";
+import { renderToBuffer } from "@tanstack-json-render/react-pdf";
 
 const spec = {
   root: "doc",
@@ -291,7 +291,7 @@ const buffer = await renderToBuffer(spec);
 ### Image (SVG/PNG)
 
 ```typescript
-import { renderToPng } from "@json-render/image/render";
+import { renderToPng } from "@tanstack-json-render/image/render";
 
 const spec = {
   root: "frame",
@@ -313,7 +313,7 @@ const spec = {
 const png = await renderToPng(spec, { fonts });
 
 // Or render to SVG string
-import { renderToSvg } from "@json-render/image/render";
+import { renderToSvg } from "@tanstack-json-render/image/render";
 const svg = await renderToSvg(spec, { fonts });
 ```
 
@@ -324,7 +324,7 @@ const svg = await renderToSvg(spec, { fonts });
 Stream AI responses progressively:
 
 ```typescript
-import { createSpecStreamCompiler } from "@json-render/core";
+import { createSpecStreamCompiler } from "@tanstack-json-render/core";
 
 const compiler = createSpecStreamCompiler<MySpec>();
 

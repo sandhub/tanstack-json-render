@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  transpilePackages: ['@json-render/core', '@json-render/react'],
+  transpilePackages: ['@tanstack-json-render/core', '@tanstack-json-render/react'],
 };
 
 export default nextConfig;

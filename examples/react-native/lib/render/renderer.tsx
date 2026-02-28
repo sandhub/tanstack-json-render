@@ -7,7 +7,7 @@ import {
   ValidationProvider,
   createStandardActionHandlers,
   type Spec,
-} from "@json-render/react-native";
+} from "@tanstack-json-render/react-native";
 import { registry } from "./registry";
 
 // =============================================================================

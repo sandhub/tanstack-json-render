@@ -16,9 +16,9 @@ A schema defines the JSON structure that describes your UI. It includes:
 
 ## Schema-Agnostic by Design
 
-json-render can work with any JSON schema. `@json-render/core` provides the primitives to define catalogs and renderers for any format:
+json-render can work with any JSON schema. `@tanstack-json-render/core` provides the primitives to define catalogs and renderers for any format:
 
-- **@json-render/react** — The built-in flat element tree schema
+- **@tanstack-json-render/react** — The built-in flat element tree schema
 - **[A2UI](/docs/a2ui)** — Google's Agent-to-User Interaction protocol
 - **[Adaptive Cards](/docs/adaptive-cards)** — Microsoft's platform-agnostic UI format
 - **AG-UI** — CopilotKit's Agent User Interaction Protocol
@@ -29,7 +29,7 @@ See the [Custom Schema guide](/docs/custom-schema) to learn how to implement sup
 
 ## Built-in Schema
 
-`@json-render/react` uses a flat element tree schema with a root key and elements map:
+`@tanstack-json-render/react` uses a flat element tree schema with a root key and elements map:
 
 ```json
 {
@@ -109,7 +109,7 @@ actions: {
 
 ## Custom Schemas
 
-`@json-render/core` is schema-agnostic. You can define any JSON structure:
+`@tanstack-json-render/core` is schema-agnostic. You can define any JSON structure:
 
 ```typescript
 import { z } from 'zod';

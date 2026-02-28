@@ -1,7 +1,7 @@
 import { pageMetadata } from "@/lib/page-metadata"
 export const metadata = pageMetadata("docs/api/react")
 
-# @json-render/react
+# @tanstack-json-render/react
 
 React components, providers, and hooks.
 
@@ -47,7 +47,7 @@ React components, providers, and hooks.
 Pass a `StateStore` to bypass the internal state and wire json-render to any state management library:
 
 ```tsx
-import { createStateStore, type StateStore } from "@json-render/react";
+import { createStateStore, type StateStore } from "@tanstack-json-render/react";
 
 const store = createStateStore({ count: 0 });
 
@@ -98,7 +98,7 @@ Create a type-safe component registry from a catalog. Components receive `props`
 When the catalog declares actions, the `actions` field is required. When the catalog has no actions (e.g. `actions: {}`), the field is optional.
 
 ```tsx
-import { defineRegistry } from '@json-render/react';
+import { defineRegistry } from '@tanstack-json-render/react';
 
 const { registry } = defineRegistry(catalog, {
   components: {
@@ -204,10 +204,10 @@ Link: ({ props, on }) => {
 
 ### BaseComponentProps
 
-Catalog-agnostic base type for building reusable component libraries (e.g. `@json-render/shadcn`) that are not tied to a specific catalog:
+Catalog-agnostic base type for building reusable component libraries (e.g. `@tanstack-json-render/shadcn`) that are not tied to a specific catalog:
 
 ```typescript
-import type { BaseComponentProps } from "@json-render/react";
+import type { BaseComponentProps } from "@tanstack-json-render/react";
 
 const Card = ({ props, children }: BaseComponentProps<{ title?: string }>) => (
   <div>{props.title}{children}</div>
@@ -370,7 +370,7 @@ const { spec, text, hasSpec } = useJsonRenderMessage(parts: DataPart[]);
 Standalone utilities for extracting spec and text from AI SDK message parts (non-hook versions):
 
 ```typescript
-import { buildSpecFromParts, getTextFromParts } from '@json-render/react';
+import { buildSpecFromParts, getTextFromParts } from '@tanstack-json-render/react';
 
 const spec = buildSpecFromParts(message.parts);   // Spec | null
 const text = getTextFromParts(message.parts);      // string

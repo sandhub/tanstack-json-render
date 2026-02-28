@@ -6,7 +6,7 @@ import {
   useStateBinding,
   useFieldValidation,
   type BaseComponentProps,
-} from "@json-render/react";
+} from "@tanstack-json-render/react";
 
 import { Button } from "./ui/button";
 import {
@@ -154,13 +154,13 @@ function getPaginationRange(
 /**
  * Standard shadcn/ui component implementations.
  *
- * Pass to `defineRegistry()` from `@json-render/react` to create a
+ * Pass to `defineRegistry()` from `@tanstack-json-render/react` to create a
  * component registry for rendering JSON specs with shadcn/ui components.
  *
  * @example
  * ```ts
- * import { defineRegistry } from "@json-render/react";
- * import { shadcnComponents } from "@json-render/shadcn";
+ * import { defineRegistry } from "@tanstack-json-render/react";
+ * import { shadcnComponents } from "@tanstack-json-render/shadcn";
  *
  * const { registry } = defineRegistry(catalog, {
  *   components: {

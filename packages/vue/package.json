@@ -1,8 +1,8 @@
 {
-  "name": "@json-render/vue",
+  "name": "@tanstack-json-render/vue",
   "version": "0.11.0",
   "license": "Apache-2.0",
-  "description": "Vue renderer for @json-render/core. JSON becomes Vue components.",
+  "description": "Vue renderer for @tanstack-json-render/core. JSON becomes Vue components.",
   "keywords": [
     "json",
     "ui",
@@ -50,7 +50,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@json-render/core": "workspace:*"
+    "@tanstack-json-render/core": "workspace:*"
   },
   "devDependencies": {
     "@internal/typescript-config": "workspace:*",

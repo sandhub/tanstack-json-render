@@ -1,9 +1,9 @@
 ---
 name: json-render-remotion
-description: Remotion renderer for json-render that turns JSON timeline specs into videos. Use when working with @json-render/remotion, building video compositions from JSON, creating video catalogs, or rendering AI-generated video timelines.
+description: Remotion renderer for json-render that turns JSON timeline specs into videos. Use when working with @tanstack-json-render/remotion, building video compositions from JSON, creating video catalogs, or rendering AI-generated video timelines.
 ---
 
-# @json-render/remotion
+# @tanstack-json-render/remotion
 
 Remotion renderer that converts JSON timeline specs into video compositions.
 
@@ -11,7 +11,7 @@ Remotion renderer that converts JSON timeline specs into video compositions.
 
 ```typescript
 import { Player } from "@remotion/player";
-import { Renderer, type TimelineSpec } from "@json-render/remotion";
+import { Renderer, type TimelineSpec } from "@tanstack-json-render/remotion";
 
 function VideoPlayer({ spec }: { spec: TimelineSpec }) {
   return (
@@ -31,13 +31,13 @@ function VideoPlayer({ spec }: { spec: TimelineSpec }) {
 ## Using Standard Components
 
 ```typescript
-import { defineCatalog } from "@json-render/core";
+import { defineCatalog } from "@tanstack-json-render/core";
 import {
   schema,
   standardComponentDefinitions,
   standardTransitionDefinitions,
   standardEffectDefinitions,
-} from "@json-render/remotion";
+} from "@tanstack-json-render/remotion";
 
 export const videoCatalog = defineCatalog(schema, {
   components: standardComponentDefinitions,

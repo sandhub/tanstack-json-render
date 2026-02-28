@@ -6,7 +6,7 @@ import type {
   InferComponentProps,
   InferActionParams,
   StateModel,
-} from "@json-render/core";
+} from "@tanstack-json-render/core";
 
 export type { StateModel };
 

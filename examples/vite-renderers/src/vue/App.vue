@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { Spec } from "@json-render/core";
-import { StateProvider } from "@json-render/vue";
+import type { Spec } from "@tanstack-json-render/core";
+import { StateProvider } from "@tanstack-json-render/vue";
 import DemoRenderer from "./DemoRenderer.vue";
 
 const props = defineProps<{

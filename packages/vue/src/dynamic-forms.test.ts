@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from "vitest";
 import { defineComponent, h, nextTick, type Component } from "vue";
 import { mount } from "@vue/test-utils";
-import type { Spec } from "@json-render/core";
+import type { Spec } from "@tanstack-json-render/core";
 import { StateProvider, useStateStore } from "./composables/state";
 import { VisibilityProvider } from "./composables/visibility";
 import { ActionProvider } from "./composables/actions";

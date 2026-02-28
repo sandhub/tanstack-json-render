@@ -1,4 +1,4 @@
-import type { Spec } from "@json-render/core";
+import type { Spec } from "@tanstack-json-render/core";
 
 export const demoSpec: Spec = {
   root: "root",
@@ -7,7 +7,7 @@ export const demoSpec: Spec = {
     name: "",
     todos: [
       { id: 1, title: "Learn Vue 3", completed: true },
-      { id: 2, title: "Try @json-render/vue", completed: false },
+      { id: 2, title: "Try @tanstack-json-render/vue", completed: false },
       { id: 3, title: "Build something awesome", completed: false },
     ],
   },
@@ -26,7 +26,7 @@ export const demoSpec: Spec = {
     header: {
       type: "Text",
       props: {
-        content: "@json-render/vue demo",
+        content: "@tanstack-json-render/vue demo",
         size: "xl",
         weight: "bold",
       },

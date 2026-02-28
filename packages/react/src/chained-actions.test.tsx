@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import React from "react";
 import { render, act, fireEvent, screen } from "@testing-library/react";
-import type { Spec } from "@json-render/core";
+import type { Spec } from "@tanstack-json-render/core";
 import {
   JSONUIProvider,
   Renderer,

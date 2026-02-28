@@ -12,7 +12,7 @@ import type {
   Catalog,
   SchemaDefinition,
   StateStore,
-} from "@json-render/core";
+} from "@tanstack-json-render/core";
 import {
   resolveElementProps,
   resolveBindings,
@@ -21,7 +21,7 @@ import {
   getByPath,
   type PropResolutionContext,
   type VisibilityContext as CoreVisibilityContext,
-} from "@json-render/core";
+} from "@tanstack-json-render/core";
 import type { Components, SetState, StateModel } from "./catalog-types";
 import { useIsVisible, useVisibility } from "./contexts/visibility";
 import { useActions } from "./contexts/actions";

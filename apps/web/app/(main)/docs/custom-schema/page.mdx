@@ -3,11 +3,11 @@ export const metadata = pageMetadata("docs/custom-schema")
 
 # Custom Schema & Renderer
 
-Build your own schema and renderer with `@json-render/core`.
+Build your own schema and renderer with `@tanstack-json-render/core`.
 
 ## Overview
 
-`@json-render/core` is schema-agnostic. While `@json-render/react` provides a ready-to-use schema and renderer, you can create your own to match any JSON structure - whether it's a domain-specific format, an existing protocol, or something entirely custom.
+`@tanstack-json-render/core` is schema-agnostic. While `@tanstack-json-render/react` provides a ready-to-use schema and renderer, you can create your own to match any JSON structure - whether it's a domain-specific format, an existing protocol, or something entirely custom.
 
 ## 1. Define Your Schema
 
@@ -45,7 +45,7 @@ Start by defining the JSON structure your system will use. Here's an example of 
 Define a catalog that describes your components and validates props using `defineCatalog` — see [Catalog](/docs/catalog).
 
 ```typescript
-import { defineCatalog } from '@json-render/core';
+import { defineCatalog } from '@tanstack-json-render/core';
 import { z } from 'zod';
 
 export const dashboardCatalog = defineCatalog(mySchema, {

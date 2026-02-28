@@ -14,7 +14,7 @@ import {
   type ValidationConfig,
   type ValidationFunction,
   type ValidationResult,
-} from "@json-render/core";
+} from "@tanstack-json-render/core";
 import { useStateStore } from "./state";
 
 /**

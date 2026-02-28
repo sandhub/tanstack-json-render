@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import type { Spec } from "@json-render/core";
+import type { Spec } from "@tanstack-json-render/core";
 import {
   ActionProvider, ValidationProvider, VisibilityProvider,
   Renderer, defineRegistry, useStateStore,
-} from "@json-render/vue";
+} from "@tanstack-json-render/vue";
 import { catalog } from "./catalog";
 import { components } from "./registry";
 import { actionStubs, makeHandlers } from "../shared/handlers";

@@ -1,7 +1,7 @@
-import { defineSchema } from "@json-render/core";
+import { defineSchema } from "@tanstack-json-render/core";
 
 /**
- * The schema for @json-render/image
+ * The schema for @tanstack-json-render/image
  *
  * Defines:
  * - Spec: A flat tree of elements with keys, types, props, and children references

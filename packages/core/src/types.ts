@@ -991,7 +991,7 @@ export function createMixedStreamParser(
 /**
  * Minimal chunk shape compatible with TanStack AI's SSE StreamChunk.
  *
- * Defined here so that `@json-render/core` has no dependency on the
+ * Defined here so that `@tanstack-json-render/core` has no dependency on the
  * `@tanstack/ai` package. The discriminated union covers the text-related
  * chunk types the transform inspects; all other chunk types pass through.
  */
@@ -1137,7 +1137,7 @@ export function createJsonRenderTransform(): TransformStream<
  *
  * @example
  * ```ts
- * import { SPEC_DATA_PART, type SpecDataPart } from "@json-render/core";
+ * import { SPEC_DATA_PART, type SpecDataPart } from "@tanstack-json-render/core";
  * type AppDataParts = { [SPEC_DATA_PART]: SpecDataPart };
  * ```
  */

@@ -7,5 +7,5 @@ export default defineConfig({
   sourcemap: true,
   clean: true,
   noExternal: ["@internal/react-state"],
-  external: ["react", "react-native", "@json-render/core", "zod"],
+  external: ["react", "react-native", "@tanstack-json-render/core", "zod"],
 });

@@ -11,7 +11,7 @@ import {
   Trash2,
   X,
 } from "lucide-react";
-import { useUIStream, type Spec } from "@json-render/react";
+import { useUIStream, type Spec } from "@tanstack-json-render/react";
 import { DashboardRenderer } from "@/lib/render/renderer";
 import { executeAction } from "@/lib/render/registry";
 import { CodeHighlight } from "@/components/code-highlight";

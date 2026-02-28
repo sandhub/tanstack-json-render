@@ -15,7 +15,7 @@ import { fetch } from "expo/fetch";
 import Constants from "expo-constants";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as Clipboard from "expo-clipboard";
-import { useUIStream } from "@json-render/react-native";
+import { useUIStream } from "@tanstack-json-render/react-native";
 import { AppRenderer } from "../lib/render/renderer";
 
 // Resolve the Metro dev server origin for API route calls.

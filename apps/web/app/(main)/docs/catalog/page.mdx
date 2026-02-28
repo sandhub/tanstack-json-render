@@ -15,11 +15,11 @@ A catalog is the vocabulary for your UI. While the [schema](/docs/schemas) defin
 
 ## Creating a Catalog
 
-`defineCatalog` is from `@json-render/core`. The `schema` import comes from your platform package (`@json-render/react` or `@json-render/react-native`) and defines the element structure the catalog targets. The catalog definition itself is framework-agnostic.
+`defineCatalog` is from `@tanstack-json-render/core`. The `schema` import comes from your platform package (`@tanstack-json-render/react` or `@tanstack-json-render/react-native`) and defines the element structure the catalog targets. The catalog definition itself is framework-agnostic.
 
 ```typescript
-import { defineCatalog } from '@json-render/core';
-import { schema } from '@json-render/react/schema'; // or '@json-render/react-native/schema'
+import { defineCatalog } from '@tanstack-json-render/core';
+import { schema } from '@tanstack-json-render/react/schema'; // or '@tanstack-json-render/react-native/schema'
 import { z } from 'zod';
 
 const catalog = defineCatalog(schema, {

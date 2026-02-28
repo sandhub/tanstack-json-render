@@ -1,19 +1,19 @@
-# @json-render/jotai
+# @tanstack-json-render/jotai
 
 Jotai adapter for json-render's `StateStore` interface. Wire a Jotai atom as the state backend for json-render.
 
 ## Installation
 
 ```bash
-npm install @json-render/jotai @json-render/core @json-render/react jotai
+npm install @tanstack-json-render/jotai @tanstack-json-render/core @tanstack-json-render/react jotai
 ```
 
 ## Usage
 
 ```ts
 import { atom } from "jotai";
-import { jotaiStateStore } from "@json-render/jotai";
-import { StateProvider } from "@json-render/react";
+import { jotaiStateStore } from "@tanstack-json-render/jotai";
+import { StateProvider } from "@tanstack-json-render/react";
 
 // 1. Create an atom that holds the json-render state
 const uiAtom = atom<Record<string, unknown>>({ count: 0 });
@@ -34,8 +34,8 @@ If your app already uses a Jotai `<Provider>` with a custom store, pass it so bo
 ```ts
 import { atom, createStore } from "jotai";
 import { Provider as JotaiProvider } from "jotai/react";
-import { jotaiStateStore } from "@json-render/jotai";
-import { StateProvider } from "@json-render/react";
+import { jotaiStateStore } from "@tanstack-json-render/jotai";
+import { StateProvider } from "@tanstack-json-render/react";
 
 const jStore = createStore();
 const uiAtom = atom<Record<string, unknown>>({ count: 0 });

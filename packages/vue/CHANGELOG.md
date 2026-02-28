@@ -1,11 +1,11 @@
-# @json-render/vue
+# @tanstack-json-render/vue
 
 ## 0.11.0
 
 ### Patch Changes
 
 - Updated dependencies [3f1e71e]
-  - @json-render/core@0.11.0
+  - @tanstack-json-render/core@0.11.0
 
 ## 0.10.0
 
@@ -13,9 +13,9 @@
 
 - 9cef4e9: Dynamic forms, Vue renderer, XState Store adapter, and computed values.
 
-  ### New: `@json-render/vue` Package
+  ### New: `@tanstack-json-render/vue` Package
 
-  Vue 3 renderer for json-render. Full feature parity with `@json-render/react` including data binding, visibility conditions, actions, validation, repeat scopes, and streaming.
+  Vue 3 renderer for json-render. Full feature parity with `@tanstack-json-render/react` including data binding, visibility conditions, actions, validation, repeat scopes, and streaming.
   - `defineRegistry` — create type-safe component registries from catalogs
   - `Renderer` — render specs as Vue component trees
   - Providers: `StateProvider`, `ActionProvider`, `VisibilityProvider`, `ValidationProvider`
@@ -23,7 +23,7 @@
   - Streaming: `useUIStream`, `useChatUI`
   - External store support via `StateStore` interface
 
-  ### New: `@json-render/xstate` Package
+  ### New: `@tanstack-json-render/xstate` Package
 
   XState Store (atom) adapter for json-render's `StateStore` interface. Wire an `@xstate/store` atom as the state backend.
   - `xstateStoreStateStore({ atom })` — creates a `StateStore` from an `@xstate/store` atom
@@ -34,7 +34,7 @@
   Call registered functions from prop expressions:
   - `{ "$computed": "functionName", "args": { "key": <expression> } }` — calls a named function with resolved args
   - Functions registered via catalog and provided at runtime through `functions` prop on `JSONUIProvider` / `createRenderer`
-  - `ComputedFunction` type exported from `@json-render/core`
+  - `ComputedFunction` type exported from `@tanstack-json-render/core`
 
   ### New: `$template` Expressions
 
@@ -81,4 +81,4 @@
 ### Patch Changes
 
 - Updated dependencies [9cef4e9]
-  - @json-render/core@0.10.0
+  - @tanstack-json-render/core@0.10.0

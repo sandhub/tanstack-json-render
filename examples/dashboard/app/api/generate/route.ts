@@ -1,6 +1,9 @@
 import { chat } from "@tanstack/ai";
 import { anthropicText } from "@tanstack/ai-anthropic";
-import { buildUserPrompt, streamToTextResponse } from "@json-render/core";
+import {
+  buildUserPrompt,
+  streamToTextResponse,
+} from "@tanstack-json-render/core";
 import { dashboardCatalog } from "@/lib/render/catalog";
 
 export const maxDuration = 30;

@@ -1,7 +1,7 @@
 import { pageMetadata } from "@/lib/page-metadata"
 export const metadata = pageMetadata("docs/api/react-native")
 
-# @json-render/react-native
+# @tanstack-json-render/react-native
 
 React Native renderer with standard components, providers, and hooks.
 
@@ -109,7 +109,7 @@ React Native renderer with standard components, providers, and hooks.
 Pass a `StateStore` to bypass the internal state and wire json-render to any state management library:
 
 ```tsx
-import { createStateStore, type StateStore } from "@json-render/react-native";
+import { createStateStore, type StateStore } from "@tanstack-json-render/react-native";
 
 const store = createStateStore({ count: 0 });
 
@@ -154,7 +154,7 @@ Conditions in specs use the `VisibilityCondition` format with `$state` paths (e.
 Create a type-safe component registry. Standard components are built-in; only register custom components.
 
 ```tsx
-import { defineRegistry, type Components } from '@json-render/react-native';
+import { defineRegistry, type Components } from '@tanstack-json-render/react-native';
 
 const { registry } = defineRegistry(catalog, {
   components: {
@@ -216,8 +216,8 @@ const isVisible = useIsVisible(condition?: VisibilityCondition);
 ## Catalog Exports
 
 ```typescript
-import { standardComponentDefinitions, standardActionDefinitions } from "@json-render/react-native/catalog";
-import { schema } from "@json-render/react-native/schema";
+import { standardComponentDefinitions, standardActionDefinitions } from "@tanstack-json-render/react-native/catalog";
+import { schema } from "@tanstack-json-render/react-native/schema";
 ```
 
 <table>

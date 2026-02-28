@@ -7,18 +7,18 @@ A registry maps your [catalog](/docs/catalog) definitions to platform-specific i
 
 What a registry contains depends on the schema you use. Each package defines its own schema, which determines the shape of both the catalog and the registry.
 
-- **`@json-render/react`** — Components (React elements) and action handlers
-- **`@json-render/react-native`** — Components (React Native elements) and action handlers
-- **`@json-render/remotion`** — Clip components, transitions, and effects
+- **`@tanstack-json-render/react`** — Components (React elements) and action handlers
+- **`@tanstack-json-render/react-native`** — Components (React Native elements) and action handlers
+- **`@tanstack-json-render/remotion`** — Clip components, transitions, and effects
 
-## @json-render/react
+## @tanstack-json-render/react
 
 ### defineRegistry
 
 Use `defineRegistry` to create a type-safe registry from your catalog. Pass your components, actions, or both:
 
 ```tsx
-import { defineRegistry } from '@json-render/react';
+import { defineRegistry } from '@tanstack-json-render/react';
 import { myCatalog } from './catalog';
 
 export const { registry, handlers, executeAction } = defineRegistry(myCatalog, {
@@ -109,7 +109,7 @@ Link: ({ props, on }) => {
 When a spec uses `{ "$bindState": "/path" }` or `{ "$bindItem": "field" }` on a prop, the renderer resolves the **value** into `props` and provides the **write-back path** in `bindings`. Use the `useBoundProp` hook to wire both together:
 
 ```tsx
-import { useBoundProp, defineRegistry } from '@json-render/react';
+import { useBoundProp, defineRegistry } from '@tanstack-json-render/react';
 
 // Inside your registry:
 TextInput: ({ props, bindings }) => {
@@ -129,11 +129,11 @@ TextInput: ({ props, bindings }) => {
 
 Instead of AI generating arbitrary code, it declares *intent* by name. Your application provides the implementation. This is a core guardrail.
 
-Actions are declared in your [catalog](/docs/catalog). The `@json-render/react` schema supports an `actions` key where you define what operations AI can trigger:
+Actions are declared in your [catalog](/docs/catalog). The `@tanstack-json-render/react` schema supports an `actions` key where you define what operations AI can trigger:
 
 ```typescript
-import { defineCatalog } from '@json-render/core';
-import { schema } from '@json-render/react/schema';
+import { defineCatalog } from '@tanstack-json-render/core';
+import { schema } from '@tanstack-json-render/react/schema';
 import { z } from 'zod';
 
 const catalog = defineCatalog(schema, {
@@ -192,7 +192,7 @@ Most data binding is handled automatically by the renderer — `$state`, `$item`
 For two-way binding (form inputs), use `{ "$bindState": "/path" }` on the natural value prop (or `{ "$bindItem": "field" }` inside repeat scopes). The renderer provides a `bindings` map with the state path for each bound prop. Use `useBoundProp` to get `[value, setValue]`:
 
 ```tsx
-import { useBoundProp } from '@json-render/react';
+import { useBoundProp } from '@tanstack-json-render/react';
 
 // Inside defineRegistry components:
 
@@ -211,7 +211,7 @@ Input: ({ props, bindings }) => {
 },
 ```
 
-For read-only state access (e.g. displaying a value from state), use `$state` expressions in props — they are resolved before the component receives them. For custom logic, use `useStateStore` and `getByPath` from `@json-render/core`.
+For read-only state access (e.g. displaying a value from state), use `$state` expressions in props — they are resolved before the component receives them. For custom logic, use `useStateStore` and `getByPath` from `@tanstack-json-render/core`.
 
 ### Using the Renderer
 
@@ -224,7 +224,7 @@ import {
   StateProvider,
   VisibilityProvider,
   ActionProvider,
-} from '@json-render/react';
+} from '@tanstack-json-render/react';
 import { registry, handlers } from './registry';
 
 function App({ spec, state, setState }) {
@@ -250,12 +250,12 @@ function App({ spec, state, setState }) {
 }
 ```
 
-## @json-render/react-native
+## @tanstack-json-render/react-native
 
-`@json-render/react-native` uses the same `defineRegistry` API. The only difference is that components return React Native elements instead of HTML:
+`@tanstack-json-render/react-native` uses the same `defineRegistry` API. The only difference is that components return React Native elements instead of HTML:
 
 ```tsx
-import { defineRegistry } from '@json-render/react-native';
+import { defineRegistry } from '@tanstack-json-render/react-native';
 import { View, Text, Pressable } from 'react-native';
 
 export const { registry } = defineRegistry(catalog, {
@@ -276,14 +276,14 @@ export const { registry } = defineRegistry(catalog, {
 });
 ```
 
-See the [@json-render/react-native API reference](/docs/api/react-native) for the full API.
+See the [@tanstack-json-render/react-native API reference](/docs/api/react-native) for the full API.
 
-## @json-render/remotion
+## @tanstack-json-render/remotion
 
-`@json-render/remotion` takes a different approach. Instead of `defineRegistry`, it uses a plain component registry with built-in standard components for video production:
+`@tanstack-json-render/remotion` takes a different approach. Instead of `defineRegistry`, it uses a plain component registry with built-in standard components for video production:
 
 ```tsx
-import { Renderer, standardComponents } from '@json-render/remotion';
+import { Renderer, standardComponents } from '@tanstack-json-render/remotion';
 
 // Use the standard components directly
 <Renderer spec={timelineSpec} components={standardComponents} />
@@ -297,7 +297,7 @@ const components = {
 
 The Remotion schema also supports `transitions` and `effects` in the catalog rather than actions.
 
-See the [@json-render/remotion API reference](/docs/api/remotion) for the full API.
+See the [@tanstack-json-render/remotion API reference](/docs/api/remotion) for the full API.
 
 ## Next
 

@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from "vitest";
 import React from "react";
 import { renderHook, act } from "@testing-library/react";
-import { createStateStore } from "@json-render/core";
+import { createStateStore } from "@tanstack-json-render/core";
 import {
   StateProvider,
   useStateStore,

@@ -5,11 +5,11 @@
     "test": "vitest run --config vitest.config.ts"
   },
   "devDependencies": {
-    "@json-render/core": "workspace:*",
-    "@json-render/jotai": "workspace:*",
-    "@json-render/react": "workspace:*",
-    "@json-render/redux": "workspace:*",
-    "@json-render/zustand": "workspace:*",
+    "@tanstack-json-render/core": "workspace:*",
+    "@tanstack-json-render/jotai": "workspace:*",
+    "@tanstack-json-render/react": "workspace:*",
+    "@tanstack-json-render/redux": "workspace:*",
+    "@tanstack-json-render/zustand": "workspace:*",
     "@reduxjs/toolkit": "^2.11.2",
     "@tanstack/ai": "^0.6.1",
     "@tanstack/ai-anthropic": "^0.6.0",

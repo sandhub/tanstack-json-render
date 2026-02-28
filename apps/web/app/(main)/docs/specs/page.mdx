@@ -20,7 +20,7 @@ json-render is schema-agnostic — your specs can follow any JSON structure you 
 
 ### Simple Spec
 
-A basic spec using the `@json-render/react` schema. Note the flat structure with a `root` key and `elements` map:
+A basic spec using the `@tanstack-json-render/react` schema. Note the flat structure with a `root` key and `elements` map:
 
 ```json
 {
@@ -146,7 +146,7 @@ A high-level spec using semantic blocks for page layouts:
 
 ## Spec Anatomy
 
-Specs are schema-agnostic — the JSON structure is entirely up to you. The examples below use the `root` + `elements` flat tree format from the `@json-render/react` schema, which is optimized for AI generation and streaming.
+Specs are schema-agnostic — the JSON structure is entirely up to you. The examples below use the `root` + `elements` flat tree format from the `@tanstack-json-render/react` schema, which is optimized for AI generation and streaming.
 
 ### Root and Elements
 
@@ -222,10 +222,10 @@ Control when elements appear using the `visible` property:
 
 ### Validating a Spec
 
-Use `validateSpec` from `@json-render/core` to check a spec for structural issues:
+Use `validateSpec` from `@tanstack-json-render/core` to check a spec for structural issues:
 
 ```typescript
-import { validateSpec } from '@json-render/core';
+import { validateSpec } from '@tanstack-json-render/core';
 
 const result = validateSpec(spec);
 
@@ -236,10 +236,10 @@ if (!result.valid) {
 
 ### Rendering a Spec (React)
 
-With `@json-render/react`, wrap the `Renderer` in providers to supply state and visibility:
+With `@tanstack-json-render/react`, wrap the `Renderer` in providers to supply state and visibility:
 
 ```tsx
-import { Renderer, StateProvider, VisibilityProvider } from '@json-render/react';
+import { Renderer, StateProvider, VisibilityProvider } from '@tanstack-json-render/react';
 import { registry } from './registry';
 
 function MyApp({ spec, initialState }) {
@@ -253,14 +253,14 @@ function MyApp({ spec, initialState }) {
 }
 ```
 
-See the [@json-render/react API reference](/docs/api/react) for full provider and hook documentation.
+See the [@tanstack-json-render/react API reference](/docs/api/react) for full provider and hook documentation.
 
 ### Streaming a Spec (React)
 
-With `@json-render/react`, use the `useUIStream` hook to stream specs incrementally:
+With `@tanstack-json-render/react`, use the `useUIStream` hook to stream specs incrementally:
 
 ```tsx
-import { useUIStream } from '@json-render/react';
+import { useUIStream } from '@tanstack-json-render/react';
 
 function GenerativeUI() {
   const { spec, isStreaming } = useUIStream({

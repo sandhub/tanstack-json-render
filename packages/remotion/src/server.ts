@@ -1,5 +1,5 @@
 /**
- * Server-safe exports for @json-render/remotion
+ * Server-safe exports for @tanstack-json-render/remotion
  *
  * This entry point only exports schema and catalog definitions,
  * without any React or Remotion runtime dependencies.
@@ -8,7 +8,7 @@
  * @example
  * ```ts
  * // In an API route or server component
- * import { schema, standardComponentDefinitions } from "@json-render/remotion/server";
+ * import { schema, standardComponentDefinitions } from "@tanstack-json-render/remotion/server";
  * ```
  */
 
@@ -38,4 +38,4 @@ export type {
 } from "./catalog-types";
 
 // Core types (re-exported for convenience)
-export type { Spec } from "@json-render/core";
+export type { Spec } from "@tanstack-json-render/core";

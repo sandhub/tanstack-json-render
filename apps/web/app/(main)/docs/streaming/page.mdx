@@ -45,7 +45,7 @@ Ensure your API route streams properly:
 ```typescript
 import { chat } from "@tanstack/ai";
 import { anthropicText } from "@tanstack/ai-anthropic";
-import { streamToTextResponse } from "@json-render/core";
+import { streamToTextResponse } from "@tanstack-json-render/core";
 import { catalog } from '@/lib/catalog';
 
 export async function POST(req: Request) {
@@ -65,10 +65,10 @@ export async function POST(req: Request) {
 
 ## Low-Level SpecStream API
 
-For custom or framework-agnostic streaming implementations, use the SpecStream compiler from `@json-render/core` directly:
+For custom or framework-agnostic streaming implementations, use the SpecStream compiler from `@tanstack-json-render/core` directly:
 
 ```typescript
-import { createSpecStreamCompiler } from '@json-render/core';
+import { createSpecStreamCompiler } from '@tanstack-json-render/core';
 
 // Create a compiler for your spec type
 const compiler = createSpecStreamCompiler<MySpec>();
@@ -100,7 +100,7 @@ async function processStream(reader: ReadableStreamDefaultReader<Uint8Array>) {
 For non-streaming scenarios, compile entire SpecStream at once:
 
 ```typescript
-import { compileSpecStream } from '@json-render/core';
+import { compileSpecStream } from '@tanstack-json-render/core';
 
 const jsonl = `{"op":"add","path":"/root","value":"card-1"}
 {"op":"add","path":"/elements/card-1","value":{"type":"Card","props":{"title":"Hello"},"children":[]}}`;
@@ -111,12 +111,12 @@ const spec = compileSpecStream<Spec>(jsonl);
 
 ## Usage with React
 
-`@json-render/react` provides the `useUIStream` hook, which wraps the low-level compiler in a React-friendly API with state management, error handling, and abort support.
+`@tanstack-json-render/react` provides the `useUIStream` hook, which wraps the low-level compiler in a React-friendly API with state management, error handling, and abort support.
 
 ### useUIStream Hook
 
 ```tsx
-import { useUIStream } from '@json-render/react';
+import { useUIStream } from '@tanstack-json-render/react';
 
 function App() {
   const {
@@ -171,4 +171,4 @@ function App() {
 }
 ```
 
-See the [@json-render/react API reference](/docs/api/react) for full `useUIStream` documentation.
+See the [@tanstack-json-render/react API reference](/docs/api/react) for full `useUIStream` documentation.

@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect } from "react";
-import type { Spec } from "@json-render/react";
+import type { Spec } from "@tanstack-json-render/react";
 import {
   Banner,
   Box,

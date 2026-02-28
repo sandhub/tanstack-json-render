@@ -1,4 +1,4 @@
-import type { Spec } from "@json-render/core";
+import type { Spec } from "@tanstack-json-render/core";
 
 export const demoSpec: Spec = {
   root: "root",
@@ -9,7 +9,7 @@ export const demoSpec: Spec = {
       { id: 1, title: "Learn JSON Render", completed: true },
       {
         id: 2,
-        title: "Try @json-render/vue or @json-render/react",
+        title: "Try @tanstack-json-render/vue or @tanstack-json-render/react",
         completed: false,
       },
       { id: 3, title: "Build something awesome", completed: false },

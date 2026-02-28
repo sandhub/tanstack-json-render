@@ -1,5 +1,5 @@
 {
-  "name": "@json-render/redux",
+  "name": "@tanstack-json-render/redux",
   "version": "0.11.0",
   "license": "Apache-2.0",
   "description": "Redux adapter for json-render StateStore",
@@ -40,7 +40,7 @@
     "check-types": "tsc --noEmit"
   },
   "dependencies": {
-    "@json-render/core": "workspace:*"
+    "@tanstack-json-render/core": "workspace:*"
   },
   "peerDependencies": {
     "@reduxjs/toolkit": ">=2.0.0",

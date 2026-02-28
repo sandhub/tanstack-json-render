@@ -1,7 +1,7 @@
 // Component implementations
 export { shadcnComponents } from "./components";
 
-// Catalog definitions (also available via @json-render/shadcn/catalog)
+// Catalog definitions (also available via @tanstack-json-render/shadcn/catalog)
 export {
   shadcnComponentDefinitions,
   type ComponentDefinition,
