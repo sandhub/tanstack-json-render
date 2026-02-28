@@ -1,12 +1,11 @@
 "use client";
 
 import { useState, useCallback, useRef, useEffect } from "react";
-import { useChat } from "@ai-sdk/react";
-import { DefaultChatTransport, type UIMessage } from "ai";
+import { useChat, fetchServerSentEvents } from "@tanstack/ai-react";
 import {
-  SPEC_DATA_PART,
-  SPEC_DATA_PART_TYPE,
+  type Spec,
   type SpecDataPart,
+  applySpecPatch,
 } from "@json-render/core";
 import { useJsonRenderMessage } from "@json-render/react";
 import { ExplorerRenderer } from "@/lib/render/renderer";
@@ -25,14 +24,22 @@ import { code } from "@streamdown/code";
 // Types
 // =============================================================================
 
-type AppDataParts = { [SPEC_DATA_PART]: SpecDataPart };
-type AppMessage = UIMessage<unknown, AppDataParts>;
+type MessagePart = {
+  type: string;
+  content?: string;
+  text?: string;
+  name?: string;
+  id?: string;
+  state?: string;
+  toolCallId?: string;
+  output?: unknown;
+};
 
 // =============================================================================
-// Transport
+// Connection
 // =============================================================================
 
-const transport = new DefaultChatTransport({ api: "/api/generate" });
+const connection = fetchServerSentEvents("/api/generate");
 
 // =============================================================================
 // Suggestions (shown in empty state)
@@ -82,10 +89,7 @@ function ToolCallDisplay({
   result: unknown;
 }) {
   const [expanded, setExpanded] = useState(false);
-  const isLoading =
-    state !== "output-available" &&
-    state !== "output-error" &&
-    state !== "output-denied";
+  const isLoading = state !== "complete" && state !== "error";
   const labels = TOOL_LABELS[toolName];
   const label = labels ? (isLoading ? labels[0] : labels[1]) : toolName;
 
@@ -128,17 +132,20 @@ function MessageBubble({
   message,
   isLast,
   isStreaming,
+  currentSpec,
 }: {
-  message: AppMessage;
+  message: { id: string; role: string; parts: MessagePart[] };
   isLast: boolean;
   isStreaming: boolean;
+  currentSpec: Spec | null;
 }) {
   const isUser = message.role === "user";
-  const { spec, text, hasSpec } = useJsonRenderMessage(message.parts);
+  const { spec, text, hasSpec } = useJsonRenderMessage(
+    message.parts,
+    isLast ? currentSpec : null,
+  );
 
   // Build ordered segments from parts, collapsing adjacent text and adjacent tools.
-  // Spec data parts are tracked so the rendered UI appears inline where the AI
-  // placed it rather than always at the bottom.
   const segments: Array<
     | { kind: "text"; text: string }
     | {
@@ -150,32 +157,37 @@ function MessageBubble({
           output?: unknown;
         }>;
       }
-    | { kind: "spec" }
   > = [];
-
-  let specInserted = false;
 
   for (const part of message.parts) {
     if (part.type === "text") {
-      if (!part.text.trim()) continue;
+      const textContent =
+        (part as { content?: string; text?: string }).content ??
+        (part as { text?: string }).text ??
+        "";
+      if (!textContent.trim()) continue;
       const last = segments[segments.length - 1];
       if (last?.kind === "text") {
-        last.text += part.text;
+        last.text += textContent;
       } else {
-        segments.push({ kind: "text", text: part.text });
+        segments.push({ kind: "text", text: textContent });
       }
-    } else if (part.type.startsWith("tool-")) {
+    } else if (part.type === "tool-call" || part.type === "tool-result") {
       const tp = part as {
         type: string;
-        toolCallId: string;
+        id?: string;
+        toolCallId?: string;
+        name?: string;
         state: string;
         output?: unknown;
       };
+      const toolName = tp.name || tp.type;
+      const toolCallId = tp.toolCallId || tp.id || "";
       const last = segments[segments.length - 1];
       if (last?.kind === "tools") {
         last.tools.push({
-          toolCallId: tp.toolCallId,
-          toolName: tp.type.replace(/^tool-/, ""),
+          toolCallId,
+          toolName,
           state: tp.state,
           output: tp.output,
         });
@@ -184,18 +196,14 @@ function MessageBubble({
           kind: "tools",
           tools: [
             {
-              toolCallId: tp.toolCallId,
-              toolName: tp.type.replace(/^tool-/, ""),
+              toolCallId,
+              toolName,
               state: tp.state,
               output: tp.output,
             },
           ],
         });
       }
-    } else if (part.type === SPEC_DATA_PART_TYPE && !specInserted) {
-      // First spec data part — mark where the rendered UI should appear
-      segments.push({ kind: "spec" });
-      specInserted = true;
     }
   }
 
@@ -215,11 +223,6 @@ function MessageBubble({
     );
   }
 
-  // If there's a spec but no spec segment was inserted (edge case),
-  // append it so it still renders.
-  const specRenderedInline = specInserted;
-  const showSpecAtEnd = hasSpec && !specRenderedInline;
-
   return (
     <div className="w-full flex flex-col gap-3">
       {segments.map((seg, i) => {
@@ -236,14 +239,6 @@ function MessageBubble({
               >
                 {seg.text}
               </Streamdown>
-            </div>
-          );
-        }
-        if (seg.kind === "spec") {
-          if (!hasSpec) return null;
-          return (
-            <div key="spec" className="w-full">
-              <ExplorerRenderer spec={spec} loading={isLast && isStreaming} />
             </div>
           );
         }
@@ -268,8 +263,8 @@ function MessageBubble({
         </div>
       )}
 
-      {/* Fallback: render spec at end if no inline position was found */}
-      {showSpecAtEnd && (
+      {/* Render spec at end if present */}
+      {hasSpec && (
         <div className="w-full">
           <ExplorerRenderer spec={spec} loading={isLast && isStreaming} />
         </div>
@@ -291,10 +286,28 @@ export default function ChatPage() {
   const isAutoScrolling = useRef(false);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
-  const { messages, sendMessage, setMessages, status, error } =
-    useChat<AppMessage>({ transport });
+  // Spec handling: accumulate patches from onChunk
+  const currentSpecRef = useRef<Spec>({ root: "", elements: {} });
+  const [currentSpec, setCurrentSpec] = useState<Spec | null>(null);
 
-  const isStreaming = status === "streaming" || status === "submitted";
+  const { messages, sendMessage, setMessages, isLoading, error } = useChat({
+    connection,
+    onChunk: (chunk: { type: string; data?: unknown }) => {
+      if (chunk.type === "spec") {
+        const payload = (chunk as { data: SpecDataPart }).data;
+        if (payload.type === "patch") {
+          applySpecPatch(currentSpecRef.current, payload.patch);
+          setCurrentSpec({ ...currentSpecRef.current });
+        }
+      }
+    },
+    onFinish: () => {
+      // Reset spec accumulator for next message
+      currentSpecRef.current = { root: "", elements: {} };
+    },
+  });
+
+  const isStreaming = isLoading;
 
   // Track whether the user has scrolled away from the bottom.
   // During programmatic scrolling, suppress button updates until we arrive.
@@ -350,7 +363,8 @@ export default function ChatPage() {
       const message = text || input;
       if (!message.trim() || isStreaming) return;
       setInput("");
-      await sendMessage({ text: message.trim() });
+      setCurrentSpec(null);
+      await sendMessage(message.trim());
     },
     [input, isStreaming, sendMessage],
   );
@@ -433,6 +447,7 @@ export default function ChatPage() {
                 message={message}
                 isLast={index === messages.length - 1}
                 isStreaming={isStreaming}
+                currentSpec={currentSpec}
               />
             ))}
 
