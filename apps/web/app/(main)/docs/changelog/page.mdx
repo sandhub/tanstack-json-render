@@ -355,14 +355,11 @@ On the server, `pipeJsonRender()` separates text from JSONL patches in a mixed s
 
 ```typescript
 import { pipeJsonRender } from "@json-render/core";
-import { createUIMessageStream, createUIMessageStreamResponse } from "ai";
+import { chat, toServerSentEventsResponse } from "@tanstack/ai";
+import { anthropicText } from "@tanstack/ai-anthropic";
 
-const stream = createUIMessageStream({
-  execute: async ({ writer }) => {
-    writer.merge(pipeJsonRender(result.toUIMessageStream()));
-  },
-});
-return createUIMessageStreamResponse({ stream });
+const raw = chat({ adapter: anthropicText("claude-haiku-4-5-20251001"), messages, systemPrompts: [system] });
+return toServerSentEventsResponse(pipeJsonRender(raw));
 ```
 
 On the client, `useJsonRenderMessage` extracts the spec and text from message parts:
