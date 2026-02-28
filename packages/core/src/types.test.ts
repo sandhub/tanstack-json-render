@@ -12,7 +12,6 @@ import {
   createSpecStreamCompiler,
   createMixedStreamParser,
   createJsonRenderTransform,
-  SPEC_DATA_PART_TYPE,
 } from "./types";
 import type { Spec, SpecStreamLine, StreamChunk } from "./types";
 
@@ -880,7 +879,7 @@ describe("nestedToFlat", () => {
 // =============================================================================
 
 describe("createJsonRenderTransform", () => {
-  /** Helper: push text-delta chunks through the transform and collect output */
+  /** Helper: push content chunks through the transform and collect output */
   async function transformText(text: string): Promise<StreamChunk[]> {
     const transform = createJsonRenderTransform();
     const writer = transform.writable.getWriter();
@@ -888,7 +887,6 @@ describe("createJsonRenderTransform", () => {
 
     const chunks: StreamChunk[] = [];
 
-    // Read and write concurrently to avoid backpressure deadlock
     const readAll = (async () => {
       while (true) {
         const { done, value } = await reader.read();
@@ -897,39 +895,47 @@ describe("createJsonRenderTransform", () => {
       }
     })();
 
-    await writer.write({ type: "text-start", id: "t1" });
-    await writer.write({ type: "text-delta", id: "t1", delta: text });
-    await writer.write({ type: "text-end", id: "t1" });
+    // Send as a single content chunk (TanStack AI format)
+    await writer.write({
+      type: "content",
+      id: "msg_1",
+      delta: text,
+      content: text,
+    } as StreamChunk);
     await writer.close();
 
     await readAll;
     return chunks;
   }
 
-  it("passes prose text through as text-delta", async () => {
+  it("passes prose text through as content chunks", async () => {
     const chunks = await transformText("Hello world\n");
-    const textChunks = chunks.filter((c) => c.type === "text-delta");
-    const text = textChunks.map((c) => (c as { delta: string }).delta).join("");
+    const contentChunks = chunks.filter((c) => c.type === "content");
+    const text = contentChunks
+      .map((c) => (c as { delta: string }).delta)
+      .join("");
     expect(text).toContain("Hello world");
   });
 
-  it("classifies valid JSONL patches as data-spec (heuristic mode)", async () => {
+  it("classifies valid JSONL patches as spec chunks (heuristic mode)", async () => {
     const patch = '{"op":"add","path":"/root","value":"main"}\n';
     const chunks = await transformText(patch);
-    const specChunks = chunks.filter((c) => c.type === SPEC_DATA_PART_TYPE);
+    const specChunks = chunks.filter((c) => c.type === "spec");
     expect(specChunks.length).toBe(1);
     expect((specChunks[0] as { data: { type: string } }).data.type).toBe(
       "patch",
     );
   });
 
-  it("lines starting with { that are NOT patches are flushed as text", async () => {
+  it("lines starting with { that are NOT patches are flushed as content", async () => {
     const line = '{"not":"a patch"}\n';
     const chunks = await transformText(line);
-    const specChunks = chunks.filter((c) => c.type === SPEC_DATA_PART_TYPE);
-    const textChunks = chunks.filter((c) => c.type === "text-delta");
+    const specChunks = chunks.filter((c) => c.type === "spec");
+    const contentChunks = chunks.filter((c) => c.type === "content");
     expect(specChunks.length).toBe(0);
-    const text = textChunks.map((c) => (c as { delta: string }).delta).join("");
+    const text = contentChunks
+      .map((c) => (c as { delta: string }).delta)
+      .join("");
     expect(text).toContain('{"not":"a patch"}');
   });
 
@@ -944,15 +950,15 @@ describe("createJsonRenderTransform", () => {
     ].join("");
 
     const chunks = await transformText(input);
-    const specChunks = chunks.filter((c) => c.type === SPEC_DATA_PART_TYPE);
+    const specChunks = chunks.filter((c) => c.type === "spec");
     expect(specChunks.length).toBe(2);
 
-    // Prose before and after should come through
-    const textChunks = chunks.filter((c) => c.type === "text-delta");
-    const text = textChunks.map((c) => (c as { delta: string }).delta).join("");
+    const contentChunks = chunks.filter((c) => c.type === "content");
+    const text = contentChunks
+      .map((c) => (c as { delta: string }).delta)
+      .join("");
     expect(text).toContain("Here is some UI:");
     expect(text).toContain("Done!");
-    // Fence delimiters should NOT appear in text
     expect(text).not.toContain("```spec");
   });
 
@@ -964,24 +970,30 @@ describe("createJsonRenderTransform", () => {
     ].join("");
 
     const chunks = await transformText(input);
-    const specChunks = chunks.filter((c) => c.type === SPEC_DATA_PART_TYPE);
+    const specChunks = chunks.filter((c) => c.type === "spec");
     expect(specChunks.length).toBe(1);
 
-    const textChunks = chunks.filter((c) => c.type === "text-delta");
-    const text = textChunks.map((c) => (c as { delta: string }).delta).join("");
+    const contentChunks = chunks.filter((c) => c.type === "content");
+    const text = contentChunks
+      .map((c) => (c as { delta: string }).delta)
+      .join("");
     expect(text).toContain("Some text");
     expect(text).toContain("More text");
   });
 
-  it("non-text chunks pass through unchanged", async () => {
+  it("non-content chunks pass through unchanged", async () => {
     const transform = createJsonRenderTransform();
     const writer = transform.writable.getWriter();
     const reader = transform.readable.getReader();
 
     const toolChunk = {
-      type: "tool-call",
-      toolCallId: "abc",
-      toolName: "test",
+      type: "tool_call",
+      id: "msg_1",
+      toolCall: {
+        id: "call_abc",
+        type: "function",
+        function: { name: "test", arguments: "{}" },
+      },
     };
 
     const readPromise = reader.read();
@@ -992,7 +1004,7 @@ describe("createJsonRenderTransform", () => {
     expect(value).toEqual(toolChunk);
   });
 
-  it("flush behavior at end of stream", async () => {
+  it("flush behavior: buffered patch at end of stream", async () => {
     const transform = createJsonRenderTransform();
     const writer = transform.writable.getWriter();
     const reader = transform.readable.getReader();
@@ -1006,93 +1018,22 @@ describe("createJsonRenderTransform", () => {
       }
     })();
 
-    // Write a text delta with no trailing newline
-    await writer.write({ type: "text-start", id: "t1" });
+    // Content with no trailing newline
     await writer.write({
-      type: "text-delta",
-      id: "t1",
+      type: "content",
+      id: "msg_1",
       delta: '{"op":"add","path":"/root","value":"main"}',
-    });
-    await writer.write({ type: "text-end", id: "t1" });
+      content: '{"op":"add","path":"/root","value":"main"}',
+    } as StreamChunk);
     await writer.close();
 
     await readAll;
 
-    // The buffered patch should be flushed on text-end
-    const specChunks = chunks.filter((c) => c.type === SPEC_DATA_PART_TYPE);
+    const specChunks = chunks.filter((c) => c.type === "spec");
     expect(specChunks.length).toBe(1);
   });
 
-  // ===========================================================================
-  // Text block splitting around spec data
-  // ===========================================================================
-
-  it("splits text blocks around spec data (text-start/text-end pairs)", async () => {
-    const input = [
-      "Some text\n",
-      '{"op":"add","path":"/root","value":"r"}\n',
-      "More text\n",
-    ].join("");
-
-    const chunks = await transformText(input);
-
-    const textStarts = chunks.filter((c) => c.type === "text-start");
-    const textEnds = chunks.filter((c) => c.type === "text-end");
-
-    // There should be two text blocks: one before the patch and one after
-    expect(textStarts.length).toBe(2);
-    expect(textEnds.length).toBe(2);
-
-    // Spec data should appear between the two text blocks
-    const specChunks = chunks.filter((c) => c.type === SPEC_DATA_PART_TYPE);
-    expect(specChunks.length).toBe(1);
-
-    // Find the indices of the first text-end and the spec chunk
-    const firstTextEndIdx = chunks.findIndex((c) => c.type === "text-end");
-    const specIdx = chunks.findIndex((c) => c.type === SPEC_DATA_PART_TYPE);
-    const secondTextStartIdx = chunks.findIndex(
-      (c, i) => i > specIdx && c.type === "text-start",
-    );
-    expect(firstTextEndIdx).toBeLessThan(specIdx);
-    expect(specIdx).toBeLessThan(secondTextStartIdx);
-  });
-
-  it("flush closes an open text block when stream ends without text-end", async () => {
-    const transform = createJsonRenderTransform();
-    const writer = transform.writable.getWriter();
-    const reader = transform.readable.getReader();
-
-    const chunks: StreamChunk[] = [];
-    const readAll = (async () => {
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        chunks.push(value);
-      }
-    })();
-
-    // Write text-start + text-delta, then close WITHOUT text-end
-    await writer.write({ type: "text-start", id: "t1" });
-    await writer.write({
-      type: "text-delta",
-      id: "t1",
-      delta: "Hello world\n",
-    });
-    await writer.close();
-
-    await readAll;
-
-    // The transform's flush should have emitted a text-end to close the block
-    const textEnds = chunks.filter((c) => c.type === "text-end");
-    expect(textEnds.length).toBe(1);
-
-    // Text content should still be present
-    const textChunks = chunks.filter((c) => c.type === "text-delta");
-    const text = textChunks.map((c) => (c as { delta: string }).delta).join("");
-    expect(text).toContain("Hello world");
-  });
-
-  it("consecutive patches do not produce empty text blocks", async () => {
+  it("consecutive patches produce spec chunks without content between them", async () => {
     const input = [
       '{"op":"add","path":"/root","value":"r"}\n',
       '{"op":"add","path":"/elements/r","value":{"type":"Card","props":{},"children":[]}}\n',
@@ -1100,25 +1041,15 @@ describe("createJsonRenderTransform", () => {
 
     const chunks = await transformText(input);
 
-    const specChunks = chunks.filter((c) => c.type === SPEC_DATA_PART_TYPE);
+    const specChunks = chunks.filter((c) => c.type === "spec");
     expect(specChunks.length).toBe(2);
 
-    // There should be no text-start/text-end pairs between the two spec chunks
-    // (the initial text-start from the upstream is forwarded, but no new empty ones)
-    const textDeltas = chunks.filter((c) => c.type === "text-delta");
-    const textContent = textDeltas
+    const contentChunks = chunks.filter((c) => c.type === "content");
+    const textContent = contentChunks
       .map((c) => (c as { delta: string }).delta)
       .join("")
       .trim();
-    // No meaningful text content between the patches
     expect(textContent).toBe("");
-
-    // Count text blocks: there should be at most 1 (the initial upstream one),
-    // not extra empty ones inserted between patches
-    const textStarts = chunks.filter((c) => c.type === "text-start");
-    const textEnds = chunks.filter((c) => c.type === "text-end");
-    expect(textStarts.length).toBeLessThanOrEqual(1);
-    expect(textEnds.length).toBeLessThanOrEqual(1);
   });
 });
 
