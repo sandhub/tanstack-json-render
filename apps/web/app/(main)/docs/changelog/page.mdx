@@ -5,6 +5,100 @@ export const metadata = pageMetadata("docs/changelog")
 
 Notable changes and updates to json-render.
 
+## v0.11.0
+
+February 2026
+
+### Package Rename: `@json-render/*` → `@tanstack-json-render/*`
+
+All public packages have been renamed from `@json-render/*` to `@tanstack-json-render/*` to align the npm scope with the project identity. Update your imports and dependencies:
+
+```bash
+# Before
+npm install @json-render/core @json-render/react
+
+# After
+npm install @tanstack-json-render/core @tanstack-json-render/react
+```
+
+```typescript
+// Before
+import { defineCatalog } from "@json-render/core";
+import { defineRegistry, Renderer } from "@json-render/react";
+
+// After
+import { defineCatalog } from "@tanstack-json-render/core";
+import { defineRegistry, Renderer } from "@tanstack-json-render/react";
+```
+
+All packages follow the same pattern: `@json-render/core` → `@tanstack-json-render/core`, `@json-render/react` → `@tanstack-json-render/react`, etc. Internal packages (`@internal/*`) are unchanged.
+
+### New: `@tanstack-json-render/image`
+
+Server-side image renderer powered by [Satori](https://github.com/vercel/satori). Turns the same `{ root, elements }` spec format into SVG or PNG output for OG images, social cards, and banners.
+
+```bash
+npm install @tanstack-json-render/core @tanstack-json-render/image
+```
+
+```typescript
+import { renderToSvg, renderToPng } from "@tanstack-json-render/image/server";
+import type { Spec } from "@tanstack-json-render/core";
+
+const spec: Spec = {
+  root: "frame",
+  elements: {
+    frame: {
+      type: "Frame",
+      props: { width: 1200, height: 630, background: "#1a1a2e" },
+      children: ["title"],
+    },
+    title: {
+      type: "Heading",
+      props: { text: "Hello World", color: "#ffffff", fontSize: 48 },
+      children: [],
+    },
+  },
+};
+
+const svg = await renderToSvg(spec);
+const png = await renderToPng(spec); // requires @resvg/resvg-js
+```
+
+9 standard components: Frame, Box, Row, Column, Heading, Text, Image, Divider, Spacer. Sub-path exports: `/render`, `/catalog`, `/server`.
+
+See the [Image API reference](/docs/api/image) for details.
+
+### Migrated: AI SDK → TanStack AI
+
+All server and client AI integration has been migrated from the Vercel AI SDK (`ai`) to [TanStack AI](https://tanstack.com/ai) (`@tanstack/ai`). This affects streaming, chat hooks, and server-side utilities.
+
+**Server:**
+
+```typescript
+// Before
+import { streamText } from "ai";
+import { anthropic } from "@ai-sdk/anthropic";
+
+// After
+import { chat, toServerSentEventsResponse } from "@tanstack/ai";
+import { anthropicText } from "@tanstack/ai-anthropic";
+```
+
+**Client:**
+
+```typescript
+// Before
+import { useChat } from "@ai-sdk/react";
+
+// After
+import { useChat } from "@tanstack/ai-react";
+```
+
+New core utilities: `streamToTextResponse()` for simple text streaming responses, and updated `StreamChunk` type for TanStack AI's chunk format.
+
+---
+
 ## v0.10.0
 
 February 2026
