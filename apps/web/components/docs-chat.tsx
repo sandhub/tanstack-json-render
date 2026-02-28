@@ -7,14 +7,13 @@ import {
   useCallback,
   type PointerEvent as ReactPointerEvent,
 } from "react";
-import { useChat } from "@ai-sdk/react";
-import { DefaultChatTransport } from "ai";
+import { useChat, fetchServerSentEvents } from "@tanstack/ai-react";
 import { Streamdown } from "streamdown";
 import Link from "next/link";
 import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 
 const STORAGE_KEY = "docs-chat-messages";
-const transport = new DefaultChatTransport({ api: "/api/docs-chat" });
+const connection = fetchServerSentEvents("/api/docs-chat");
 
 const DESKTOP_DEFAULT_WIDTH = 400;
 const DESKTOP_MIN_WIDTH = 300;
@@ -41,12 +40,15 @@ function isToolPart(part: { type: string }): part is {
   output?: unknown;
   errorText?: string;
 } {
-  return part.type.startsWith("tool-") || part.type === "dynamic-tool";
+  return (
+    part.type === "tool-call" ||
+    part.type === "tool-result" ||
+    part.type === "dynamic-tool"
+  );
 }
 
 function getToolName(part: { type: string; toolName?: string }): string {
-  if (part.type === "dynamic-tool") return part.toolName ?? "tool";
-  return part.type.replace(/^tool-/, "");
+  return part.toolName ?? "tool";
 }
 
 function ToolCallDisplay({
@@ -67,8 +69,8 @@ function ToolCallDisplay({
     label: toolName,
     pastLabel: toolName,
   };
-  const isDone = part.state === "output-available";
-  const isError = part.state === "output-error";
+  const isDone = part.state === "complete";
+  const isError = part.state === "error";
   const isRunning = !isDone && !isError;
   const displayLabel = isRunning ? config.label : config.pastLabel;
 
@@ -144,11 +146,9 @@ export function DocsChat({
   const restoredRef = useRef(false);
   const isDraggingRef = useRef(false);
 
-  const { messages, sendMessage, status, setMessages, error } = useChat({
-    transport,
+  const { messages, sendMessage, isLoading, setMessages, error } = useChat({
+    connection,
   });
-
-  const isLoading = status === "streaming" || status === "submitted";
   const showMessages = messages.length > 0 || !!error || isLoading;
 
   // Detect desktop vs mobile. Close sidebar on mobile if it was open from cookie.
@@ -307,7 +307,7 @@ export function DocsChat({
     (e: React.FormEvent) => {
       e.preventDefault();
       if (!input.trim() || isLoading) return;
-      sendMessage({ text: input });
+      sendMessage(input);
       setInput("");
     },
     [input, isLoading, sendMessage],
@@ -322,7 +322,10 @@ export function DocsChat({
     parts: (typeof messages)[number]["parts"],
   ): boolean => {
     return parts.some(
-      (p) => (p.type === "text" && p.text.length > 0) || isToolPart(p),
+      (p) =>
+        (p.type === "text" &&
+          ((p as { content?: string }).content?.length ?? 0) > 0) ||
+        isToolPart(p),
     );
   };
 
@@ -381,19 +384,34 @@ export function DocsChat({
                         (p): p is Extract<typeof p, { type: "text" }> =>
                           p.type === "text",
                       )
-                      .map((p) => p.text)
+                      .map(
+                        (p) =>
+                          (p as { content?: string; text?: string }).content ??
+                          (p as { text?: string }).text ??
+                          "",
+                      )
                       .join("")}
                   </div>
                 ) : (
                   <div className="space-y-2">
                     {message.parts.map((part, i) => {
-                      if (part.type === "text" && part.text) {
+                      if (
+                        part.type === "text" &&
+                        ((part as { content?: string; text?: string })
+                          .content ??
+                          (part as { text?: string }).text)
+                      ) {
+                        const textContent =
+                          (part as { content?: string; text?: string })
+                            .content ??
+                          (part as { text?: string }).text ??
+                          "";
                         return (
                           <div
                             key={i}
                             className="docs-chat-content text-sm text-foreground/90 leading-relaxed prose prose-sm dark:prose-invert max-w-none"
                           >
-                            <Streamdown>{part.text}</Streamdown>
+                            <Streamdown>{textContent}</Streamdown>
                           </div>
                         );
                       }
@@ -432,7 +450,7 @@ export function DocsChat({
                 key={s}
                 type="button"
                 onClick={() => {
-                  sendMessage({ text: s });
+                  sendMessage(s);
                 }}
                 className="text-xs px-3 py-1.5 rounded-full border bg-secondary font-medium text-muted-foreground hover:text-foreground transition-colors"
               >
