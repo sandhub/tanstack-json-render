@@ -15,8 +15,8 @@ npm view <package-name> version
 Or check multiple packages at once:
 
 ```bash
-npm view ai version
-npm view @ai-sdk/provider-utils version
+npm view @tanstack/ai version
+npm view @tanstack/ai-anthropic version
 npm view zod version
 ```
 
@@ -28,20 +28,31 @@ This ensures we don't install outdated versions that may have incompatible types
 - Use shadcn CLI to add shadcn/ui components: `pnpm dlx shadcn@latest add <component>`
 - **Web app docs (`apps/web/`):** Never use Markdown table syntax (`| col | col |`). Always use HTML `<table>` with `<thead>`, `<tbody>`, `<tr>`, `<th>`, `<td>`. Markdown tables do not render correctly in the web app. Inside HTML table cells, curly braces must be escaped as JSX expressions (e.g. `<code>{'{ "$state": "/path" }'}</code>`) because MDX parses `{` as a JSX expression boundary.
 
-## AI SDK / AI Gateway
+## TanStack AI
 
-When using the Vercel AI SDK (`ai` package) with AI Gateway, pass the model as a plain string identifier -- do not import a provider constructor:
+- Use `@tanstack/ai` for server-side AI functions (`chat`, `toServerSentEventsResponse`, `toolDefinition`)
+- Use `@tanstack/ai-react` for client-side hooks (`useChat`, `fetchServerSentEvents`)
+- Use `@tanstack/ai-anthropic` with `anthropicText()` adapter for Anthropic models
+- Use `@tanstack/ai-openrouter` with `openRouterText()` adapter for multi-provider routing
+- Default model: `claude-haiku-4-5-20251001` via `anthropicText()`
+- Environment variables: `ANTHROPIC_API_KEY` for Anthropic API key
+- For simple generate endpoints, use `streamToTextResponse()` from `@json-render/core`
+- For chat endpoints with tools, use `chat()` + `toServerSentEventsResponse()`
+- Tool definitions use `toolDefinition({ name, description, inputSchema }).server(fn)`
 
+Example:
 ```ts
-import { streamText } from "ai";
+import { chat, toServerSentEventsResponse } from "@tanstack/ai";
+import { anthropicText } from "@tanstack/ai-anthropic";
 
-const result = streamText({
-  model: "anthropic/claude-haiku-4.5",
-  prompt: "...",
+const stream = chat({
+  adapter: anthropicText("claude-haiku-4-5-20251001"),
+  messages,
+  systemPrompts: ["You are a helpful assistant"],
+  temperature: 0.7,
 });
+return toServerSentEventsResponse(stream);
 ```
-
-This requires `AI_GATEWAY_API_KEY` to be set in the environment. See `tests/e2e/` for examples.
 
 ## Dev Servers
 
@@ -126,7 +137,7 @@ To fetch source code for a package or repository you need to understand, run:
 npx opensrc <package>           # npm package (e.g., npx opensrc zod)
 npx opensrc pypi:<package>      # Python package (e.g., npx opensrc pypi:requests)
 npx opensrc crates:<package>    # Rust crate (e.g., npx opensrc crates:serde)
-npx opensrc <owner>/<repo>      # GitHub repo (e.g., npx opensrc vercel/ai)
+npx opensrc <owner>/<repo>      # GitHub repo (e.g., npx opensrc tanstack/ai)
 ```
 
 <!-- opensrc:end -->
