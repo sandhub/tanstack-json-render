@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { streamText } from "ai";
+import { chat } from "@tanstack/ai";
+import { anthropicText } from "@tanstack/ai-anthropic";
 import { z } from "zod";
 import {
   defineCatalog,
@@ -18,7 +19,8 @@ import { createStore as createZustandStore } from "zustand/vanilla";
 import { atom } from "jotai";
 import { createStore as createJotaiStore } from "jotai/vanilla";
 
-const HAS_API_KEY = !!process.env.AI_GATEWAY_API_KEY;
+const HAS_API_KEY =
+  !!process.env.ANTHROPIC_API_KEY || !!process.env.AI_GATEWAY_API_KEY;
 
 const catalog = defineCatalog(schema, {
   components: {
@@ -64,17 +66,19 @@ async function generateSpec(): Promise<Spec> {
       "Create a simple form with two text inputs bound to state: one for /form/name and one for /form/email. Include initial state with name set to 'Alice' and email set to 'alice@example.com'. Use a vertical Stack as the container.",
   });
 
-  const result = streamText({
-    model: "anthropic/claude-haiku-4.5",
-    system: catalog.prompt(),
-    prompt,
+  const stream = chat({
+    adapter: anthropicText("claude-haiku-4-5-20251001"),
+    messages: [{ role: "user", content: prompt }],
+    systemPrompts: [catalog.prompt()],
     temperature: 0,
   });
 
   const compiler = createSpecStreamCompiler<Spec>();
 
-  for await (const chunk of result.textStream) {
-    compiler.push(chunk);
+  for await (const chunk of stream) {
+    if (chunk.type === "content" && "delta" in chunk) {
+      compiler.push(chunk.delta as string);
+    }
   }
 
   return compiler.getResult();
