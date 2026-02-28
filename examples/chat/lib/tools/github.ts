@@ -1,4 +1,4 @@
-import { tool } from "ai";
+import { toolDefinition } from "@tanstack/ai";
 import { z } from "zod";
 
 // ---------------------------------------------------------------------------
@@ -22,14 +22,18 @@ function handleGitHubError(res: Response, context: string) {
  * Get public GitHub repository information.
  * Uses the public GitHub REST API (no auth, 60 req/hr rate limit).
  */
-export const getGitHubRepo = tool({
+const getGitHubRepoDef = toolDefinition({
+  name: "getGitHubRepo",
   description:
     "Get information about a public GitHub repository including stars, forks, open issues, description, language, and recent activity.",
   inputSchema: z.object({
     owner: z.string().describe("Repository owner (e.g., 'vercel')"),
     repo: z.string().describe("Repository name (e.g., 'next.js')"),
   }),
-  execute: async ({ owner, repo }) => {
+});
+
+export const getGitHubRepo = getGitHubRepoDef.server(
+  async ({ owner, repo }) => {
     const repoUrl = `https://api.github.com/repos/${encodeURIComponent(owner)}/${encodeURIComponent(repo)}`;
 
     const [repoRes, languagesRes] = await Promise.all([
@@ -95,7 +99,7 @@ export const getGitHubRepo = tool({
       languages: languageBreakdown,
     };
   },
-});
+);
 
 // ---------------------------------------------------------------------------
 // getGitHubPullRequests
@@ -128,7 +132,8 @@ type GitHubPRReaction = {
  * Supports filtering by state and sorting by various criteria.
  * Fetches comment counts and reactions for ranking "most popular" PRs.
  */
-export const getGitHubPullRequests = tool({
+const getGitHubPullRequestsDef = toolDefinition({
+  name: "getGitHubPullRequests",
   description:
     "Get pull requests from a public GitHub repository. Returns titles, authors, state, comment counts, and reactions. Use sort='popularity' to find the most discussed / reacted PRs.",
   inputSchema: z.object({
@@ -152,7 +157,10 @@ export const getGitHubPullRequests = tool({
       .nullable()
       .describe("Number of PRs to return (1-30). Defaults to 10."),
   }),
-  execute: async ({ owner, repo, state, sort, perPage }) => {
+});
+
+export const getGitHubPullRequests = getGitHubPullRequestsDef.server(
+  async ({ owner, repo, state, sort, perPage }) => {
     const count = perPage ?? 10;
     const prState = state ?? "open";
 
@@ -234,4 +242,4 @@ export const getGitHubPullRequests = tool({
       pullRequests: enriched,
     };
   },
-});
+);

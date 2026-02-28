@@ -1,4 +1,4 @@
-import { tool } from "ai";
+import { toolDefinition } from "@tanstack/ai";
 import { z } from "zod";
 
 /**
@@ -6,7 +6,8 @@ import { z } from "zod";
  * Uses the official HN Firebase API. Free, no auth required.
  * https://github.com/HackerNewsAPI/API
  */
-export const getHackerNewsTop = tool({
+const getHackerNewsTopDef = toolDefinition({
+  name: "getHackerNewsTop",
   description:
     "Get the current top stories from Hacker News, including title, score, author, URL, and comment count.",
   inputSchema: z.object({
@@ -16,7 +17,10 @@ export const getHackerNewsTop = tool({
       .max(30)
       .describe("Number of top stories to fetch (1-30)"),
   }),
-  execute: async ({ count }) => {
+});
+
+export const getHackerNewsTop = getHackerNewsTopDef.server(
+  async ({ count }) => {
     const topUrl =
       "https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty";
     const topRes = await fetch(topUrl);
@@ -64,4 +68,4 @@ export const getHackerNewsTop = tool({
       fetchedAt: new Date().toISOString(),
     };
   },
-});
+);
