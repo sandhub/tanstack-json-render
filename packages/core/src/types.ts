@@ -989,16 +989,30 @@ export function createMixedStreamParser(
 // =============================================================================
 
 /**
- * Minimal chunk shape compatible with the AI SDK's `UIMessageChunk`.
+ * Minimal chunk shape compatible with TanStack AI's SSE StreamChunk.
  *
- * Defined here so that `@json-render/core` has no dependency on the `ai`
- * package. The discriminated union covers the three text-related chunk types
- * the transform inspects; all other chunk types pass through via the fallback.
+ * Defined here so that `@json-render/core` has no dependency on the
+ * `@tanstack/ai` package. The discriminated union covers the text-related
+ * chunk types the transform inspects; all other chunk types pass through.
  */
 export type StreamChunk =
-  | { type: "text-start"; id: string; [k: string]: unknown }
-  | { type: "text-delta"; id: string; delta: string; [k: string]: unknown }
-  | { type: "text-end"; id: string; [k: string]: unknown }
+  | {
+      type: "content";
+      id: string;
+      delta: string;
+      content: string;
+      [k: string]: unknown;
+    }
+  | { type: "tool_call"; id: string; toolCall: unknown; [k: string]: unknown }
+  | {
+      type: "tool_result";
+      id: string;
+      toolCallId: string;
+      content: string;
+      [k: string]: unknown;
+    }
+  | { type: "done"; id: string; finishReason: string; [k: string]: unknown }
+  | { type: "spec"; data: SpecDataPart; [k: string]: unknown }
   | { type: string; [k: string]: unknown };
 
 /** The opening fence for a spec block (e.g. ` ```spec `). */
@@ -1007,145 +1021,45 @@ const SPEC_FENCE_OPEN = "```spec";
 const SPEC_FENCE_CLOSE = "```";
 
 /**
- * Creates a `TransformStream` that intercepts AI SDK UI message stream chunks
- * and classifies text content as either prose or json-render JSONL patches.
+ * Legacy TransformStream version of the json-render transform.
+ * Operates on the new TanStack AI StreamChunk format.
  *
- * Two classification modes:
- *
- * 1. **Fence mode** (preferred): Lines between ` ```spec ` and ` ``` ` are
- *    parsed as JSONL patches. Fence delimiters are swallowed (not emitted).
- * 2. **Heuristic mode** (backward compat): Outside of fences, lines starting
- *    with `{` are buffered and tested with `parseSpecStreamLine`. Valid patches
- *    are emitted as {@link SPEC_DATA_PART_TYPE} parts; everything else is
- *    flushed as text.
- *
- * Non-text chunks (tool events, step markers, etc.) are passed through unchanged.
- *
- * @example
- * ```ts
- * import { createJsonRenderTransform } from "@json-render/core";
- * import { createUIMessageStream, createUIMessageStreamResponse } from "ai";
- *
- * const stream = createUIMessageStream({
- *   execute: async ({ writer }) => {
- *     writer.merge(
- *       result.toUIMessageStream().pipeThrough(createJsonRenderTransform()),
- *     );
- *   },
- * });
- * return createUIMessageStreamResponse({ stream });
- * ```
+ * Prefer `pipeJsonRender()` (async generator) for TanStack AI integration.
+ * This TransformStream version is kept for compatibility with web streams APIs.
  */
 export function createJsonRenderTransform(): TransformStream<
   StreamChunk,
   StreamChunk
 > {
   let lineBuffer = "";
-  let currentTextId = "";
-  // Whether the current incomplete line might be JSONL (starts with '{')
-  let buffering = false;
-  // Whether we are inside a ```spec fence
   let inSpecFence = false;
-  // Whether we are currently inside a text block (between text-start/text-end).
-  // Used to split text blocks around spec data so the AI SDK creates separate
-  // text parts, preserving interleaving of prose and UI in message.parts.
-  let inTextBlock = false;
-  let textIdCounter = 0;
-
-  /** Close the current text block if one is open. */
-  function closeTextBlock(
-    controller: TransformStreamDefaultController<StreamChunk>,
-  ) {
-    if (inTextBlock) {
-      controller.enqueue({ type: "text-end", id: currentTextId });
-      inTextBlock = false;
-    }
-  }
-
-  /** Ensure a text block is open, starting a new one if needed. */
-  function ensureTextBlock(
-    controller: TransformStreamDefaultController<StreamChunk>,
-  ) {
-    if (!inTextBlock) {
-      textIdCounter++;
-      currentTextId = String(textIdCounter);
-      controller.enqueue({ type: "text-start", id: currentTextId });
-      inTextBlock = true;
-    }
-  }
-
-  /** Emit a text-delta, opening a text block first if necessary. */
-  function emitTextDelta(
-    delta: string,
-    controller: TransformStreamDefaultController<StreamChunk>,
-  ) {
-    ensureTextBlock(controller);
-    controller.enqueue({ type: "text-delta", id: currentTextId, delta });
-  }
 
   function emitPatch(
     patch: SpecStreamLine,
     controller: TransformStreamDefaultController<StreamChunk>,
   ) {
-    closeTextBlock(controller);
     controller.enqueue({
-      type: SPEC_DATA_PART_TYPE,
-      data: { type: "patch", patch },
+      type: "spec",
+      data: { type: "patch", patch } as SpecDataPart,
     });
-  }
-
-  function flushBuffer(
-    controller: TransformStreamDefaultController<StreamChunk>,
-  ) {
-    if (!lineBuffer) return;
-
-    const trimmed = lineBuffer.trim();
-
-    // Inside a fence, everything is spec data
-    if (inSpecFence) {
-      if (trimmed) {
-        const patch = parseSpecStreamLine(trimmed);
-        if (patch) emitPatch(patch, controller);
-        // Non-patch lines inside the fence are silently dropped
-      }
-      lineBuffer = "";
-      buffering = false;
-      return;
-    }
-
-    if (trimmed) {
-      const patch = parseSpecStreamLine(trimmed);
-      if (patch) {
-        emitPatch(patch, controller);
-      } else {
-        // Was buffered but isn't JSONL — flush as text
-        emitTextDelta(lineBuffer, controller);
-      }
-    } else {
-      // Whitespace-only buffer — forward as-is (preserves blank lines)
-      emitTextDelta(lineBuffer, controller);
-    }
-    lineBuffer = "";
-    buffering = false;
   }
 
   function processCompleteLine(
     line: string,
+    chunk: StreamChunk,
     controller: TransformStreamDefaultController<StreamChunk>,
   ) {
     const trimmed = line.trim();
 
-    // --- Fence detection ---
     if (!inSpecFence && trimmed.startsWith(SPEC_FENCE_OPEN)) {
       inSpecFence = true;
-      return; // Swallow the opening fence
+      return;
     }
     if (inSpecFence && trimmed === SPEC_FENCE_CLOSE) {
       inSpecFence = false;
-      return; // Swallow the closing fence
+      return;
     }
 
-    // Inside a fence: parse as spec data
     if (inSpecFence) {
       if (trimmed) {
         const patch = parseSpecStreamLine(trimmed);
@@ -1154,10 +1068,13 @@ export function createJsonRenderTransform(): TransformStream<
       return;
     }
 
-    // --- Outside fence: heuristic mode ---
     if (!trimmed) {
-      // Empty line — forward for markdown paragraph breaks
-      emitTextDelta("\n", controller);
+      controller.enqueue({
+        ...chunk,
+        type: "content",
+        delta: "\n",
+        content: "\n",
+      } as StreamChunk);
       return;
     }
 
@@ -1165,81 +1082,50 @@ export function createJsonRenderTransform(): TransformStream<
     if (patch) {
       emitPatch(patch, controller);
     } else {
-      emitTextDelta(line + "\n", controller);
+      controller.enqueue({
+        ...chunk,
+        type: "content",
+        delta: line + "\n",
+        content: line + "\n",
+      } as StreamChunk);
     }
   }
 
   return new TransformStream<StreamChunk, StreamChunk>({
     transform(chunk, controller) {
-      switch (chunk.type) {
-        case "text-start": {
-          const id = (chunk as { id: string }).id;
-          const idNum = parseInt(id, 10);
-          if (!isNaN(idNum) && idNum >= textIdCounter) {
-            textIdCounter = idNum;
-          }
-          currentTextId = id;
-          inTextBlock = true;
-          controller.enqueue(chunk);
-          break;
-        }
+      if (chunk.type !== "content") {
+        controller.enqueue(chunk);
+        return;
+      }
 
-        case "text-delta": {
-          const delta = chunk as { id: string; delta: string };
-          const text = delta.delta;
+      const delta = (chunk as { delta: string }).delta;
 
-          for (let i = 0; i < text.length; i++) {
-            const ch = text.charAt(i);
-
-            if (ch === "\n") {
-              // Line complete — classify and emit
-              if (buffering) {
-                processCompleteLine(lineBuffer, controller);
-                lineBuffer = "";
-                buffering = false;
-              } else {
-                // Outside fence, emit newline; inside fence, swallow it
-                if (!inSpecFence) {
-                  emitTextDelta("\n", controller);
-                }
-              }
-            } else if (lineBuffer.length === 0 && !buffering) {
-              // Start of a new line — decide whether to buffer or stream
-              if (inSpecFence || ch === "{" || ch === "`") {
-                // Buffer: inside fence (everything), or heuristic mode ({), or potential fence (`)
-                buffering = true;
-                lineBuffer += ch;
-              } else {
-                emitTextDelta(ch, controller);
-              }
-            } else if (buffering) {
-              lineBuffer += ch;
-            } else {
-              emitTextDelta(ch, controller);
-            }
-          }
-          break;
-        }
-
-        case "text-end": {
-          flushBuffer(controller);
-          if (inTextBlock) {
-            controller.enqueue({ type: "text-end", id: currentTextId });
-            inTextBlock = false;
-          }
-          break;
-        }
-
-        default: {
-          controller.enqueue(chunk);
-          break;
+      for (let i = 0; i < delta.length; i++) {
+        const ch = delta.charAt(i);
+        if (ch === "\n") {
+          processCompleteLine(lineBuffer, chunk, controller);
+          lineBuffer = "";
+        } else {
+          lineBuffer += ch;
         }
       }
     },
 
     flush(controller) {
-      flushBuffer(controller);
-      closeTextBlock(controller);
+      if (lineBuffer.trim()) {
+        const trimmed = lineBuffer.trim();
+        const patch = parseSpecStreamLine(trimmed);
+        if (patch) {
+          emitPatch(patch, controller);
+        } else if (!inSpecFence && lineBuffer) {
+          controller.enqueue({
+            type: "content",
+            id: "",
+            delta: lineBuffer,
+            content: lineBuffer,
+          } as StreamChunk);
+        }
+      }
     },
   });
 }
@@ -1278,28 +1164,145 @@ export type SpecDataPart =
   | { type: "nested"; spec: Record<string, unknown> };
 
 /**
- * Convenience wrapper that pipes an AI SDK UI message stream through the
- * json-render transform, classifying text as prose or JSONL patches.
+ * Async generator that intercepts a TanStack AI chat stream and classifies
+ * text content as either prose or json-render JSONL patches.
  *
- * Eliminates the need for manual `pipeThrough(createJsonRenderTransform())`
- * and the associated type cast.
+ * Two classification modes:
  *
- * @example
- * ```ts
- * import { pipeJsonRender } from "@json-render/core";
+ * 1. **Fence mode** (preferred): Lines between ` ```spec ` and ` ``` ` are
+ *    parsed as JSONL patches. Fence delimiters are swallowed (not emitted).
+ * 2. **Heuristic mode** (backward compat): Outside of fences, lines starting
+ *    with `{` are tested with `parseSpecStreamLine`. Valid patches are
+ *    emitted as `spec` chunks; everything else is emitted as `content`.
  *
- * const stream = createUIMessageStream({
- *   execute: async ({ writer }) => {
- *     writer.merge(pipeJsonRender(result.toUIMessageStream()));
- *   },
- * });
- * return createUIMessageStreamResponse({ stream });
- * ```
+ * Non-content chunks (tool events, done markers, etc.) pass through unchanged.
  */
-export function pipeJsonRender<T = StreamChunk>(
-  stream: ReadableStream<T>,
-): ReadableStream<T> {
-  return stream.pipeThrough(
-    createJsonRenderTransform() as unknown as TransformStream<T, T>,
-  );
+export async function* pipeJsonRender(
+  source: AsyncIterable<StreamChunk>,
+): AsyncGenerator<StreamChunk> {
+  let lineBuffer = "";
+  let inSpecFence = false;
+
+  function* processCompleteLine(
+    line: string,
+    chunk: StreamChunk,
+  ): Generator<StreamChunk> {
+    const trimmed = line.trim();
+
+    // --- Fence detection ---
+    if (!inSpecFence && trimmed.startsWith(SPEC_FENCE_OPEN)) {
+      inSpecFence = true;
+      return;
+    }
+    if (inSpecFence && trimmed === SPEC_FENCE_CLOSE) {
+      inSpecFence = false;
+      return;
+    }
+
+    if (inSpecFence) {
+      if (trimmed) {
+        const patch = parseSpecStreamLine(trimmed);
+        if (patch) {
+          yield {
+            type: "spec",
+            data: { type: "patch", patch } as SpecDataPart,
+          };
+        }
+      }
+      return;
+    }
+
+    // --- Outside fence: heuristic mode ---
+    if (!trimmed) {
+      yield { ...chunk, type: "content", delta: "\n", content: "\n" };
+      return;
+    }
+
+    const patch = parseSpecStreamLine(trimmed);
+    if (patch) {
+      yield { type: "spec", data: { type: "patch", patch } as SpecDataPart };
+    } else {
+      yield {
+        ...chunk,
+        type: "content",
+        delta: line + "\n",
+        content: line + "\n",
+      };
+    }
+  }
+
+  for await (const chunk of source) {
+    if (chunk.type !== "content") {
+      // Non-content chunks pass through
+      yield chunk;
+      continue;
+    }
+
+    const delta = (chunk as { delta: string }).delta;
+
+    for (let i = 0; i < delta.length; i++) {
+      const ch = delta.charAt(i);
+
+      if (ch === "\n") {
+        // Line complete — classify and emit
+        yield* processCompleteLine(lineBuffer, chunk);
+        lineBuffer = "";
+      } else {
+        lineBuffer += ch;
+      }
+    }
+  }
+
+  // Flush remaining buffer
+  if (lineBuffer.trim()) {
+    const trimmed = lineBuffer.trim();
+    if (inSpecFence) {
+      const patch = parseSpecStreamLine(trimmed);
+      if (patch) {
+        yield { type: "spec", data: { type: "patch", patch } as SpecDataPart };
+      }
+    } else {
+      const patch = parseSpecStreamLine(trimmed);
+      if (patch) {
+        yield { type: "spec", data: { type: "patch", patch } as SpecDataPart };
+      } else if (lineBuffer) {
+        yield {
+          type: "content",
+          id: "",
+          delta: lineBuffer,
+          content: lineBuffer,
+        };
+      }
+    }
+  }
+}
+
+/**
+ * Convert a TanStack AI chat stream to a plain-text Response.
+ *
+ * Extracts text deltas from `content` chunks and streams them as raw UTF-8.
+ * Useful for "generate" endpoints that return JSONL text (not SSE), consumed
+ * by `useUIStream` on the client.
+ */
+export function streamToTextResponse(
+  stream: AsyncIterable<StreamChunk>,
+  headers?: Record<string, string>,
+): Response {
+  const encoder = new TextEncoder();
+  const readable = new ReadableStream({
+    async start(controller) {
+      try {
+        for await (const chunk of stream) {
+          if (chunk.type === "content" && "delta" in chunk) {
+            controller.enqueue(encoder.encode(chunk.delta as string));
+          }
+        }
+      } finally {
+        controller.close();
+      }
+    },
+  });
+  return new Response(readable, {
+    headers: { "Content-Type": "text/plain; charset=utf-8", ...headers },
+  });
 }

@@ -54,6 +54,7 @@ export {
   // AI SDK stream transform
   createJsonRenderTransform,
   pipeJsonRender,
+  streamToTextResponse,
   SPEC_DATA_PART,
   SPEC_DATA_PART_TYPE,
 } from "./types";
