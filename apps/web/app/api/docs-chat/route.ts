@@ -1,7 +1,8 @@
 import { readFile } from "fs/promises";
 import { join } from "path";
-import { convertToModelMessages, stepCountIs, streamText } from "ai";
-import type { ModelMessage, UIMessage } from "ai";
+import { chat, toServerSentEventsResponse, toolDefinition } from "@tanstack/ai";
+import { anthropicText } from "@tanstack/ai-anthropic";
+import { z } from "zod";
 import { createBashTool } from "bash-tool";
 import { headers } from "next/headers";
 import { allDocsPages } from "@/lib/docs-navigation";
@@ -10,7 +11,7 @@ import { minuteRateLimit, dailyRateLimit } from "@/lib/rate-limit";
 
 export const maxDuration = 60;
 
-const DEFAULT_MODEL = "anthropic/claude-haiku-4.5";
+const DEFAULT_MODEL = "claude-haiku-4-5";
 
 const SYSTEM_PROMPT = `You are a helpful documentation assistant for json-render, a library for AI-generated UI with guardrails.
 
@@ -64,22 +65,6 @@ async function loadDocsFiles(): Promise<Record<string, string>> {
   return files;
 }
 
-function addCacheControl(messages: ModelMessage[]): ModelMessage[] {
-  if (messages.length === 0) return messages;
-  return messages.map((message, index) => {
-    if (index === messages.length - 1) {
-      return {
-        ...message,
-        providerOptions: {
-          ...message.providerOptions,
-          anthropic: { cacheControl: { type: "ephemeral" } },
-        },
-      };
-    }
-    return message;
-  });
-}
-
 export async function POST(req: Request) {
   const headersList = await headers();
   const ip = headersList.get("x-forwarded-for")?.split(",")[0] ?? "anonymous";
@@ -105,26 +90,46 @@ export async function POST(req: Request) {
     );
   }
 
-  const { messages }: { messages: UIMessage[] } = await req.json();
+  const { messages } = await req.json();
 
   const docsFiles = await loadDocsFiles();
   const {
-    tools: { bash, readFile },
+    tools: { bash, readFile: readFileTool },
   } = await createBashTool({ files: docsFiles });
 
-  const result = streamText({
-    model: DEFAULT_MODEL,
-    system: SYSTEM_PROMPT,
-    messages: await convertToModelMessages(messages),
-    stopWhen: stepCountIs(5),
-    tools: {
-      bash,
-      readFile,
-    },
-    prepareStep: ({ messages: stepMessages }) => ({
-      messages: addCacheControl(stepMessages),
-    }),
+  // bash-tool returns ai-sdk tool definitions with inputSchema and execute.
+  // We create wrapper TanStack AI tools:
+  const bashToolDef = toolDefinition({
+    name: "bash",
+    description: bash.description ?? "Execute a bash command",
+    inputSchema: bash.inputSchema ?? z.object({ command: z.string() }),
+  });
+  const bashServerTool = bashToolDef.server(async (input) => {
+    return await bash.execute!(input as { command: string }, {
+      toolCallId: "",
+      messages: [],
+    });
   });
 
-  return result.toUIMessageStreamResponse();
+  const readFileToolDef = toolDefinition({
+    name: "readFile",
+    description: readFileTool.description ?? "Read a file",
+    inputSchema: readFileTool.inputSchema ?? z.object({ path: z.string() }),
+  });
+  const readFileServerTool = readFileToolDef.server(async (input) => {
+    return await readFileTool.execute!(input as { path: string }, {
+      toolCallId: "",
+      messages: [],
+    });
+  });
+
+  const stream = chat({
+    adapter: anthropicText(DEFAULT_MODEL),
+    messages,
+    systemPrompts: [SYSTEM_PROMPT],
+    tools: [bashServerTool, readFileServerTool],
+    temperature: 0,
+  });
+
+  return toServerSentEventsResponse(stream);
 }

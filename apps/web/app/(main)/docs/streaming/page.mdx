@@ -18,7 +18,7 @@ json-render uses **SpecStream**, a JSONL-based streaming format where each line 
 
 ## Patch Operations (RFC 6902)
 
-SpecStream uses [RFC 6902 JSON Patch](https://datatracker.ietf.org/doc/html/rfc6902) operations:
+ SpecStream uses [RFC 6902 JSON Patch](https://datatracker.ietf.org/doc/html/rfc6902) operations:
 
 - `add` — Add a value at a path (creates or replaces for objects, inserts for arrays)
 - `remove` — Remove the value at a path
@@ -43,20 +43,23 @@ Paths follow JSON Pointer (RFC 6901) into the spec object:
 Ensure your API route streams properly:
 
 ```typescript
-import { streamText } from 'ai';
+import { chat } from "@tanstack/ai";
+import { anthropicText } from "@tanstack/ai-anthropic";
+import { streamToTextResponse } from "@json-render/core";
 import { catalog } from '@/lib/catalog';
 
 export async function POST(req: Request) {
   const { prompt } = await req.json();
-  
-  const result = streamText({
-    model: 'anthropic/claude-haiku-4.5',
-    system: catalog.prompt(),
-    prompt,
+
+  const stream = chat({
+    adapter: anthropicText("claude-haiku-4-5-20251001"),
+    messages: [{ role: "user", content: prompt }],
+    systemPrompts: [catalog.prompt()],
+    temperature: 0.7,
   });
 
   // Return as a streaming response
-  return result.toTextStreamResponse();
+  return streamToTextResponse(stream);
 }
 ```
 
@@ -80,13 +83,13 @@ async function processStream(reader: ReadableStreamDefaultReader<Uint8Array>) {
     // Decode the Uint8Array chunk to a string
     const chunk = decoder.decode(value, { stream: true });
     const { result, newPatches } = compiler.push(chunk);
-    
+
     if (newPatches.length > 0) {
       // Update UI with partial result
       setSpec(result);
     }
   }
-  
+
   // Get final compiled result
   return compiler.getResult();
 }

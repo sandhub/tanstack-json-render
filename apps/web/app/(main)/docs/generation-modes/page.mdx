@@ -23,7 +23,9 @@ This is the default mode and is ideal for:
 ### Setup
 
 ```typescript
-import { streamText } from "ai";
+import { chat } from "@tanstack/ai";
+import { anthropicText } from "@tanstack/ai-anthropic";
+import { streamToTextResponse } from "@json-render/core";
 
 // Generate mode is the default (no mode option needed)
 const systemPrompt = catalog.prompt({
@@ -33,10 +35,11 @@ const systemPrompt = catalog.prompt({
   ],
 });
 
-const result = streamText({
-  model: "anthropic/claude-haiku-4.5",
-  system: systemPrompt,
-  prompt: userPrompt,
+const stream = chat({
+  adapter: anthropicText("claude-haiku-4-5-20251001"),
+  messages: [{ role: "user", content: userPrompt }],
+  systemPrompts: [systemPrompt],
+  temperature: 0.7,
 });
 ```
 
@@ -88,28 +91,30 @@ This is ideal for:
 ### Setup
 
 ```typescript
-import { streamText } from "ai";
+import { chat } from "@tanstack/ai";
+import { anthropicText } from "@tanstack/ai-anthropic";
 import { pipeJsonRender } from "@json-render/core";
-import { createUIMessageStream, createUIMessageStreamResponse } from "ai";
+import { createUIMessageStream, createUIMessageStreamResponse } from "@tanstack/ai";
 
 // Enable chat mode
 const systemPrompt = catalog.prompt({ mode: "chat" });
 
-const result = streamText({
-  model: yourModel,
-  system: systemPrompt,
+const stream = chat({
+  adapter: anthropicText("claude-haiku-4-5-20251001"),
   messages,
+  systemPrompts: [systemPrompt],
+  temperature: 0.7,
 });
 
 // In your API route, pipe the stream through pipeJsonRender
 // to separate text from JSONL patches
-const stream = createUIMessageStream({
+const uiStream = createUIMessageStream({
   execute: async ({ writer }) => {
-    writer.merge(pipeJsonRender(result.toUIMessageStream()));
+    writer.merge(pipeJsonRender(stream));
   },
 });
 
-return createUIMessageStreamResponse({ stream });
+return createUIMessageStreamResponse({ stream: uiStream });
 ```
 
 `pipeJsonRender` inspects each line of the AI's response. Lines that parse as JSONL patches are emitted as `data-spec` parts (which the renderer picks up). Everything else is passed through as text.
@@ -119,11 +124,13 @@ return createUIMessageStreamResponse({ stream });
 On the client, use `useJsonRenderMessage` from `@json-render/react` to extract the spec from a chat message's parts:
 
 ```tsx
-import { useChat } from "@ai-sdk/react";
+import { useChat, fetchServerSentEvents } from "@tanstack/ai-react";
 import { useJsonRenderMessage } from "@json-render/react";
 
 function Chat() {
-  const { messages, input, handleInputChange, handleSubmit } = useChat();
+  const { messages, input, handleInputChange, handleSubmit } = useChat({
+    transport: fetchServerSentEvents,
+  });
 
   return (
     <div>
@@ -219,4 +226,4 @@ Both modes use the same JSONL patch format (RFC 6902) and the same catalog/regis
 ## Next
 
 - Learn about the [JSONL streaming format](/docs/streaming)
-- See the [AI SDK integration](/docs/ai-sdk) for setup with the Vercel AI SDK
+- See the [TanStack AI integration](/docs/ai-sdk) for setup with TanStack AI

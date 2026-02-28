@@ -1,14 +1,14 @@
 import { pageMetadata } from "@/lib/page-metadata"
 export const metadata = pageMetadata("docs/ai-sdk")
 
-# AI SDK Integration
+# TanStack AI Integration
 
-Use json-render with the [Vercel AI SDK](https://sdk.vercel.ai) for seamless streaming. json-render supports two modes: **Generate** (standalone UI) and **Chat** (UI embedded in conversation). See [Generation Modes](/docs/generation-modes) for a detailed comparison.
+Use json-render with [TanStack AI](https://tanstack.com/ai) for seamless streaming. json-render supports two modes: **Generate** (standalone UI) and **Chat** (UI embedded in conversation). See [Generation Modes](/docs/generation-modes) for a detailed comparison.
 
 ## Installation
 
 ```bash
-npm install ai @ai-sdk/react
+npm install @tanstack/ai @tanstack/ai-react @tanstack/ai-anthropic
 ```
 
 ## Generate Mode
@@ -19,7 +19,9 @@ In generate mode, the AI outputs only JSONL patches. The entire response is a UI
 
 ```typescript
 // app/api/generate/route.ts
-import { streamText } from "ai";
+import { chat } from "@tanstack/ai";
+import { anthropicText } from "@tanstack/ai-anthropic";
+import { streamToTextResponse } from "@json-render/core";
 import { catalog } from "@/lib/catalog";
 
 export async function POST(req: Request) {
@@ -32,13 +34,14 @@ export async function POST(req: Request) {
     ? `\n\nCurrent UI state:\n${JSON.stringify(currentTree, null, 2)}`
     : "";
 
-  const result = streamText({
-    model: yourModel,
-    system: systemPrompt + contextPrompt,
-    prompt,
+  const stream = chat({
+    adapter: anthropicText("claude-haiku-4-5-20251001"),
+    messages: [{ role: "user", content: prompt }],
+    systemPrompts: [systemPrompt + contextPrompt],
+    temperature: 0.7,
   });
 
-  return result.toTextStreamResponse();
+  return streamToTextResponse(stream);
 }
 ```
 
@@ -83,46 +86,49 @@ Use `pipeJsonRender` to separate text from JSONL patches in the stream. Patches 
 
 ```typescript
 // app/api/chat/route.ts
-import { streamText } from "ai";
+import { chat } from "@tanstack/ai";
+import { anthropicText } from "@tanstack/ai-anthropic";
 import { pipeJsonRender } from "@json-render/core";
 import {
   createUIMessageStream,
   createUIMessageStreamResponse,
-} from "ai";
+} from "@tanstack/ai";
 import { catalog } from "@/lib/catalog";
 
 export async function POST(req: Request) {
   const { messages } = await req.json();
 
-  const result = streamText({
-    model: yourModel,
-    system: catalog.prompt({ mode: "chat" }),
+  const stream = chat({
+    adapter: anthropicText("claude-haiku-4-5-20251001"),
     messages,
+    systemPrompts: [catalog.prompt({ mode: "chat" })],
+    temperature: 0.7,
   });
 
-  const stream = createUIMessageStream({
+  const uiStream = createUIMessageStream({
     execute: async ({ writer }) => {
-      writer.merge(pipeJsonRender(result.toUIMessageStream()));
+      writer.merge(pipeJsonRender(stream));
     },
   });
 
-  return createUIMessageStreamResponse({ stream });
+  return createUIMessageStreamResponse({ stream: uiStream });
 }
 ```
 
 ### Client
 
-Use `useChat` from the AI SDK and `useJsonRenderMessage` from json-render to extract the spec from each message:
+Use `useChat` from TanStack AI React and `useJsonRenderMessage` from json-render to extract the spec from each message:
 
 ```tsx
 "use client";
 
-import { useChat } from "@ai-sdk/react";
+import { useChat, fetchServerSentEvents } from "@tanstack/ai-react";
 import { useJsonRenderMessage, Renderer } from "@json-render/react";
 
 function Chat() {
   const { messages, input, handleInputChange, handleSubmit } = useChat({
     api: "/api/chat",
+    transport: fetchServerSentEvents,
   });
 
   return (

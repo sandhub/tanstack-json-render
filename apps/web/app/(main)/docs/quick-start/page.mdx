@@ -93,7 +93,9 @@ Set up a streaming API route for AI generation:
 
 ```typescript
 // app/api/generate/route.ts
-import { streamText } from 'ai';
+import { chat } from "@tanstack/ai";
+import { anthropicText } from "@tanstack/ai-anthropic";
+import { streamToTextResponse } from "@json-render/core";
 import { catalog } from '@/lib/catalog';
 
 export async function POST(req: Request) {
@@ -102,13 +104,14 @@ export async function POST(req: Request) {
   // Generate system prompt from catalog
   const systemPrompt = catalog.prompt();
 
-  const result = streamText({
-    model: 'anthropic/claude-haiku-4.5',
-    system: systemPrompt,
-    prompt,
+  const stream = chat({
+    adapter: anthropicText("claude-haiku-4-5-20251001"),
+    messages: [{ role: "user", content: prompt }],
+    systemPrompts: [systemPrompt],
+    temperature: 0.7,
   });
 
-  return result.toTextStreamResponse();
+  return streamToTextResponse(stream);
 }
 ```
 
