@@ -1,12 +1,17 @@
-import { streamText } from "ai";
-import { buildUserPrompt, type Spec } from "@json-render/core";
+import { chat } from "@tanstack/ai";
+import { anthropicText } from "@tanstack/ai-anthropic";
+import {
+  buildUserPrompt,
+  streamToTextResponse,
+  type Spec,
+} from "@json-render/core";
 import { imageCatalog } from "@/lib/catalog";
 
 export const maxDuration = 60;
 
 const SYSTEM_PROMPT = imageCatalog.prompt();
 
-const DEFAULT_MODEL = "anthropic/claude-haiku-4.5";
+const DEFAULT_MODEL = "claude-haiku-4-5-20251001";
 
 export async function POST(req: Request) {
   const { prompt, startingSpec } = (await req.json()) as {
@@ -23,12 +28,15 @@ export async function POST(req: Request) {
     currentSpec: startingSpec,
   });
 
-  const result = streamText({
-    model: process.env.AI_GATEWAY_MODEL ?? DEFAULT_MODEL,
-    system: SYSTEM_PROMPT,
-    prompt: userPrompt,
+  const stream = chat({
+    adapter: anthropicText(
+      process.env.AI_GATEWAY_MODEL?.replace(/^anthropic\//, "") ||
+        DEFAULT_MODEL,
+    ),
+    messages: [{ role: "user", content: userPrompt }],
+    systemPrompts: [SYSTEM_PROMPT],
     temperature: 0.7,
   });
 
-  return result.toTextStreamResponse();
+  return streamToTextResponse(stream);
 }

@@ -1,4 +1,5 @@
-import { streamText } from "ai";
+import { chat } from "@tanstack/ai";
+import { anthropicText } from "@tanstack/ai-anthropic";
 import { headers } from "next/headers";
 import { buildUserPrompt } from "@json-render/core";
 import { minuteRateLimit, dailyRateLimit } from "@/lib/rate-limit";
@@ -19,7 +20,7 @@ const SYSTEM_PROMPT = playgroundCatalog.prompt({
 });
 
 const MAX_PROMPT_LENGTH = 500;
-const DEFAULT_MODEL = "anthropic/claude-haiku-4.5";
+const DEFAULT_MODEL = "claude-haiku-4-5-20251001";
 
 export async function POST(req: Request) {
   // Get client IP for rate limiting
@@ -56,34 +57,42 @@ export async function POST(req: Request) {
     maxPromptLength: MAX_PROMPT_LENGTH,
   });
 
-  const result = streamText({
-    model: process.env.AI_GATEWAY_MODEL || DEFAULT_MODEL,
-    system: SYSTEM_PROMPT,
-    prompt: userPrompt,
+  const chatStream = chat({
+    adapter: anthropicText(
+      process.env.AI_GATEWAY_MODEL?.replace(/^anthropic\//, "") ||
+        DEFAULT_MODEL,
+    ),
+    messages: [{ role: "user", content: userPrompt }],
+    systemPrompts: [SYSTEM_PROMPT],
     temperature: 0.7,
   });
 
   // Stream the text, then append token usage metadata at the end
   const encoder = new TextEncoder();
-  const textStream = result.textStream;
-
   const stream = new ReadableStream({
     async start(controller) {
-      for await (const chunk of textStream) {
-        controller.enqueue(encoder.encode(chunk));
+      let usage: {
+        promptTokens?: number;
+        completionTokens?: number;
+        totalTokens?: number;
+      } | null = null;
+      for await (const chunk of chatStream) {
+        if (chunk.type === "content" && "delta" in chunk) {
+          controller.enqueue(encoder.encode(chunk.delta as string));
+        }
+        if (chunk.type === "done" && "usage" in chunk) {
+          usage = chunk.usage as typeof usage;
+        }
       }
       // Append usage metadata after stream completes
-      try {
-        const usage = await result.usage;
+      if (usage) {
         const meta = JSON.stringify({
           __meta: "usage",
-          promptTokens: usage.inputTokens,
-          completionTokens: usage.outputTokens,
-          totalTokens: usage.totalTokens,
+          promptTokens: usage.promptTokens ?? 0,
+          completionTokens: usage.completionTokens ?? 0,
+          totalTokens: usage.totalTokens ?? 0,
         });
         controller.enqueue(encoder.encode(`\n${meta}\n`));
-      } catch {
-        // Usage not available — skip silently
       }
       controller.close();
     },

@@ -1,9 +1,10 @@
-import { streamText } from "ai";
-import { gateway } from "@ai-sdk/gateway";
+import { chat } from "@tanstack/ai";
+import { anthropicText } from "@tanstack/ai-anthropic";
+import { streamToTextResponse } from "@json-render/core";
 
 export const maxDuration = 60;
 
-const DEFAULT_MODEL = "anthropic/claude-haiku-4.5";
+const DEFAULT_MODEL = "claude-haiku-4-5-20251001";
 
 const CORS_HEADERS: Record<string, string> = {
   "Access-Control-Allow-Origin": "*",
@@ -22,20 +23,17 @@ export async function POST(req: Request) {
   }
 
   try {
-    const result = streamText({
-      model: gateway(DEFAULT_MODEL),
-      system: systemPrompt ?? "You are a helpful UI builder.",
-      prompt,
+    const stream = chat({
+      adapter: anthropicText(
+        process.env.AI_GATEWAY_MODEL?.replace(/^anthropic\//, "") ||
+          DEFAULT_MODEL,
+      ),
+      messages: [{ role: "user", content: prompt }],
+      systemPrompts: [systemPrompt ?? "You are a helpful UI builder."],
       temperature: 0.7,
     });
 
-    const response = result.toTextStreamResponse();
-
-    for (const [key, value] of Object.entries(CORS_HEADERS)) {
-      response.headers.set(key, value);
-    }
-
-    return response;
+    return streamToTextResponse(stream, CORS_HEADERS);
   } catch (err) {
     const message = err instanceof Error ? err.message : "Generation failed";
     return new Response(JSON.stringify({ error: message }), {
